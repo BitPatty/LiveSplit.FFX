@@ -24,7 +24,13 @@ using System.Windows.Forms;
  * FFX.exe+EF4E3C
  * 
  * Cursor position: 
- * FFX.exe+1467808
+ * FFX.exe+146780A
+ * 
+ * Current Battle Over (static):
+ * FFX.exe+F3F73C (4B, Includes Flee, resets on battle start, too late on Yu Yevon)
+ * 
+ * Story Progression:
+ * FFX.exe+84949C
  * 
  * */
 
@@ -48,7 +54,7 @@ namespace LiveSplit.FFX
                 this.IsLoading = new MemoryWatcher<int>(new DeepPointer(0x8CC898, 0x123A4));                // == 2 if loading screen, 4B
                 this.CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x1467808));           //== 0 if cursor on yes, == 1 if cursor on no, 1B, 0x00FF0000
                 this.Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                     //Button Input, == 32 if A pressed, 4B
-                this.StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF00));             //TODO
+                this.StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x84949C));          //Storyline progress
                 this.SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25B30));              //== 7 || == 8 on confirm sound screen; == 6 on sound selection screen, 4B
             }
 
