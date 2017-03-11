@@ -1,4 +1,4 @@
-LiveSplit.FFX v 0.3
+LiveSplit.FFX v0.2
 ===================
 
 LiveSplit.FFX is a WIP [LiveSplit](http://livesplit.org/) component for Final Fantasy X HD-Remaster. The plugin is based off [LiveSplit.Dishonored](https://github.com/fatalis/LiveSplit.Dishonored).
@@ -11,7 +11,7 @@ Current Features
   
 TODO List
 ---------
-  * Auto Splitting
+  * Auto Splitting (incl. last split)
   * Custom Splits
 
 Requirements
