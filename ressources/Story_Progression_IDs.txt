@@ -2,180 +2,415 @@
  * FFX.exe+84949C
 
 Prog	|	Trigger
-0		|	Start new game (also main menu)
-2		|	Enter Zanarkand Cutscene
-3		|	Gain Control
-4		|	Leave boat area
-5		|	Enter Zanarkand Cutscene on the bridge
-6		|	Enter Blitzball FMV
-7		|	Gain Control after Blitzball FMV
-8		|	Finish talking to Auron
-9		|	Leave blitzball stadium area
-10		|	Enter cutscenes on the bridge
-13		|	Start Sinscale battle
-14		|	Finish Sinscale battle
-15		|	Start Sinspawn Ammes battle
-16		|	Gain Control after Ammes
-17		|	Leave bridge area
-18		|	Enter tanker cutscene
-19		|	Finish tanker fight
-20		|	Enter cutscene where Tidus jumps
-30		|	Wake up in Baaj Temple
-42		|	Gain control in Baaj ruins
-44		|	Enter collapsing bridge cutscene
-46		|	Finish Sahagins fight
-48		|	Finish Gaesgaeno battle
-50		|	Gain control in stairs area
-52		|	Enter hall with the fireplace
-54		|	Enter cutscene where tidus lights the fire
-55		|	Enter Klikk cutscene
-56		|	58 Finish Klikk battle (AP)
-60		|	Enter Salvage ship cutscene
-66		|	Gain control on Salvage ship
-68		|	Enter cutscene where Tidus jumps from the ship
-70		|	Gain control in water
-74		|	Enter underwater ruins cutscene
-76		|	Enter area after opening the door 
-84		|	Enter cutscene after leaving the ruins
-90		|	Enter salvage ship cutscene
-100		|	Talk to rikku again on the ship to enter second cutscene
-110		|	Finish Sin cutscene
-111		|	Enter Saveprompt screen
-113		|	Enter Besaid cutscene
-114		|	Gain control after Besaid cutscene
-116		|	Enter Besaid Ruins cutscene
-118		|	Gain control after Besaid Ruins cutscene
-119		|	Enter Besaid Crossroads cutscene, after Wakka starts talking ("Hey, this way")
-124		|	Enter Besaid Promontory cutscene
-126		|	Enter cutscene where they walk to the village
-128		|	Gain control on Besaid Village Slope
-130		|	Gain control after Luzzu & Gatta cutscene
-134		|	Gain control in Besaid Village
-136		|	Gain control in temple
-140		|	Gain control in temple after Braska statue cutscene
-152		|	Enter flashback cutscene
-154		|	Wake up in Wakkas House
-162		|	Enter trials
-164		|	Enter cutscene after elevator moves down
-170		|	Enter temple cutscene where they leave the trials
-172		|	Gain control in temple
-180		|	Enter Besaid (night) cutscene after Valefor
-182		|	Gain control after Besaid Aurochs cutscene
-184		|	Gain control after Yuna cutscene
-190		|	Enter dream cutscene
-192		|	Enter cutscene where Tidus wakes up
-194		|	Enter Lulu/Wakka FMV
-196		|	Finish Wakka cutscene
-200		|	Wake up in Crusaders Lodge
-210		|	Gain control on Besaid Village Slope
-214		|	Gain control on Besaid Promontory
-216		|	Gain control after Kimahri fight
-217		|	Enter next area after Kimahri fight
-218		|	Enter Besaid Beach area
-220		|	Enter boat cutscene (map)
-224		|	Enter Tidus cutscene (binoculars)
-226		|	Enter Tidus cutscene (takes down binoculars)
-228		|	Gain conrol on ship
-240		|	Enter Yuna cutscene
-242		|	Gain control after Wakka cutscene
-244		|	Enter Yuna cutscene
-246		|	Yuna cutscene after Yuna says "Our meeting like this must be the blessing of Yevon"
-248		|	Enter third Sin FMV
-260		|	Start Sin Fin battle
-272		|	Enter boat cutscene after sin destroys the harpoons
-280		|	Enter underwater cutscene
-285		|	Enter Sin destroys Kilika FMV
-287		|	Enter Tidus monolog cutscene
-290		|	Finish Tidus cutscene
-292		|	Arrive at Kilika cutscene (map)
-294		|	Gain control in Kilika
-300		|	Enter Tidus sleeping/waking up cutscene
-302		|	Gain control in Inn
-304		|	Gain control after Botta cutscene
-308		|	Gain control after Wakka cutscene
-311		|	Gain control in Kilika Woods
-312		|	Gain control after Guardian cutscene
-315		|	Gain control after Lancet tutorial
-322		|	Gain control on Pilgrimage Road
-326		|	Gain control after Geneaux battle
-328		|	Enter Kilika Temple cutscene after Wakka cutscene
-330		|	Gain control after Luca Goers cutscene
-333		|	Gain control in Kilika Temple
-335		|	Gain control after Donna cutscene
-338		|	Gain control after Elevator cutscene
-340		|	Gain control after Donna/Elevator cutscene
-344		|	Gain control after Antechamber cutscene
-346		|	Gain control after talking to someone
-348		|	Finish Yuna cutscene
-350		|	Kilika temple cutscene, when people run to Yuna
-352		|	Enter cutscene after Flashback
-360		|	Gain control in Kilika Woods
-370		|	Enter cutscene after embarking S.S. Winno (map)
-372		|	Enter cutscene in Winno Cabin, where Tidus stands up
-380		|	Enter Wakka/Lulu Cutscene
-385		|	Enter Blitzball cutscene
-390		|	Enter Jecht Shot minigame
-395		|	Enter Yuna cutscene
-402		|	Savegame prompt screen
-404		|	Enter pub cutscene after Luca FMV
-405		|	Enter Besaid Aurochs cutscene
-406		|	Enter Luca Goers cutscene
-417		|	Enter cutscene after megaphone ("What in Yevon's name where you doing up there")
-425		|	Gain control in Luca
-427		|	Enter Seymour cutscene
-430		|	Enter Blitzball tutorial screen
-435		|	Enter Yuna cutscene outside cabin
-440		|	Gain control in basement
-450		|	Leave basement
-455		|	Gain control on Bridge after whistle cutscene
-484		|	Enter Mika cutscene
-485		|	Enter blitzball sphere FMV
-488		|	Enter Kimahri cutscene
-490		|	Enter Lulu cutscene
-492		|	Gain control on Bridge
-500		|	Enter Cutscene after Blitzball cutscene ("Still in there!")
-502		|	Enter salvage ship cutscene
-508		|	Enter Wakka scores cutscene
-512		|	Enter Yuna/Lulu cutscene
-514		|	Gain control
-518		|	Gain control in basement
-520		|	Enter Lulu/Wakka cutscne
-525		|	Enter Besaid Aurochs / Tidus cutscene
-527		|	Enter Lulu/Wakka second cutscene
-530		|	Enter stadium cutscene
-535		|	Enter blitzball sphere cutscene
-540		|	Enter Wakka cutscene (halftime)
-560		|	Enter team setup
-565		|	Enter stadium cutscene ("Wakka")
-570		|	Enter blitzball sphere cutscene (Tidus leaves)
-575		|	Enter blitzball sphere cutscene (Wakka joins)
-582		|	Enter postgame cutscene
-583		|	Savegame prompt
-588		|	Lulu cutscene
-600		|	Auron FMV
-610		|	Savegame prompt
-614		|	Enter Wakka/Yuna cutscene
-616		|	Enter Auron/Tidus cutscene
-617		|	Gain control after Auron/Tidus cutscene
-630		|	Gain control after Auron/Yuna cutscene
-730		|	Enter Mi'ihen Highroad cutscene
-734		|	Gain conrol on Mi'ihen Highroad cutscene
-750		|	Enter Tidus sleeping cutscene
-755		|	Gain control in Inn
-760		|	Gain control in Inn in the morning
-762		|	Gain control after talking to the boy
-767		|	Gain control after talking to Rin
-770		|	Start Chocobo Eater fight
-772		|	Gain control on old road
-777		|	Gain control on North End
-787		|	Gain control after Seymour cutscene
-802		|	Gain control on Mushroom Rock
-808		|	Clasko cutscene when he says "take that road"
-815		|	Gain control after Clasko cutscene
-825		|	Gain control after Wakka/Machina cutscene
-830		|	Enter Sinspawn cutscene
-835		|	Gain control on Ridge
-840		|	Enter Auron/Kinoc Cutscene
-845		|	Gain control in command center
-850		|	Enter sinspawn cutscene
-857		|	Start Gui battle
+0	|	Start new game (also main menu)
+2	|	Enter Zanarkand Cutscene
+3	|	Gain Control
+4	|	Leave boat area
+5	|	Enter Zanarkand Cutscene on the bridge
+6	|	Enter Blitzball FMV
+7	|	Gain Control after Blitzball FMV
+8	|	Finish talking to Auron
+9	|	Leave blitzball stadium area
+10	|	Enter cutscenes on the bridge
+13	|	Start Sinscale battle
+14	|	Finish Sinscale battle
+15	|	Start Sinspawn Ammes battle
+16	|	Gain Control after Ammes
+17	|	Leave bridge area
+18	|	Enter tanker cutscene
+19	|	Finish tanker fight
+20	|	Enter cutscene where Tidus jumps
+30	|	Wake up in Baaj Temple
+42	|	Gain control in Baaj ruins
+44	|	Enter collapsing bridge cutscene
+46	|	Finish Sahagins fight
+48	|	Finish Gaesgaeno battle
+50	|	Gain control in stairs area
+52	|	Enter hall with the fireplace
+54	|	Enter cutscene where tidus lights the fire
+55	|	Enter Klikk cutscene
+56	|	58 Finish Klikk battle (AP)
+60	|	Enter Salvage ship cutscene
+66	|	Gain control on Salvage ship
+68	|	Enter cutscene where Tidus jumps from the ship
+70	|	Gain control in water
+74	|	Enter underwater ruins cutscene
+76	|	Enter area after opening the door 
+84	|	Enter cutscene after leaving the ruins
+90	|	Enter salvage ship cutscene
+100	|	Talk to rikku again on the ship to enter second cutscene
+110	|	Finish Sin cutscene
+111	|	Enter Saveprompt screen
+113	|	Enter Besaid cutscene
+114	|	Gain control after Besaid cutscene
+116	|	Enter Besaid Ruins cutscene
+118	|	Gain control after Besaid Ruins cutscene
+119	|	Enter Besaid Crossroads cutscene, after Wakka starts talking ("Hey, this way")
+124	|	Enter Besaid Promontory cutscene
+126	|	Enter cutscene where they walk to the village
+128	|	Gain control on Besaid Village Slope
+130	|	Gain control after Luzzu & Gatta cutscene
+134	|	Gain control in Besaid Village
+136	|	Gain control in temple
+140	|	Gain control in temple after Braska statue cutscene
+152	|	Enter flashback cutscene
+154	|	Wake up in Wakkas House
+162	|	Enter trials
+164	|	Enter cutscene after elevator moves down
+170	|	Enter temple cutscene where they leave the trials
+172	|	Gain control in temple
+180	|	Enter Besaid (night) cutscene after Valefor
+182	|	Gain control after Besaid Aurochs cutscene
+184	|	Gain control after Yuna cutscene
+190	|	Enter dream cutscene
+192	|	Enter cutscene where Tidus wakes up
+194	|	Enter Lulu/Wakka FMV
+196	|	Finish Wakka cutscene
+200	|	Wake up in Crusaders Lodge
+210	|	Gain control on Besaid Village Slope
+214	|	Gain control on Besaid Promontory
+216	|	Gain control after Kimahri fight
+217	|	Enter next area after Kimahri fight
+218	|	Enter Besaid Beach area
+220	|	Enter boat cutscene (map)
+224	|	Enter Tidus cutscene (binoculars)
+226	|	Enter Tidus cutscene (takes down binoculars)
+228	|	Gain conrol on ship
+240	|	Enter Yuna cutscene
+242	|	Gain control after Wakka cutscene
+244	|	Enter Yuna cutscene
+246	|	Yuna cutscene after Yuna says "Our meeting like this must be the blessing of Yevon"
+248	|	Enter third Sin FMV
+260	|	Start Sin Fin battle
+272	|	Enter boat cutscene after sin destroys the harpoons
+280	|	Enter underwater cutscene
+285	|	Enter Sin destroys Kilika FMV
+287	|	Enter Tidus monolog cutscene
+290	|	Finish Tidus cutscene
+292	|	Arrive at Kilika cutscene (map)
+294	|	Gain control in Kilika
+300	|	Enter Tidus sleeping/waking up cutscene
+302	|	Gain control in Inn
+304	|	Gain control after Botta cutscene
+308	|	Gain control after Wakka cutscene
+311	|	Gain control in Kilika Woods
+312	|	Gain control after Guardian cutscene
+315	|	Gain control after Lancet tutorial
+322	|	Gain control on Pilgrimage Road
+326	|	Gain control after Geneaux battle
+328	|	Enter Kilika Temple cutscene after Wakka cutscene
+330	|	Gain control after Luca Goers cutscene
+333	|	Gain control in Kilika Temple
+335	|	Gain control after Donna cutscene
+338	|	Gain control after Elevator cutscene
+340	|	Gain control after Donna/Elevator cutscene
+344	|	Gain control after Antechamber cutscene
+346	|	Gain control after talking to someone
+348	|	Finish Yuna cutscene
+350	|	Kilika temple cutscene, when people run to Yuna
+352	|	Enter cutscene after Flashback
+360	|	Gain control in Kilika Woods
+370	|	Enter cutscene after embarking S.S. Winno (map)
+372	|	Enter cutscene in Winno Cabin, where Tidus stands up
+380	|	Enter Wakka/Lulu Cutscene
+385	|	Enter Blitzball cutscene
+390	|	Enter Jecht Shot minigame
+395	|	Enter Yuna cutscene
+402	|	Savegame prompt screen
+404	|	Enter pub cutscene after Luca FMV
+405	|	Enter Besaid Aurochs cutscene
+406	|	Enter Luca Goers cutscene
+417	|	Enter cutscene after megaphone ("What in Yevon's name where you doing up there")
+425	|	Gain control in Luca
+427	|	Enter Seymour cutscene
+430	|	Enter Blitzball tutorial screen
+435	|	Enter Yuna cutscene outside cabin
+440	|	Gain control in basement
+450	|	Leave basement
+455	|	Gain control on Bridge after whistle cutscene
+484	|	Enter Mika cutscene
+485	|	Enter blitzball sphere FMV
+488	|	Enter Kimahri cutscene
+490	|	Enter Lulu cutscene
+492	|	Gain control on Bridge
+500	|	Enter Cutscene after Blitzball cutscene ("Still in there!")
+502	|	Enter salvage ship cutscene
+508	|	Enter Wakka scores cutscene
+512	|	Enter Yuna/Lulu cutscene
+514	|	Gain control
+518	|	Gain control in basement
+520	|	Enter Lulu/Wakka cutscne
+525	|	Enter Besaid Aurochs / Tidus cutscene
+527	|	Enter Lulu/Wakka second cutscene
+530	|	Enter stadium cutscene
+535	|	Enter blitzball sphere cutscene
+540	|	Enter Wakka cutscene (halftime)
+560	|	Enter team setup
+565	|	Enter stadium cutscene ("Wakka")
+570	|	Enter blitzball sphere cutscene (Tidus leaves)
+575	|	Enter blitzball sphere cutscene (Wakka joins)
+582	|	Enter postgame cutscene
+583	|	Savegame prompt
+588	|	Lulu cutscene
+600	|	Auron FMV
+610	|	Savegame prompt
+614	|	Enter Wakka/Yuna cutscene
+616	|	Enter Auron/Tidus cutscene
+617	|	Gain control after Auron/Tidus cutscene
+630	|	Gain control after Auron/Yuna cutscene
+730	|	Enter Mi'ihen Highroad cutscene
+734	|	Gain conrol on Mi'ihen Highroad cutscene
+750	|	Enter Tidus sleeping cutscene
+755	|	Gain control in Inn
+760	|	Gain control in Inn in the morning
+762	|	Gain control after talking to the boy
+767	|	Gain control after talking to Rin
+770	|	Start Chocobo Eater fight
+772	|	Gain control on old road
+777	|	Gain control on North End
+787	|	Gain control after Seymour cutscene
+802	|	Gain control on Mushroom Rock
+808	|	Clasko cutscene when he says "take that road"
+815	|	Gain control after Clasko cutscene
+825	|	Gain control after Wakka/Machina cutscene
+830	|	Enter Sinspawn cutscene
+835	|	Gain control on Ridge
+840	|	Enter Auron/Kinoc Cutscene
+845	|	Gain control in command center
+850	|	Enter sinspawn cutscene
+857	|	Start Gui battle
+860	|	Enter Auron cutscene ("Look out")
+865	|	Enter Sin destruction FMV
+882	|	Enter Al Bhed FMV
+893	|	Enter Sin FMV after talking to Gatta
+899	|	Enter Yuna/Seymour Cutscene
+902	|	Enter Tidus cutscene
+910	|	Enter Nucleus cutscene
+922	|	Gain control on Aftermath beach
+926	|	Enter Yuna/Seymour Cutscene
+928	|	Gain control on Aftermath beach
+938	|	Gain control on Aftermath beach after talking to Auron
+960	|	Enter Kimahri/Tidus cutscene
+961	|	Gain control on Djose Highroad
+962	|	Gain control after Guardian cutscene
+964	|	Gain control after Auron cutscene
+970	|	Gain control after temple rumbling cutscene
+971	|	Gain control after Guardian cutscene in front of temple
+980	|	Gain control after Isaaru cutscene
+985	|	Gain control after second Isaaru cutscene
+990	|	Enter trials cutscene
+995	|	Gain control in trials
+998	|	Enter trials cutscene after pushing in the last pedestal
+1000	|	Gain control after Donna cutscene
+1003	|	Enter Yuna cutscene
+1005	|	Enter Tidus wake up scene
+1010	|	Gain control after Tidus wakes up
+1015	|	Gain control outside temple after waking up Yuna
+1020	|	Gain control after Guardian cutscene
+1025	|	Gain control after chocobo knights cutscene
+1028	|	Enter Djose Highroad
+1030	|	Gain control after Guardian cutscene
+1032	|	Gain control after Biran and Yenke cutscene
+1040	|	Gain control after Moonflow cutscene
+1045	|	Gain control after Shoopuff cutscene
+1048	|	Enter Tidus/Shoopuff cutscene after underwater cutscene
+1060	|	Enter extractor cutscene
+1070	|	Gain control in North Warf
+1085	|	Gain control after Rikku cutscene
+1096	|	Enter customization tutorial
+1104	|	Gain control after Tromell opening the door cutscene 
+1118	|	Enter Yuna cutscene after Yunalesca cutscene
+1126	|	Gain control in house entrance
+1132	|	Gain control after Guardian cutscene
+1138	|	Gain control in Farplane Gates after Guardian cutscene
+1154	|	Gain control after Auron/Rikku cutscene
+1156	|	Gain control after Farplane cutscene
+1170	|	Enter Flashback cutscene
+1172	|	Enter Tidus/Yuna cutscene after Flashback
+1176	|	Enter Farplane Gate cutscene
+1184	|	Enter Guardian cutscene after Jyscal sending
+1190	|	Gain control after Farplane
+1194	|	Gain control after talking to a Guardian cutscene
+1196	|	Gain control after Shelinda cutscene
+1200	|	Enter Guardian cutscene when Yuna joins
+1210	|	Gain control after Guardian cutscene
+1300	|	Enter Thunder Plains cutscene
+1310	|	Enter Thunder Plains Rikku cutscene
+1315	|	Enter Inn cutscene
+1320	|	Enter Yuna cutscene
+1325	|	Enter Tidus sleeping cutscene
+1330	|	Gain control in Inn
+1335	|	Enter Rikku cutscene
+1340	|	Enter photographer cutscene
+1350	|	Enter Guardian cutscene
+1360	|	Enter Guardian cutscene below lighting tower
+1375	|	Gain control after Guardian cutscenes
+1400	|	Gain control in Macalania
+1403	|	Gain control after Auron cutscene
+1407	|	Gain control after Guardian cutscene
+1413	|	Gain control after Barthello cutscene
+1418	|	Enter Spring loading zone
+1420	|	Gain control in Spring
+1430	|	Enter Braska Sphere cutscene
+1440	|	Enter Tidus cutscene ("What's the point")
+1442	|	Enter Jecht Sphere cutscene
+1450	|	Enter Tidus cutscene after Jecht Sphere
+1455	|	Gain control in Spring
+1470	|	Gain control in Macalania Forest after Auron cutscene
+1480	|	Gain control after Al Bhed cutscene
+1485	|	Enter Al Bhed cutscene on lake
+1498	|	Gain control in Crevasse
+1500	|	Gain control on Macalania Road
+1504	|	Gain control after temple guard cutscene
+1506	|	Gain control after Shelinda cutscene
+1510	|	Gain control after priest cutscene
+1515	|	Enter Jyscal Sphere cutscene
+1520	|	Enter Guardian cutscene after Jyscal Sphere
+1525	|	Gain control after Guardian cutscene
+1530	|	Gain control in trials
+1540	|	Start Seymour battle
+1545	|	Gain control after Seymour battle
+1550	|	Gain control after trial bridge breaks
+1560	|	Gain control outside temple
+1565	|	Start Guado Guards escape
+1570	|	Gain control on Crevasse
+1580	|	Enter cutscene after Wendigo AP
+1600	|	Gain control on Lake Bottom
+1605	|	Enter Yuna cutscene
+1607	|	Gain control after Yuna cutscene
+1610	|	Gain control after Hymn of the Faith cutscene
+1612	|	Enter Flashback cutscene
+1615	|	Enter Auron cutscene after Flashback
+1620	|	Gain control after Auron cutscene
+1630	|	Enter dream cutscene
+1660	|	Enter Bikanel wake-up cutscene
+1700	|	Gain control in Bikanel
+1704	|	Gain control after Tidus cutscene
+1710	|	Gain control after Lulu/Auron cutscene
+1715	|	Gain control after Wakka cutscene
+1718	|	Gain control after Kimahri cutscene
+1720	|	Gain control after Rikku cutscene
+1735	|	Enter Al Bhed cutscene
+1800	|	Gain control in Home
+1820	|	Start first Home fight
+1885	|	Gain control after second Home fight
+1895	|	Gain control after Chimera fight
+1898	|	Gain control after Guardian cutscene
+1930	|	Enter Flashback cutscene
+1935	|	Enter Tidus cutscene after flashback
+1940	|	Gain control in the sanctum
+1950	|	Gain control on Airship
+1990	|	Gain control in corridor
+2000	|	Gain control after Auron/Cid cutscene
+2010	|	Enter Tidus cutscene after Yuna cutscene
+2015	|	Gain control on bridge
+2020	|	Gain control in corridor
+2040	|	Gain control after Evrae/Auron cutscene
+2050	|	Enter Brother cutscene after defeating Evrae
+2055	|	Enter Airship FMV
+2060	|	Enter Kinoc FMV
+2070	|	Enter second Airship FMV
+2017	|	Enter Guards cutscene
+2080	|	Gain control on Tower of Light
+2085	|	Enter Guardian cutscene after defeating all guards
+2090	|	Enter Kiss FMV
+2095	|	Enter Seymour/Kinoc cutscene
+2100	|	Enter Yuna cutscene
+2102	|	Enter Yuna falling FMV
+2110	|	Enter Flashbomb cutscene
+2120	|	Enter Bevelle entrance cutscene
+2125	|	Enter Bevelle elevator cutscene
+2128	|	Gain control on elevator
+2130	|	Gain control on gate 
+2135	|	Gain control before trials entrance
+2145	|	Enter Yuna cutscene
+2150	|	Enter Tidus taking out Yuna cutscene
+2155	|	Savegame prompt
+2160	|	Enter Tidus/Auron cutscene
+2195	|	Enter Tidus/Guards cutscene
+2200	|	Enter Tidus/Wakka/Rikku cutscene
+2210	|	Enter Seymour cuscene
+2215	|	Enter Isaaru cutscene ("I'm sorry")
+2220	|	Gain control in Via Purifico
+2265	|	Enter Guardian cutscene after Seymour/Kimahri
+2275	|	Gain control on Highbridge
+2280	|	Enter Battle cutscene
+2290	|	AP screen / Seymour defeated
+2300	|	Gain control in Macalania
+2350	|	Enter pond FMV
+2355	|	Enter Yuna/Tidus cutscene after FMV
+2360	|	Gain control near pond
+2370	|	Enter Guardian cutscene
+2380	|	Enter Guardian cutscene in the morning
+2385	|	Gain control in Macalania
+2400	|	Gain control in Calm Lands after Yuna cutscene
+2420	|	Gain control after Destroyer battle
+2440	|	Enter Gagazet cutscene (map)
+2505	|	Gain control on Gagazet
+2510	|	Gain control after Kelk cutscene
+2528	|	Gain control after Biran & Yenke battle
+2530	|	Gain control after Singing
+2555	|	Enter Tidus cutscene after defeating Seymour (before AP)
+2560	|	Gain control after Seymour battle
+2585	|	Enter dream cutscene
+2590	|	Gain control in dream
+2595	|	Gain control in home
+2600	|	Gain control in home after Bahamut cutscene
+2610	|	Enter cutscene when Zanarkand "melts"
+2585	|	Gain control on Fayth cluster
+2625	|	Enter Wakka cutscene after Sanctum Keeper AP
+2635	|	Gain control after Sanctum Keeper
+2650	|	Gain control after Yuna/Rikku cutscene
+2678	|	Gain control after Yuna Sphere cutscene
+2680	|	Gain contorl on Road to Zanarkand
+2700	|	Enter fireplace cutscene
+2705	|	Enter fireplace cutscene after intro 
+2715	|	Gain control in fireplace area
+2725	|	Gain control after road cutscene
+2730	|	Enter priest cutscene
+2740	|	Gain control after priest cutscene
+2745	|	Gain control after Yocun cutscene
+2750	|	Gain control after Seymour cutscene
+2760	|	Enter Braska cutscene
+2765	|	Gain control after Braska cutscene
+2766	|	Start Braska running forward event incorridor
+2767	|	Gain control after Braska cutscene
+2775	|	Gain control after putting the last sphere into the pedestal
+2780	|	Enter elevator cutscene after defeating Sanctuary Keeper (before AP)
+2785	|	Enter Chamber of the Faith (Party running in)
+2790	|	Gain control in Chamber of the faith
+2795	|	Gain control after priest cutscene
+2815	|	Gain control in Great Hall
+2830	|	Enter Yunalesca dying cutscene (before AP)
+2835	|	Gain control in The Beyond
+2850	|	Gain control after Auron cutscene
+2875	|	Enter Cid/Airship cutscene
+2900	|	Gain control in Airship
+2910	|	Gain control after Yuna/Kimahri cutscene
+2915	|	Gain control after Guardian cutscene
+2920	|	Travel to Highbridge
+2930	|	Enter Mika cutscene
+2945	|	Enter Bahamut cutscene
+2950	|	Enter Shelinda cutscene
+2970	|	Gain control in Airship
+2990	|	Travel to Sin
+3000	|	Enter Sin cutscene
+3010	|	Gain control in Airship
+3085	|	Enter battle start cutscene
+3095	|	Enter Cid cutscene after defeating second fin
+3100	|	Enter Guardian cutscene
+3105	|	Land on Sin cutscene
+3120	|	Enter Brother cutscene after Sin falls
+3125	|	Gain control on Airship
+3130	|	Enter Airship cutscene after Sin FMV
+3135	|	Gain control in corridor
+3160	|	Enter Sin FMV
+3205	|	Gain control inside Sin
+3210	|	Gain control in the city of dying dreams
+3250	|	Gain control after Nucleus lands
+3260	|	Get 10 items in the nucleus
+3270	|	Enter cutscene after nucleus
+3300	|	Start BFA fight
+3360	|	Enter Yu Yevon cutscene after defeating BFA
+3380	|	Start Yu Yevon fight
+3400	|	Enter Besaid cutscene
