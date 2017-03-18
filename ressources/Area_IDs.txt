@@ -1,0 +1,276 @@
+* Areas IDs:
+ * FFX.exe+8CB990
+ * FFX.exe+EFBBF8
+ * FFX.exe+F30804
+
+Area	|	Name
+349	|	Intro (Zanarkand)
+23	|	Game Menu
+132	|	Intro
+368	|	Boat 
+376	|	Bridge
+371	|	Zanarkand - Stadium
+370	|	Zanarkand - Stadium (destroyed)
+366	|	Zanarkand - Bridge (Bahamut cutscene)
+389	|	Zanarkand - Bridge (Auron cutscene/Ammes battle)
+367	|	Zanarkand - Bridge (Tanker)
+384	|	Sin - Dream's End (Dream)
+385	|	Submerged Ruins (first Cutscene)
+48	|	Submerged Ruins
+49	|	Ruins - Underwater Hall
+50	|	Ruins - Corridor
+63	|	Ruins - Hall
+74	|	Ruins - Small Room
+52	|	Ruins - Stairs
+165	|	Ruins - Hall (Dream after lighting fireplace)
+71	|	Salvage Ship - Deck, Surface
+288	|	Salvage Ship - Underwater
+64	|	Underwater Ruins
+380	|	Underwater Ruins (Outside after Tros)
+70	|	Besaid - Port/Beach (First time)
+20	|	Besaid - Crossroads
+41	|	Besaid - Valley
+67	|	Besaid - Promontory
+69	|	Besaid - Village Slope
+133	|	Besaid Village (Wakka/Prayer Cutscene)
+17	|	Besaid Village
+142	|	Besaid - House (Bottom Right)
+143	|	Besaid - House (Top Right)
+144	|	Besaid - House (Shop)
+145	|	Besaid - House (Wakka's House)
+60	|	Besaid - Crusaders Lodge
+84	|	Besaid - Great Hall (Only the first time, when speaking to the monk)
+146	|	Besaid - Monk's Chamber
+147	|	Besaid - Nun's Chamber
+191	|	Zanarkand - Harbour (Dream)
+42	|	Besaid - Great Hall
+122	|	Besaid - Trials
+103	|	Besaid - Antechamber
+83	|	Besaid Village (Only after Trials)
+100	|	Besaid Village (Night)
+68	|	Besaid Village - Crusader's Lodge (Night)
+252	|	Besaid - Port (Dream)
+21	|	Besaid - Ancient Road
+22	|	Besaid - Waterfall Way
+19	|	Besaid - Port/Beach (Before entering the boat)
+301	|	S.S. Liki - Deck
+61	|	S.S. Liki - Deck (Yuna cutscene, Sin Fin battle)
+282	|	S.S. Liki - Deck (Echuilles battle)
+220	|	S.S. Liki - Deck (After destruction)
+43	|	Kilika - Dock (first visit)
+53	|	Kilika - Ruined Square (first visit)
+152	|	Kilika - Inn
+46	|	Kilika - Residential Area
+16	|	Kilika - Dock
+18	|	Kilika Woods
+65	|	Kilika - Pilgrimage Road
+78	|	Kilika Temple
+155	|	Kilika - Monk's Chambers (left)
+156	|	Kilika - Monk's Chambers (right)
+96	|	Kilika - Great Hall
+44	|	Kilika - Lift
+108	|	Kilika - Trials
+45	|	Kilika - Antechamber
+297	|	Zanarkand - Stadium (dream)
+94	|	S.S. Winno - Deck (Night)
+167	|	S.S. Winno - Cabin
+237	|	S.S. Winno - Corridor
+168	|	S.S. Winno - Power Room
+191	|	Zanarkand - Harbour (dream)
+267	|	Luca - Number 2 Dock (Cutscene / First visit)
+377	|	Luca - Cafe
+268	|	Luca - Number 3 Dock (Cutscene / First visit)
+72	|	Stadium - Basement A
+355	|	Stadium - Pool (All Cutscenes before Oblitzerator)
+123	|	Luca Stadium - Main Gate
+89	|	Luca - Number 5 Dock
+88	|	Luca - Number 4 Dock
+87	|	Luca - Number 3 Dock
+86	|	Luca - Number 2 Dock
+85	|	Luca - Number 1 Dock
+77	|	Luca - Bridge
+104	|	Luca - Square
+157	|	Luca - Theater
+170	|	Theater - Entrance
+158	|	Luca - Reception
+184	|	Theatre - Main Hall
+107	|	Luca - City Limits
+159	|	Luca - Cafe
+57	|	Stadium - VIP Seats
+121	|	Stadium - Pool
+229	|	Luca - Number 4 Dock (Salvage Ship cutscene)
+113	|	Salvage Ship (Oblitzerator)
+250	|	Stadium - Stands
+124	|	Stadium - Pool (Cutscenes after Oblitzerator, before Blitzball done)
+62	|	Stadium - Pool (Play)
+212	|	Stadium - Pool (Blitzball Exp screen)
+347	|	None (Blitzball Team Setup screen)
+125	|	Stadium - Pool (Cutscene after Blitzball done)
+95	|	Highroad - South End
+120	|	Highroad - South
+127	|	Highroad - Central
+58	|	Highroad - Agency, Front
+171	|	Highroad - Agency
+112	|	Highroad - Agency, Front (Night)
+115	|	Highroad - Newroad, South (Same for Oldroad)
+116	|	Highroad - Newroad, North (Same for Oldroad)
+59	|	Highroad - North End
+79	|	Mushroom Rock (Same for Plateau)
+92	|	Mushroom Rock - Valley
+128	|	Mushroom Rock - Precipice
+119	|	Mushroom Rock - Ridge
+289	|	Mushroom Rock - Beach (Cutscene)
+247	|	Mushroom Rock - Ridge (Gui 2)
+254	|	Mushroom Rock - Beach (Destroyed)
+247	|	Mushroom Rock - Ridge (Cutscene)
+218	|	Underwater - Chasing Sin
+341	|	Sin - The Nucleus (Cutscene on Tidus Monologue)
+134	|	Zanarkand - Harbour (Dream)
+131	|	Mushroom Rock - Aftermath
+93	|	Djose Highroad
+76	|	Djose - Pilgrimage Road
+82	|	Djose Temple
+210	|	Djose - Inn
+81	|	Djose - Great Hall
+161	|	Djose - Nun's Chamber
+160	|	Djose - Monk's Chamber
+214	|	Djose - Trials
+90	|	Djose - Antechamber (first Cutscene)
+91	|	Djose - Antechamber (second Cutscene)
+75	|	Moonflow - South Bank Road
+105	|	Moonflow - South Bank
+187	|	Moonflow - South Wharf (Bench)
+188	|	Moonflow - South Wharf (Main Area)
+235	|	Moonflow - South Wharf (Shelter)
+291	|	Riding the Shoopuf (All cutscenes)
+99	|	Moonflow - Underwater (Cutscene & Extractor battle)
+236	|	Moonflow - North Wharf (Shelter)
+190	|	Moonflow - North Wharf (Main Area)
+189	|	Moonflow - North Wharf (Bench)
+109	|	Moonflow - North Bank
+97	|	Moonflow - North Bank Road
+135	|	Guadosalam
+243	|	Guadosalam - Inn
+163	|	Mansion - Entrance
+141	|	Mansion - Great Hall
+197	|	Zanarkand - Yunalesca (Cutscene)
+217	|	Mansion - Great Hall (cutscene after Yunalesca)
+173	|	Guadosalam - House (near Shop)
+172	|	Guadosalam - Shop
+174	|	Guadosalam - House
+175	|	Road to Farplane
+257	|	Farplane Gates
+193	|	The Farplane
+143	|	Zanarkand - Harbor (Dream in Farplane)
+364	|	Farplane Gates (cutscene with Jyscal)
+140	|	Thunder Plains - South
+256	|	Thunder Plains - Agency Front
+263	|	Thunder Plains - Agency
+264	|	Thunder Plains - Agency Room (cutscene)
+162	|	Thunder Plains - North
+110	|	Macalania Woods - South
+241	|	Macalania Woods - Central
+242	|	Macalania Woods - North
+221	|	Macalania Woods - Lake Road
+248	|	Macalania Woods - Spring
+330	|	Bevelle - Main Gate (Jecht Sphere)
+331	|	Lake Macalania - Agency Front (Jecht Sphere)
+338	|	Macalania Woods - Spring (Jecht Sphere)
+164	|	Lake Macalania - Agency Front
+215	|	Lake Macalania - Agency
+102	|	Lake Macalania
+192	|	Lake Macalania - Crevasse
+153	|	Macalania - Road
+106	|	Macalania - Hall
+178	|	Macalania - Monk's Chamber
+179	|	Macalania - Nun's Chamber
+332	|	Thunderplains - North (Jyscal Sphere)
+239	|	Macalania - Trials
+80	|	Macalania - Antechamber
+54	|	Macalania - Lake Bottom
+191	|	Zanarkand - Harbour (Flashback in Macalania)
+260	|	Lake Macalania - Lake Bottom (After dream)
+134	|	Zanarkand - Harbour (Dream in Macalania)
+249	|	Zanarkand - Harbour (Dream in Macalania when Jecht appears)
+129	|	Oasis
+136	|	Sanubia Desert - East
+137	|	Sanubia Desert - Central
+138	|	Sanubia Desert - West
+130	|	Home
+276	|	Home - Entrance
+280	|	Home - Main Corridor
+275	|	Home - Living Quarters
+219	|	Home - Environment Controls
+391	|	Luca - City Limits (Flashback in Home)
+261	|	Airship - Bridge (Cutscene on first visit)
+194	|	Airship - Bridge
+265	|	Airship - Corridor
+205	|	Bevelle - Tower of Light (Cutscene in Airship)
+351	|	Airship - Corridor (Isaaru)
+211	|	Airship - Cabin
+277	|	Airship - Deck
+194	|	Airship Bridge (Cutscene after Evrae)
+205	|	Bevelle - Tower of Light
+305	|	Bevelle - Passage of Cleansing
+180	|	Bevelle - Priest's Passage (Top)
+181	|	Bevelle - Priest's Passage (Bottom)
+182	|	Bevelle - Priest's Passage (Corridor)
+306	|	Bevelle - Trials
+226	|	Bevelle - Antechamber (Cutscene)
+227	|	Bevelle - Fayth (Cutscene)
+207	|	Bevelle - The Inquisition (Cutscene)
+287	|	Bevelle - Dungeons (Cutscene)
+195	|	Bevelle - The Two Fates (Cutscene)
+198	|	Bevelle - Via Purifico (Yuna)
+209	|	Bevelle - Via Purifico (Tidus)
+208	|	Bevelle - Main Gate / Highbridge
+183	|	Macalania Woods - Campsite (Night)
+274	|	Macalania Woods - To T. Plains (Night)
+206	|	Macalania Woods - Spring (Night)
+238	|	Macalania Woods - Campsite
+177	|	Macalania Woods - To T. Plains
+269	|	Macalania woods - Spring
+329	|	Macalania woods - North
+223	|	Calm Lands - South
+279	|	Calm Lands - Near Bridge
+259	|	Gagazet - Mountain Gate
+244	|	Gagazet - Mountain Trail
+285	|	Gagazet - Prominence
+309	|	Gagazet - Fayth Cluster
+134	|	Zanarkand - Harbour (Dream in Fayth Cluster)
+165	|	Boathouse - Cabin (Dream in Fayth Cluster)
+272	|	Gagazet - Mountain Cave
+310	|	Gagazet - Submerged Passage (Both)
+311	|	Gagezet - Summit Region
+381	|	Highroad - Agency, Front (Yuna Sphere)
+312	|	Road to the Zanarkand Ruins
+132	|	Zanarkand Ruins (Day)
+363	|	Zanarkand Ruins 
+225	|	Zanarkand Ruins - Overpass
+314	|	Dome
+222	|	Dome - Interior
+316	|	Dome - Corridor
+320	|	Dome - Trials
+317	|	Dome - Trials (Only Spectral Keeper battle)
+318	|	Dome - Chamber of the Fayth 
+224	|	Dome - Great Hall (Before Yunalesca battle)
+270	|	Dome - The Beyond
+319	|	Dome - Great Hall (After Yunalesca battle)
+315	|	Dome - Front (After Yunalesca battle)
+255	|	Airship - Bridge (After Highbridge, before Sin battle 1)
+265	|	Airship - Corridor (Always After Highbridge)
+351	|	Aisrhip - Corridor (Top, Always after Highbridge)
+199	|	Airship - Deck (Left Fin)
+200	|	Airship - Deck (Right Fin)
+201	|	Airship - Deck (Core)
+374	|	Airship Bridge (After Sin battle 1)
+375	|	Airship - Cabin (Always after Sin battle 1)
+202	|	Airship - Deck (Always after Sin battle 1)
+322	|	Sin - Near Airship
+203	|	Sin - Sea of Sorrow
+296	|	Sin - Garden of Pain
+204	|	Sin - City of Dying Dreams
+327	|	Sin - Tower of the Dead
+324	|	Sin - The Nucleus
+325	|	Sin - Dream's End
+326	|	Sin - Dream's End (Sword)
