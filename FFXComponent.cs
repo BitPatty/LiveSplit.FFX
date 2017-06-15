@@ -41,6 +41,7 @@ namespace LiveSplit.FFX
             _gameMemory.OnLoadStarted += gameMemory_OnLoadStarted;
             _gameMemory.OnMusicSelect += gameMemory_OnMusicSelect;
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
+            _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
         }
 
         //Free ressources
@@ -101,6 +102,12 @@ namespace LiveSplit.FFX
 
         //Split on area completed
         void gameMemory_OnAreaCompleted(object sender, EventArgs e)
+        {
+            if (this.Settings.AutoStart) _timer.Split();
+        }
+
+        //Split on boss defeated
+        void gameMemory_OnBossDefeated(object sender, EventArgs e)
         {
             if (this.Settings.AutoStart) _timer.Split();
         }
