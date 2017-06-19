@@ -32,6 +32,8 @@ namespace LiveSplit.FFX
             _timer = new TimerModel { CurrentState = state };
             _timer.CurrentState.OnStart += timer_OnStart;
 
+            _timer.CurrentState.OnReset += timer_OnReset;
+
             _updateTimer = new Timer() { Interval = 15, Enabled = true };
             _updateTimer.Tick += updateTimer_Tick;
 
@@ -56,19 +58,35 @@ namespace LiveSplit.FFX
         {
             try
             {
-                _gameMemory.Update();
+                _gameMemory.Update(this.Settings.GetSplits());
+                // Not sure about this, a list of the splits get sent to FFXMemory so it knows which splits the user has selected to be split
+                // But this method is called rapidly so might be expensive to pass this list of strings in continually?
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.ToString());
-                MessageBox.Show("Couldn't update Game Memory");
+                //MessageBox.Show("Couldn't update Game Memory");
             }
-        }
+}
 
         //Initialize as IGT
         void timer_OnStart(object sender, EventArgs e)
         {
             _timer.InitializeGameTime();
+        }
+
+        //User has reset timer
+        void timer_OnReset(object sender, TimerPhase t)
+        {
+            _timer.Reset();
+            _gameMemory = null; // Not sure about this either, definitely seemed the easiest to do to get all the flags to reset, but might be more elegant to manually make them false
+            _gameMemory = new FFXMemory(); //Generate new FFXMemory so all flags reset back to false
+            _gameMemory.OnAreaCompleted += gameMemory_OnAreaCompleted;
+            _gameMemory.OnLoadFinished += gameMemory_OnLoadFinished;
+            _gameMemory.OnLoadStarted += gameMemory_OnLoadStarted;
+            _gameMemory.OnMusicSelect += gameMemory_OnMusicSelect;
+            _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
+            _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
         }
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
@@ -79,13 +97,13 @@ namespace LiveSplit.FFX
         //Reset timer on music selection screen
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
         {
-            if (this.Settings.AutoReset) _timer.Reset();
+            if (this.Settings.Reset) _timer.Reset();
         }
 
         //Start timer on music confirmation
         void gameMemory_OnMusicConfirm(object sender, EventArgs e)
         {
-            if (this.Settings.AutoStart) _timer.Start();
+            if (this.Settings.Start) _timer.Start();
         }
 
         //Pause timer on loading screen
@@ -103,13 +121,13 @@ namespace LiveSplit.FFX
         //Split on area completed
         void gameMemory_OnAreaCompleted(object sender, EventArgs e)
         {
-            if (this.Settings.AutoStart) _timer.Split();
+            if (this.Settings.Split) _timer.Split();
         }
 
         //Split on boss defeated
         void gameMemory_OnBossDefeated(object sender, EventArgs e)
         {
-            if (this.Settings.AutoStart) _timer.Split();
+            if (this.Settings.Split) _timer.Split();
         }
 
         //Get config file
