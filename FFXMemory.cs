@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
+using StringList = System.Collections.Generic.List<string>;
 
 /*====================================================================*
  *      Memory Locations                                              *
@@ -47,6 +48,9 @@ namespace LiveSplit.FFX
         public MemoryWatcher<int> SelectScreen { get; }
         public MemoryWatcher<int> BattleState { get; }
 
+        public MemoryWatcher<int> Cutscene { get; }
+        public MemoryWatcher<int> YuYevon { get; }
+
         public FFXData(GameVersion version, int baseOffset)
         {
             if (version == GameVersion.v10)
@@ -57,7 +61,10 @@ namespace LiveSplit.FFX
                 this.Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                     //Button Input, == 32 if A pressed, 4B
                 this.StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x84949C));          //Storyline progress
                 this.SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25B30));              //== 7 || == 8 on confirm sound screen; == 6 on sound selection screen, 4B
-                this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));         //10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare
+                this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  //10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare
+
+                this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));
+                this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   //Yu Yevon screen transition = 1, back up - 0xD381AC = 3
             }
 
             this.CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
@@ -69,75 +76,73 @@ namespace LiveSplit.FFX
         }
     }
 
+    struct SplitPair
+    {
+        public string SplitName;
+        public bool SplitFlag;
+    }
+
     class FFXMemory
     {
-        //Levels IDs and Previous Level IDs
-        //IMPORTANT - If adding/removing from this array, make sure you add/remove the corresponding Level ID
-        //in the _PreviousLevelIDs array at the correct index or area autosplits will no longer work!
-        private static readonly int[] _LevelIDs = new int[]
+        private Dictionary<int, Tuple<int, SplitPair>> _LevelIDs = new Dictionary<int, Tuple<int, SplitPair>>
         {
-            0x2E,  // 46 - Kilika - Residential Area
-            0x7D,  // 125 - Stadium - Pool (Post Blitzball Cutscene)
-            0x3A,  // 58 - Highroad - Agency, Front
-            0x4F,  // 79 - Mushroom Rock
-            0x4C,  // 76 - Djose - Pilgrimage Road
-            0x69,  // 105 - Moonflow - South Bank
-            0x8C,  // 140 - Thunder Plains - South
-            0x6E,  // 110 - Macalania Woods - South
-            0xDB,  // 219 - Home - Environment Controls
-            0xE2   // 226 - Bevelle - Antechamber (Cutscene)
+            {0x2E, new Tuple<int, SplitPair>(0x12,  new SplitPair {SplitName = "KilikaWoods", SplitFlag = false})},        // FROM 18 - Kilika Woods                           TO  46 - Kilika - Residential Area 
+            {0x7D, new Tuple<int, SplitPair>(0xD4,  new SplitPair {SplitName = "BlitzballComplete", SplitFlag = false})},  // FROM 212 - Stadium - Pool (Blitzball Exp Screen) TO  125 - Stadium - Pool (Post Blitzball Cutscene) 
+            {0x3A, new Tuple<int, SplitPair>(0x7F,  new SplitPair {SplitName = "MiihenHighroad", SplitFlag = false})},     // FROM 127 - Highroad - Central                    TO  58 - Highroad - Agency, Front 
+            {0x4F, new Tuple<int, SplitPair>(0x3B,  new SplitPair {SplitName = "OldRoad", SplitFlag = false})},            // FROM 59 - Highroad - North End                   TO  79 - Mushroom Rock 
+            {0x4C, new Tuple<int, SplitPair>(0x5D,  new SplitPair {SplitName = "DjoseHighroad", SplitFlag = false})},      // FROM 93 - Djose Highroad                         TO  76 - Djose - Pilgrimage Road 
+            {0x69, new Tuple<int, SplitPair>(0x4B,  new SplitPair {SplitName = "Moonflow", SplitFlag = false})},           // FROM 75 - Moonflow - South Bank Road             TO  105 - Moonflow - South Bank 
+            {0x8C, new Tuple<int, SplitPair>(0x87,  new SplitPair {SplitName = "Guadosalam", SplitFlag = false})},         // FROM 135 - Guadosalam                            TO  140 - Thunder Plains - South 
+            {0x6E, new Tuple<int, SplitPair>(0xA2,  new SplitPair {SplitName = "ThunderPlains", SplitFlag = false})},      // FROM 162 - Thunder Plains - North                TO  110 - Macalania Woods - South 
+            {0xDB, new Tuple<int, SplitPair>(0x118, new SplitPair {SplitName = "Home", SplitFlag = false})},               // FROM 280 - Home - Main Corridor                  TO  219 - Home - Environment Controls 
+            {0xE2, new Tuple<int, SplitPair>(0x132, new SplitPair {SplitName = "BevelleTrials", SplitFlag = false})}       // FROM 306 - Bevelle - Trials                      TO  226 - Bevelle - Antechamber (Cutscene) 
         };
 
-        private static readonly int[] _PreviousLevelIDs = new int[]
+        private Dictionary<int, SplitPair> _ProgressionIDs = new Dictionary<int, SplitPair>
         {
-            0x12,  // 18 - Kilika Woods
-            0xD4,  // 212 - Stadium - Pool (Blitzball Exp Screen)
-            0x7F,  // 127 - Highroad - Central
-            0x3B,  // 59 - Highroad - North End
-            0x5D,  // 93 - Djose Highroad
-            0x4B,  // 75 - Moonflow - South Bank Road
-            0x87,  // 135 - Guadosalam
-            0xA2,  // 162 - Thunder Plains - North
-            0x118, // 280 - Home - Main Corridor
-            0x132  // 306 - Bevelle - Trials
+            {0xF,   new SplitPair {SplitName = "SinspawnAmmes", SplitFlag = false}},       // 15 - Start Sinspawn Ammes battle 
+            {0x37,  new SplitPair {SplitName = "Klikk", SplitFlag = false}},               // 55 - Enter Klikk cutscene
+            {0x4C,  new SplitPair {SplitName = "Tros", SplitFlag = false}},                // 76 - Enter Tros area after opening the door
+            {0x77,  new SplitPair {SplitName = "Piranhas", SplitFlag = false}},            // 119 - Enter Besaid Crossroads cutscene
+            {0xD6,  new SplitPair {SplitName = "Kimahri", SplitFlag = false}},             // 214 - Gain control on Besaid Promontory before Kimahri
+            {0x118, new SplitPair {SplitName = "SinspawnEchuilles", SplitFlag = false}},   // 280 - Enter underwater cutscene before Sinspawn Echuilles
+            {0x142, new SplitPair {SplitName = "SinspawnGeneaux", SplitFlag = false}},     // 322 - Gain control on Pilgrimage Road before Sinspawn Geneaux
+            {0x1F4, new SplitPair {SplitName = "Oblitzerator", SplitFlag = false}},        // 502 - Enter Cutscene after Blitzball cutscene ("Still in there!") before Oblitzerator
+            {0x258, new SplitPair {SplitName = "Garuda", SplitFlag = false}},              // 600 - Auron FMV
+            {0x343, new SplitPair {SplitName = "MushroomRockRoad", SplitFlag = false}},    // 835 - Gain control on Ridge
+            {0x361, new SplitPair {SplitName = "SinspawnGui", SplitFlag = false}},         // 865 - Enter Sin destruction FMV before Sinspawn Gui 2
+            {0x424, new SplitPair {SplitName = "Extractor", SplitFlag = false}},           // 1060 - Enter Extractor cutscene
+            {0x58C, new SplitPair {SplitName = "Spherimorph", SplitFlag = false}},         // 1420 - Gain control in Spring before Spherimorph
+            {0x5CD, new SplitPair {SplitName = "Crawler", SplitFlag = false}},             // 1485 - Enter Al Bhed cutscene on lake before Crawler
+            {0x604, new SplitPair {SplitName = "Seymour", SplitFlag = false}},             // 1540 - Start Seymour battle
+            {0x622, new SplitPair {SplitName = "Wendigo", SplitFlag = false}},             // 1570 - Gain control on Crevasse before Wendigo
+            {0x7F8, new SplitPair {SplitName = "Evrae", SplitFlag = false}},               // 2040 - Gain control after Evrae/Auron cutscene before Evrae
+            {0x825, new SplitPair {SplitName = "BevelleGuards", SplitFlag = false}},       // 2085 - Enter Guardian cutscene after defeating all Bevelle Guards
+            {0x8AC, new SplitPair {SplitName = "Isaaru", SplitFlag = false}},              // 2220 - Gain control in Via Purifico before Isaaru
+            {0x8E8, new SplitPair {SplitName = "SeymourNatus", SplitFlag = false}},        // 2280 - Enter Seymour Natus Battle cutscene
+            {0x9CE, new SplitPair {SplitName = "BiranYenke", SplitFlag = false}},          // 2510 - Gain control after Kelk cutscene before Biran and Yenke
+            {0x9E2, new SplitPair {SplitName = "SeymourFlux", SplitFlag = false}},         // 2530 - Gain control after singing before Seymour Flux
+            {0xA19, new SplitPair {SplitName = "SanctuaryKeeper", SplitFlag = false}},     // 2585 - Gain control on Fayth cluster before Sanctuary Keeper
+            {0xAFF, new SplitPair {SplitName = "Yunalesca", SplitFlag = false}},           // 2815 - Gain control in Great Hall before Yunalesca
+            {0xC21, new SplitPair {SplitName = "SinCore", SplitFlag = false}},             // 3015 - Land on Sin cutscene before Sin Core
+            {0xC3F, new SplitPair {SplitName = "OverdriveSin", SplitFlag = false}},        // 3135 - Gain control in corridor before Overdrive Sin
+            {0xC85, new SplitPair {SplitName = "SeymourOmnis", SplitFlag = false}},        // 3205 - Gain control inside Sin before Seymour Omnis
+            {0xCE4, new SplitPair {SplitName = "BraskasFinalAeon", SplitFlag = false}},    // 3300 - Start Braska's Final Aeon fight
+            {0xD34, new SplitPair {SplitName = "YuYevon", SplitFlag = false}}              // 3380 - Start Yu Yevon fight
         };
 
-        private static readonly int[] _ProgressionIDs = new int[]
+        private static string PIRANHAS = "Piranhas";
+        private static string GARUDA = "Garuda";
+        private static string MUSHROOM_ROCK_ROAD = "MushroomRockRoad";
+        private static string YU_YEVON = "YuYevon";
+
+        private Dictionary<int, string> _MiscellaneousIDs = new Dictionary<int, string>
         {
-            0xF,   // 15 - Start Sinspawn Ammes battle
-            0x37,  // 55 - Enter Klikk cutscene
-            0x4C,  // 76 - Enter Tros area after opening the door
-            0xD6,  // 214 - Gain control on Besaid Promontory before Kimahri
-            0x118, // 280 - Enter underwater cutscene before Sinpsawn Echuilles
-            0x142, // 322 - Gain control on Pilgrimage Road before Sinspawn Geneaux
-            0x1F4, // 502 - Enter Cutscene after Blitzball cutscene ("Still in there!") before Oblitzerator
-            0x258, // 600 - Auron FMV before Garuda                                                                  =========[BROKEN - It currently splits on the Dinosaur battle before Garuda]
-            0x361, // 865 - Enter Sin destruction FMV before Sinspawn Gui 2
-            0x424, // 1060 - Enter Extractor cutscene
-            0x58C, // 1420 - Gain control in Spring before Spherimorph
-            0x5CD, // 1485 - Enter Al Bhed cutscene on lake before Crawler
-            0x604, // 1540 - Start Seymour battle
-            0x622, // 1570 - Gain control on Crevasse before Wendigo
-            0x7F8, // 2040 - Gain control after Evrae/Auron cutscene before Evrae
-            0x825, // 2085 - Enter Guardian cutscene after defeating all Bevelle Guards
-            0x8AC, // 2220 - Gain control in Via Purifico before Isaaru
-            0x8E8, // 2280 - Enter Seymour Natus Battle cutscene
-            0x9CE, // 2510 - Gain control after Kelk cutscene before Biran and Yenke
-            0x9E2, // 2530 - Gain control after singing before Seymour Flux
-            0xA19, // 2585 - Gain control on Fayth cluster before Sanctuary Keeper
-            0xAFF, // 2815 - Gain control in Great Hall before Yunalesca
-            0xC21, // 3015 - Land on Sin cutscene before Sin Core
-            0xC3F, // 3135 - Gain control in corridor before Overdrive Sin
-            0xC85, // 3205 - Gain control inside Sin before Seymour Omnis
-            0xCE4, // 3300 - Start Braska's Final Aeon fight
-            0xD34  // 3380 - Start Yu Yevon fight
+            {0x49,  PIRANHAS},                // 73 - Post Piranha Cutscene
+            {0x16,  GARUDA},                  // 22 - Garuda battle
+            {0x3AC, MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
+            {0x1C,  YU_YEVON}                 // 28 - Yu Yevon battle
         };
-
-        private bool[] _LevelSplitFlag = new bool[_LevelIDs.Length];
-        private bool[] _ProgressionSplitFlag = new bool[_ProgressionIDs.Length];
-
-        //BossIDs + HP
-        //private static readonly int[] _BossIDs = new int[] { 0x1, 0x2 };
 
         //Eventhandlers
         public event EventHandler OnLoadStarted;
@@ -167,7 +172,7 @@ namespace LiveSplit.FFX
         }
 
         //Read memory
-        public void Update()
+        public void Update(StringList activatedSplits)
         {
             //Try to rehook process
             if (_process == null || _process.HasExited)
@@ -181,42 +186,79 @@ namespace LiveSplit.FFX
             //Update all memory data
             _data.UpdateAll(_process);
 
-            if (_data.CurrentLevel.Changed)
+            if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
             {
-                int levelIDIndex = Array.IndexOf(_LevelIDs, _data.CurrentLevel.Current);
+                Tuple<int, SplitPair> tuple = _LevelIDs[_data.CurrentLevel.Current];
+                int previousLevelID = tuple.Item1;
+                SplitPair splitPair = tuple.Item2;
 
                 //Split when changing Area if desired
-                if (_LevelIDs.Contains<int>(_data.CurrentLevel.Current) && !_LevelSplitFlag[levelIDIndex] && _PreviousLevelIDs[levelIDIndex] == _data.CurrentLevel.Old)
+                if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag && previousLevelID == _data.CurrentLevel.Old)
                 {
-                    //Split
-                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
-                    _LevelSplitFlag[levelIDIndex] = true;
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); //Split
+                    splitPair.SplitFlag = true;
+                    _LevelIDs[_data.CurrentLevel.Current] = new Tuple<int, SplitPair>(previousLevelID, splitPair);
                 }
             }
 
-            if (_data.BattleState.Changed)
+            if (_data.BattleState.Changed && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
             {
                 bool canSplit = false;
-                int progressionIDIndex = Array.IndexOf(_ProgressionIDs, _data.StoryProgression.Current);
+                SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
                 int battleState = _data.BattleState.Current;
+                string splitName = splitPair.SplitName;
 
-                //Split when Boss Defeated
-                if (_ProgressionIDs.Contains<int>(_data.StoryProgression.Current) && !_ProgressionSplitFlag[progressionIDIndex] && battleState == 522)
+                if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == 522)
                 {
                     canSplit = true;
                 }
-                else if (_ProgressionIDs.Contains<int>(_data.StoryProgression.Current) && !_ProgressionSplitFlag[progressionIDIndex] && battleState == 66058)
+                else if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == 66058)
                 {
-                    //Special case for 'Klikk' and 'Biran and Yenke' splits; these battles end with the 'victory fanfare' which sets the battleState to 66058
+                    //Special case for 'Klikk' and 'BiranYenke' splits; these battles end with the 'victory fanfare' which sets the battleState to 66058
                     if (_data.StoryProgression.Current == 55 || _data.StoryProgression.Current == 2510)
                         canSplit = true;
                 }
 
+                if (splitName == PIRANHAS || splitName == GARUDA || splitName == MUSHROOM_ROCK_ROAD || splitName == YU_YEVON)
+                    canSplit = false; // These splits are checked in _MiscellaneousIds;
+
                 if (canSplit)
                 {
-                    //Split
-                    this.OnBossDefeated?.Invoke(this, EventArgs.Empty);
-                    _ProgressionSplitFlag[progressionIDIndex] = true;
+                    this.OnBossDefeated?.Invoke(this, EventArgs.Empty); //Split
+                    splitPair.SplitFlag = true;
+                    _ProgressionIDs[_data.CurrentLevel.Current] = splitPair;
+                }
+            }
+
+            if (_MiscellaneousIDs.ContainsKey(_data.Cutscene.Current) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
+            {
+                bool canSplit = false;
+                SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
+                if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag)
+                {
+                    if (_data.Cutscene.Current == 73 && _data.StoryProgression.Current == 119)
+                    {
+                        canSplit = true; // Piranhas
+                    }
+                    else if (_data.Cutscene.Current == 22 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10 && _data.StoryProgression.Current == 600)
+                    {
+                        canSplit = true; // Garuda
+                    }
+                    else if (_data.Cutscene.Current == 940 && _data.StoryProgression.Current == 835)
+                    {
+                        canSplit = true; // Mushroom Rock Road
+                    }
+                    else if (_data.Cutscene.Current == 28 && _data.YuYevon.Changed && _data.YuYevon.Current == 1 && _data.StoryProgression.Current == 3380)
+                    {
+                        canSplit = true; // Yu Yevon
+                    }
+                }
+
+                if (canSplit)
+                {
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); //Split
+                    splitPair.SplitFlag = true;
+                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
             }
 
@@ -231,7 +273,6 @@ namespace LiveSplit.FFX
                     this.OnMusicConfirm?.Invoke(this, EventArgs.Empty);
                 }
             }
-
 
             if (_data.IsLoading.Changed)
             {
@@ -252,8 +293,6 @@ namespace LiveSplit.FFX
                 }
             }
         }
-
-
 
         bool TryGetGameProcess()
         {
