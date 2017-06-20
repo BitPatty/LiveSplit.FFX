@@ -226,7 +226,7 @@ namespace LiveSplit.FFX
                 {
                     this.OnBossDefeated?.Invoke(this, EventArgs.Empty); //Split
                     splitPair.SplitFlag = true;
-                    _ProgressionIDs[_data.CurrentLevel.Current] = splitPair;
+                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
             }
 
