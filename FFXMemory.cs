@@ -107,7 +107,7 @@ namespace LiveSplit.FFX
             {0xD6,  new SplitPair {SplitName = "Kimahri", SplitFlag = false}},             // 214 - Gain control on Besaid Promontory before Kimahri
             {0x118, new SplitPair {SplitName = "SinspawnEchuilles", SplitFlag = false}},   // 280 - Enter underwater cutscene before Sinspawn Echuilles
             {0x142, new SplitPair {SplitName = "SinspawnGeneaux", SplitFlag = false}},     // 322 - Gain control on Pilgrimage Road before Sinspawn Geneaux
-            {0x1F4, new SplitPair {SplitName = "Oblitzerator", SplitFlag = false}},        // 502 - Enter Cutscene after Blitzball cutscene ("Still in there!") before Oblitzerator
+            {0x1F6, new SplitPair {SplitName = "Oblitzerator", SplitFlag = false}},        // 502 - Enter Cutscene after Blitzball cutscene ("Still in there!") before Oblitzerator
             {0x258, new SplitPair {SplitName = "Garuda", SplitFlag = false}},              // 600 - Auron FMV
             {0x343, new SplitPair {SplitName = "MushroomRockRoad", SplitFlag = false}},    // 835 - Gain control on Ridge
             {0x361, new SplitPair {SplitName = "SinspawnGui", SplitFlag = false}},         // 865 - Enter Sin destruction FMV before Sinspawn Gui 2
