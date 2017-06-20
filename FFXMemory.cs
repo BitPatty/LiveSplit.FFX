@@ -87,7 +87,7 @@ namespace LiveSplit.FFX
         private Dictionary<int, Tuple<int, SplitPair>> _LevelIDs = new Dictionary<int, Tuple<int, SplitPair>>
         {
             {0x2E, new Tuple<int, SplitPair>(0x12,  new SplitPair {SplitName = "KilikaWoods", SplitFlag = false})},        // FROM 18 - Kilika Woods                           TO  46 - Kilika - Residential Area 
-            {0x7D, new Tuple<int, SplitPair>(0xD4,  new SplitPair {SplitName = "BlitzballComplete", SplitFlag = false})},  // FROM 212 - Stadium - Pool (Blitzball Exp Screen) TO  125 - Stadium - Pool (Post Blitzball Cutscene) 
+            {0xFA, new Tuple<int, SplitPair>(0xD4,  new SplitPair {SplitName = "BlitzballComplete", SplitFlag = false})},  // FROM 212 - Stadium - Pool (Blitzball Exp Screen) TO  250 - Stadium - Stands
             {0x3A, new Tuple<int, SplitPair>(0x7F,  new SplitPair {SplitName = "MiihenHighroad", SplitFlag = false})},     // FROM 127 - Highroad - Central                    TO  58 - Highroad - Agency, Front 
             {0x4F, new Tuple<int, SplitPair>(0x3B,  new SplitPair {SplitName = "OldRoad", SplitFlag = false})},            // FROM 59 - Highroad - North End                   TO  79 - Mushroom Rock 
             {0x4C, new Tuple<int, SplitPair>(0x5D,  new SplitPair {SplitName = "DjoseHighroad", SplitFlag = false})},      // FROM 93 - Djose Highroad                         TO  76 - Djose - Pilgrimage Road 
