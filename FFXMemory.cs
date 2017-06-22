@@ -103,13 +103,13 @@ namespace LiveSplit.FFX
             {0xF,   new SplitPair {SplitName = "SinspawnAmmes", SplitFlag = false}},       // 15 - Start Sinspawn Ammes battle 
             {0x37,  new SplitPair {SplitName = "Klikk", SplitFlag = false}},               // 55 - Enter Klikk cutscene
             {0x4C,  new SplitPair {SplitName = "Tros", SplitFlag = false}},                // 76 - Enter Tros area after opening the door
-            {0x77,  new SplitPair {SplitName = "Piranhas", SplitFlag = false}},            // 119 - Enter Besaid Crossroads cutscene
+            {0x77,  new SplitPair {SplitName = PIRANHAS, SplitFlag = false}},              // 119 - Enter Besaid Crossroads cutscene
             {0xD6,  new SplitPair {SplitName = "Kimahri", SplitFlag = false}},             // 214 - Gain control on Besaid Promontory before Kimahri
             {0x118, new SplitPair {SplitName = "SinspawnEchuilles", SplitFlag = false}},   // 280 - Enter underwater cutscene before Sinspawn Echuilles
             {0x142, new SplitPair {SplitName = "SinspawnGeneaux", SplitFlag = false}},     // 322 - Gain control on Pilgrimage Road before Sinspawn Geneaux
             {0x1F6, new SplitPair {SplitName = "Oblitzerator", SplitFlag = false}},        // 502 - Enter Cutscene after Blitzball cutscene ("Still in there!") before Oblitzerator
-            {0x258, new SplitPair {SplitName = "Garuda", SplitFlag = false}},              // 600 - Auron FMV
-            {0x343, new SplitPair {SplitName = "MushroomRockRoad", SplitFlag = false}},    // 835 - Gain control on Ridge
+            {0x258, new SplitPair {SplitName = GARUDA, SplitFlag = false}},                // 600 - Auron FMV
+            {0x343, new SplitPair {SplitName = MUSHROOM_ROCK_ROAD, SplitFlag = false}},    // 835 - Gain control on Ridge
             {0x361, new SplitPair {SplitName = "SinspawnGui", SplitFlag = false}},         // 865 - Enter Sin destruction FMV before Sinspawn Gui 2
             {0x424, new SplitPair {SplitName = "Extractor", SplitFlag = false}},           // 1060 - Enter Extractor cutscene
             {0x58C, new SplitPair {SplitName = "Spherimorph", SplitFlag = false}},         // 1420 - Gain control in Spring before Spherimorph
@@ -118,7 +118,7 @@ namespace LiveSplit.FFX
             {0x622, new SplitPair {SplitName = "Wendigo", SplitFlag = false}},             // 1570 - Gain control on Crevasse before Wendigo
             {0x7F8, new SplitPair {SplitName = "Evrae", SplitFlag = false}},               // 2040 - Gain control after Evrae/Auron cutscene before Evrae
             {0x825, new SplitPair {SplitName = "BevelleGuards", SplitFlag = false}},       // 2085 - Enter Guardian cutscene after defeating all Bevelle Guards
-            {0x8AC, new SplitPair {SplitName = "Isaaru", SplitFlag = false}},              // 2220 - Gain control in Via Purifico before Isaaru
+            {0x8AC, new SplitPair {SplitName = ISAARU, SplitFlag = false}},                // 2220 - Gain control in Via Purifico before Isaaru
             {0x8E8, new SplitPair {SplitName = "SeymourNatus", SplitFlag = false}},        // 2280 - Enter Seymour Natus Battle cutscene
             {0x9CE, new SplitPair {SplitName = "BiranYenke", SplitFlag = false}},          // 2510 - Gain control after Kelk cutscene before Biran and Yenke
             {0x9E2, new SplitPair {SplitName = "SeymourFlux", SplitFlag = false}},         // 2530 - Gain control after singing before Seymour Flux
@@ -128,12 +128,13 @@ namespace LiveSplit.FFX
             {0xC3F, new SplitPair {SplitName = "OverdriveSin", SplitFlag = false}},        // 3135 - Gain control in corridor before Overdrive Sin
             {0xC85, new SplitPair {SplitName = "SeymourOmnis", SplitFlag = false}},        // 3205 - Gain control inside Sin before Seymour Omnis
             {0xCE4, new SplitPair {SplitName = "BraskasFinalAeon", SplitFlag = false}},    // 3300 - Start Braska's Final Aeon fight
-            {0xD34, new SplitPair {SplitName = "YuYevon", SplitFlag = false}}              // 3380 - Start Yu Yevon fight
+            {0xD34, new SplitPair {SplitName = YU_YEVON, SplitFlag = false}}               // 3380 - Start Yu Yevon fight
         };
 
         private static string PIRANHAS = "Piranhas";
         private static string GARUDA = "Garuda";
         private static string MUSHROOM_ROCK_ROAD = "MushroomRockRoad";
+        private static string ISAARU = "Isaaru";
         private static string YU_YEVON = "YuYevon";
 
         private Dictionary<int, string> _MiscellaneousIDs = new Dictionary<int, string>
@@ -141,6 +142,7 @@ namespace LiveSplit.FFX
             {0x49,  PIRANHAS},                // 73 - Post Piranha Cutscene
             {0x16,  GARUDA},                  // 22 - Garuda battle
             {0x3AC, MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
+            {0x50,  ISAARU},                  // 80 - Bahamut/Spathi battle
             {0x1C,  YU_YEVON}                 // 28 - Yu Yevon battle
         };
 
@@ -201,8 +203,9 @@ namespace LiveSplit.FFX
                 }
             }
 
-            if (_data.BattleState.Changed && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
+            if ((_data.BattleState.Changed || (_data.StoryProgression.Changed && _data.StoryProgression.Current == 2085)) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
             {
+                // When battle state changes or for special case Bevelle Guards, when story progression changes as that is after the battle state has changed
                 bool canSplit = false;
                 SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
                 int battleState = _data.BattleState.Current;
@@ -219,7 +222,7 @@ namespace LiveSplit.FFX
                         canSplit = true;
                 }
 
-                if (splitName == PIRANHAS || splitName == GARUDA || splitName == MUSHROOM_ROCK_ROAD || splitName == YU_YEVON)
+                if (splitName == PIRANHAS || splitName == GARUDA || splitName == MUSHROOM_ROCK_ROAD || splitName == ISAARU || splitName == YU_YEVON)
                     canSplit = false; // These splits are checked in _MiscellaneousIds;
 
                 if (canSplit)
@@ -240,13 +243,17 @@ namespace LiveSplit.FFX
                     {
                         canSplit = true; // Piranhas
                     }
-                    else if (_data.Cutscene.Current == 22 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10 && _data.StoryProgression.Current == 600)
+                    else if (_data.Cutscene.Current == 22 && _data.StoryProgression.Current == 600 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10 )
                     {
                         canSplit = true; // Garuda
                     }
                     else if (_data.Cutscene.Current == 940 && _data.StoryProgression.Current == 835)
                     {
                         canSplit = true; // Mushroom Rock Road
+                    }
+                    else if (_data.Cutscene.Current == 80 && _data.StoryProgression.Current == 2220 && _data.BattleState.Current == 522)
+                    {
+                        canSplit = true; // Isaaru
                     }
                     else if (_data.Cutscene.Current == 28 && _data.YuYevon.Changed && _data.YuYevon.Current == 1 && _data.StoryProgression.Current == 3380)
                     {
