@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
-using LiveSplit.UI.Components;
-using System.Collections.Generic;
 using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX
 {
-    public partial class FFXSettings : UserControl //ComponentSettings
+    public partial class FFXSettings : UserControl
     {
         //Settings
         public bool Start { get; set; }
@@ -16,51 +13,49 @@ namespace LiveSplit.FFX
         public bool Reset { get; set; }
         public bool RemoveLoads { get; set; }
 
-        //private Dictionary<string, CheckBox> _basic_settings;
-
         public FFXSettings()
         {
             InitializeComponent();
 
-            listView.Items.Add("SinspawnAmmes");
-            listView.Items.Add("Klikk");
-            listView.Items.Add("Tros");
-            listView.Items.Add("Piranhas");
-            listView.Items.Add("Kimahri");
-            listView.Items.Add("SinspawnEchuilles");
-            listView.Items.Add("SinspawnGeneaux");
-            listView.Items.Add("KilikaWoods");
-            listView.Items.Add("Oblitzerator");
-            listView.Items.Add("BlitzballComplete");
-            listView.Items.Add("Garuda");
-            listView.Items.Add("MiihenHighroad");
-            listView.Items.Add("OldRoad");
-            listView.Items.Add("MushroomRockRoad");
-            listView.Items.Add("SinspawnGui");
-            listView.Items.Add("DjoseHighroad");
-            listView.Items.Add("Moonflow");
-            listView.Items.Add("Extractor");
-            listView.Items.Add("Guadosalam");
-            listView.Items.Add("ThunderPlains");
-            listView.Items.Add("Spherimorph");
-            listView.Items.Add("Crawler");
-            listView.Items.Add("Seymour");
-            listView.Items.Add("Wendigo");
-            listView.Items.Add("Home");
-            listView.Items.Add("Evrae");
-            listView.Items.Add("BevelleGuards");
-            listView.Items.Add("BevelleTrials");
-            listView.Items.Add("Isaaru");
-            listView.Items.Add("SeymourNatus");
-            listView.Items.Add("BiranYenke");
-            listView.Items.Add("SeymourFlux");
-            listView.Items.Add("SanctuaryKeeper");
-            listView.Items.Add("Yunalesca");
-            listView.Items.Add("SinCore");
-            listView.Items.Add("OverdriveSin");
-            listView.Items.Add("SeymourOmnis");
-            listView.Items.Add("BraskasFinalAeon");
-            listView.Items.Add("YuYevon");
+            listView.Items.Add(FFXComponent.SINSPAWN_AMMES);
+            listView.Items.Add(FFXComponent.KLIKK);
+            listView.Items.Add(FFXComponent.TROS);
+            listView.Items.Add(FFXComponent.PIRANHAS);
+            listView.Items.Add(FFXComponent.KIMAHRI);
+            listView.Items.Add(FFXComponent.SINSPAWN_ECHUILLES);
+            listView.Items.Add(FFXComponent.SINSPAWN_GENEAUX);
+            listView.Items.Add(FFXComponent.KILIKA_WOODS);
+            listView.Items.Add(FFXComponent.OBLITZERATOR);
+            listView.Items.Add(FFXComponent.BLITZBALL_COMPLETE);
+            listView.Items.Add(FFXComponent.GARUDA);
+            listView.Items.Add(FFXComponent.MIIHEN_HIGHROAD);
+            listView.Items.Add(FFXComponent.OLD_ROAD);
+            listView.Items.Add(FFXComponent.MUSHROOM_ROCK_ROAD);
+            listView.Items.Add(FFXComponent.SINSPAWN_GUI);
+            listView.Items.Add(FFXComponent.DJOSE_HIGHROAD);
+            listView.Items.Add(FFXComponent.MOONFLOW);
+            listView.Items.Add(FFXComponent.EXTRACTOR);
+            listView.Items.Add(FFXComponent.GUADOSALAM);
+            listView.Items.Add(FFXComponent.THUNDER_PLAINS);
+            listView.Items.Add(FFXComponent.SPHERIMORPH);
+            listView.Items.Add(FFXComponent.CRAWLER);
+            listView.Items.Add(FFXComponent.SEYMOUR);
+            listView.Items.Add(FFXComponent.WENDIGO);
+            listView.Items.Add(FFXComponent.HOME);
+            listView.Items.Add(FFXComponent.EVRAE);
+            listView.Items.Add(FFXComponent.BEVELLE_GUARDS);
+            listView.Items.Add(FFXComponent.BEVELLE_TRIALS);
+            listView.Items.Add(FFXComponent.ISAARU);
+            listView.Items.Add(FFXComponent.SEYMOUR_NATUS);
+            listView.Items.Add(FFXComponent.BIRAN_YENKE);
+            listView.Items.Add(FFXComponent.SEYMOUR_FLUX);
+            listView.Items.Add(FFXComponent.SANCTUARY_KEEPER);
+            listView.Items.Add(FFXComponent.YUNALESCA);
+            listView.Items.Add(FFXComponent.SIN_CORE);
+            listView.Items.Add(FFXComponent.OVERDRIVE_SIN);
+            listView.Items.Add(FFXComponent.SEYMOUR_OMNIS);
+            listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
+            listView.Items.Add(FFXComponent.YU_YEVON);
 
             foreach (ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
