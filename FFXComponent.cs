@@ -31,7 +31,6 @@ namespace LiveSplit.FFX
 
             _timer = new TimerModel { CurrentState = state };
             _timer.CurrentState.OnStart += timer_OnStart;
-
             _timer.CurrentState.OnReset += timer_OnReset;
 
             _updateTimer = new Timer() { Interval = 15, Enabled = true };
@@ -78,6 +77,15 @@ namespace LiveSplit.FFX
         //User has reset timer
         void timer_OnReset(object sender, TimerPhase t)
         {
+            onTimerReset();
+        }
+
+        public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
+        {
+        }
+
+        void onTimerReset()
+        {
             _timer.Reset();
             _gameMemory = null; // Not sure about this either, definitely seemed the easiest to do to get all the flags to reset, but might be more elegant to manually make them false
             _gameMemory = new FFXMemory(); //Generate new FFXMemory so all flags reset back to false
@@ -89,15 +97,10 @@ namespace LiveSplit.FFX
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
         }
 
-        public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
-        {
-
-        }
-
         //Reset timer on music selection screen
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
         {
-            if (this.Settings.Reset) _timer.Reset();
+            if (this.Settings.Reset) onTimerReset();
         }
 
         //Start timer on music confirmation
@@ -148,6 +151,45 @@ namespace LiveSplit.FFX
             this.Settings.SetSettings(settings);
         }
 
+        public static string SINSPAWN_AMMES = "SinspawnAmmes";
+        public static string KLIKK = "Klikk";
+        public static string TROS = "Tros";
+        public static string PIRANHAS = "Piranhas";
+        public static string KIMAHRI = "Kimahri";
+        public static string SINSPAWN_ECHUILLES = "SinspawnEchuilles";
+        public static string SINSPAWN_GENEAUX = "SinspawnGeneaux";
+        public static string KILIKA_WOODS = "KilikaWoods";
+        public static string OBLITZERATOR = "Oblitzerator";
+        public static string BLITZBALL_COMPLETE = "BlitzballComplete";
+        public static string GARUDA = "Garuda";
+        public static string MIIHEN_HIGHROAD = "MiihenHighroad";
+        public static string OLD_ROAD = "OldRoad";
+        public static string MUSHROOM_ROCK_ROAD = "MushroomRockRoad";
+        public static string SINSPAWN_GUI = "SinspawnGui";
+        public static string DJOSE_HIGHROAD = "DjoseHighroad";
+        public static string MOONFLOW = "Moonflow";
+        public static string EXTRACTOR = "Extractor";
+        public static string GUADOSALAM = "Guadosalam";
+        public static string THUNDER_PLAINS = "ThunderPlains";
+        public static string SPHERIMORPH = "Spherimorph";
+        public static string CRAWLER = "Crawler";
+        public static string SEYMOUR = "Seymour";
+        public static string WENDIGO = "Wendigo";
+        public static string HOME = "Home";
+        public static string EVRAE = "Evrae";
+        public static string BEVELLE_GUARDS = "BevelleGuards";
+        public static string BEVELLE_TRIALS = "BevelleTrials";
+        public static string ISAARU = "Isaaru";
+        public static string SEYMOUR_NATUS = "SeymourNatus";
+        public static string BIRAN_YENKE = "BiranYenke";
+        public static string SEYMOUR_FLUX = "SeymourFlux";
+        public static string SANCTUARY_KEEPER = "SanctuaryKeeper";
+        public static string YUNALESCA = "Yunalesca";
+        public static string SIN_CORE = "SinCore";
+        public static string OVERDRIVE_SIN = "OverdriveSin";
+        public static string SEYMOUR_OMNIS = "SeymourOmnis";
+        public static string BRASKAS_FINAL_AEON = "BraskasFinalAeon";
+        public static string YU_YEVON = "YuYevon";
     }
 
     //Debug
