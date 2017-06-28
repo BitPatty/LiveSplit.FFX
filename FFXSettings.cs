@@ -62,15 +62,26 @@ namespace LiveSplit.FFX
 
         }
 
+        private StringList _activatedSplits = new StringList();
+        public bool hasChanged = true;
+
+        private void ConfirmSplits(object sender, EventArgs e)
+        {
+            _activatedSplits.Clear();
+
+            foreach(ListViewItem listViewItem in listView.Items)
+            {
+                if (listViewItem.Checked)
+                    _activatedSplits.Add(listViewItem.Text);
+            }
+
+            hasChanged = true;
+        }
+        
         public StringList GetSplits()
         {
-            StringList splitList = new StringList();
-            foreach (ListViewItem listViewItem in listView.Items)
-            {
-                if (listViewItem.Checked == true)
-                    splitList.Add(listViewItem.Text);
-            }
-            return splitList;
+            hasChanged = false;
+            return _activatedSplits;
         }
 
         //Get settings from config 
@@ -85,7 +96,14 @@ namespace LiveSplit.FFX
             settingsNode.AppendChild(ToElement(doc, "RemoveLoads", this.checkboxRemoveLoads.Checked));
 
             foreach (ListViewItem listViewItem in listView.Items)
+            {
                 settingsNode.AppendChild(ToElement(doc, listViewItem.Text, listViewItem.Checked));
+                if (listViewItem.Checked)
+                {
+                    _activatedSplits.Clear();
+                    _activatedSplits.Add(listViewItem.Text);
+                }
+            }
 
             return settingsNode;
         }

@@ -168,8 +168,16 @@ namespace LiveSplit.FFX
         }
 
         //Read memory
-        public void Update(StringList activatedSplits)
+
+        public StringList activatedSplits;
+        public void Update(FFXSettings Settings)
         {
+
+            if(Settings.hasChanged)
+            {
+                activatedSplits = Settings.GetSplits();
+            }
+            
             //Try to rehook process
             if (_process == null || _process.HasExited)
             {
