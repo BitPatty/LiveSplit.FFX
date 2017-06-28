@@ -1,3 +1,4 @@
 #Visual Studio 
 obj/
 bin/
+*.TMP

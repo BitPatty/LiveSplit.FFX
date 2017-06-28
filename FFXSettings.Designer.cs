@@ -61,6 +61,7 @@ namespace LiveSplit.FFX
             this.gbMain.TabIndex = 1;
             this.gbMain.TabStop = false;
             this.gbMain.Text = "Auto-Split Settings";
+            this.gbMain.Validated += new System.EventHandler(this.ConfirmSplits);
             // 
             // panel1
             // 

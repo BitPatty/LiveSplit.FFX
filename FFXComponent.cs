@@ -57,14 +57,11 @@ namespace LiveSplit.FFX
         {
             try
             {
-                _gameMemory.Update(this.Settings.GetSplits());
-                // Not sure about this, a list of the splits get sent to FFXMemory so it knows which splits the user has selected to be split
-                // But this method is called rapidly so might be expensive to pass this list of strings in continually?
+                _gameMemory.Update(Settings);
             }
             catch (Exception ex)
             {
                 Trace.WriteLine(ex.ToString());
-                //MessageBox.Show("Couldn't update Game Memory");
             }
 }
 
