@@ -60,6 +60,12 @@ namespace LiveSplit.FFX
             foreach (ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
 
+            this.checkboxStart.DataBindings.Add("Checked", this, "Start", false, DataSourceUpdateMode.OnPropertyChanged);
+            this.checkboxReset.DataBindings.Add("Checked", this, "Reset", false, DataSourceUpdateMode.OnPropertyChanged);
+            this.checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
+            this.checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
+
+
         }
 
         private StringList _activatedSplits = new StringList();
@@ -74,6 +80,11 @@ namespace LiveSplit.FFX
                 if (listViewItem.Checked)
                     _activatedSplits.Add(listViewItem.Text);
             }
+
+            this.Start = this.checkboxStart.Checked;
+            this.Split = this.checkboxSplit.Checked;
+            this.Reset = this.checkboxReset.Checked;
+            this.RemoveLoads = this.checkboxRemoveLoads.Checked;
 
             hasChanged = true;
         }
@@ -110,10 +121,10 @@ namespace LiveSplit.FFX
         //Store settings in config
         public void SetSettings(XmlNode settings)
         {
-            this.Start = ParseBool(settings, "Start", true);
-            this.Split = ParseBool(settings, "Reset", true);
-            this.Reset = ParseBool(settings, "Split", true);
-            this.RemoveLoads = ParseBool(settings, "RemoveLoads", true);
+            this.Start = ParseBool(settings, "Start");
+            this.Split = ParseBool(settings, "Reset");
+            this.Reset = ParseBool(settings, "Split");
+            this.RemoveLoads = ParseBool(settings, "RemoveLoads");
 
             foreach (ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = ParseBool(settings, listViewItem.Text);
