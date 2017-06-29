@@ -57,7 +57,7 @@ namespace LiveSplit.FFX
         {
             try
             {
-                _gameMemory.Update(Settings);
+                _gameMemory.Update(this.Settings);
             }
             catch (Exception ex)
             {
