@@ -2,11 +2,7 @@
 using LiveSplit.UI.Components;
 using LiveSplit.Model;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 [assembly: ComponentFactory(typeof(FFXFactory))]
 
@@ -25,7 +21,7 @@ namespace LiveSplit.FFX
 
         public string UpdateName => this.ComponentName;
 
-        public string UpdateURL => "";
+        public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/master/";
 
         public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
 
