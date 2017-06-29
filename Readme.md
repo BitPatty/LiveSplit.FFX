@@ -1,5 +1,5 @@
-LiveSplit.FFX v0.2
-===================
+LiveSplit.FFX 
+==============
 
 LiveSplit.FFX is a WIP [LiveSplit](http://livesplit.org/) component for Final Fantasy X HD-Remaster. The plugin is based off [LiveSplit.Dishonored](https://github.com/fatalis/LiveSplit.Dishonored).
 
@@ -8,11 +8,7 @@ Current Features
   * Removes Loading times
   * Auto starts the timer according to the [leaderboard rules](http://speedrun.com/ffx)
   * Auto resets the timer on the music selection screen
-  
-TODO List
----------
-  * Auto Splitting (incl. last split)
-  * Custom Splits
+  * Auto Splitting/End
 
 Requirements
 ------------
@@ -24,14 +20,14 @@ Build the LiveSplit.FFX.dll component and place it in your LiveSplit Components 
 
 The following settings are currently available:
 
-#### Auto Start
-Enabled by default, automatically starts the timer when confirming the music selection in the new game menu.
+#### Start
+Automatically starts the timer when confirming the music selection in the new game menu.
 
-#### Legacy Splits (WIP) 
-(Locked) Not yet implemented feature to automatically split for each commonly used split.
+#### Split(s)
+Automatically splits the selected splits.
 
-#### Auto Reset
-Disabled by default, automatically resets the timer if you enter the music selection screen in the new game menu.
+#### Reset
+Automatically resets the timer in the new game menu.
 
 #### Remove Loads 
-Disabled by default, removes loading times from the ingame timer comparison.
+Removes loading times from the ingame timer comparison.
