@@ -89,6 +89,8 @@ namespace LiveSplit.FFX
         {
             XmlElement settingsNode = doc.CreateElement("Settings");
 
+            _activatedSplits.Clear();
+
             //settingsNode.AppendChild(ToElement(doc, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)));
             settingsNode.AppendChild(ToElement(doc, "Start", this.checkboxStart.Checked));
             settingsNode.AppendChild(ToElement(doc, "Reset", this.checkboxReset.Checked));
@@ -100,7 +102,6 @@ namespace LiveSplit.FFX
                 settingsNode.AppendChild(ToElement(doc, listViewItem.Text, listViewItem.Checked));
                 if (listViewItem.Checked)
                 {
-                    _activatedSplits.Clear();
                     _activatedSplits.Add(listViewItem.Text);
                 }
             }
