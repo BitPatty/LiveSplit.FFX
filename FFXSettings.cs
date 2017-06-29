@@ -57,15 +57,14 @@ namespace LiveSplit.FFX
             listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
             listView.Items.Add(FFXComponent.YU_YEVON);
 
-            foreach (ListViewItem listViewItem in listView.Items)
+            foreach(ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
+
 
             this.checkboxStart.DataBindings.Add("Checked", this, "Start", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxReset.DataBindings.Add("Checked", this, "Reset", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
-
-
         }
 
         private StringList _activatedSplits = new StringList();
@@ -77,18 +76,13 @@ namespace LiveSplit.FFX
 
             foreach(ListViewItem listViewItem in listView.Items)
             {
-                if (listViewItem.Checked)
+                if(listViewItem.Checked)
                     _activatedSplits.Add(listViewItem.Text);
             }
 
-            this.Start = this.checkboxStart.Checked;
-            this.Split = this.checkboxSplit.Checked;
-            this.Reset = this.checkboxReset.Checked;
-            this.RemoveLoads = this.checkboxRemoveLoads.Checked;
-
             hasChanged = true;
         }
-        
+
         public StringList GetSplits()
         {
             hasChanged = false;
@@ -103,10 +97,10 @@ namespace LiveSplit.FFX
             _activatedSplits.Clear();
 
             //settingsNode.AppendChild(ToElement(doc, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)));
-            settingsNode.AppendChild(ToElement(doc, "Start", this.checkboxStart.Checked));
-            settingsNode.AppendChild(ToElement(doc, "Reset", this.checkboxReset.Checked));
-            settingsNode.AppendChild(ToElement(doc, "Split", this.checkboxSplit.Checked));
-            settingsNode.AppendChild(ToElement(doc, "RemoveLoads", this.checkboxRemoveLoads.Checked));
+            settingsNode.AppendChild(ToElement(doc, "Start", this.Start));
+            settingsNode.AppendChild(ToElement(doc, "Reset", this.Reset));
+            settingsNode.AppendChild(ToElement(doc, "Split", this.Split));
+            settingsNode.AppendChild(ToElement(doc, "RemoveLoads", this.RemoveLoads));
 
             foreach (ListViewItem listViewItem in listView.Items)
             {
@@ -122,8 +116,8 @@ namespace LiveSplit.FFX
         public void SetSettings(XmlNode settings)
         {
             this.Start = ParseBool(settings, "Start");
-            this.Split = ParseBool(settings, "Reset");
-            this.Reset = ParseBool(settings, "Split");
+            this.Split = ParseBool(settings, "Split");
+            this.Reset = ParseBool(settings, "Reset");
             this.RemoveLoads = ParseBool(settings, "RemoveLoads");
 
             foreach (ListViewItem listViewItem in listView.Items)
