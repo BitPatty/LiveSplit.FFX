@@ -208,7 +208,6 @@ namespace LiveSplit.FFX
         public override void WriteLine(string message)
         {
             base.WriteLine("FFX: " + this.UpdateCount + " " + message);
-
         }
     }
 }

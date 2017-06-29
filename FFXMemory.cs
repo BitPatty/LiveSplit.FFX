@@ -174,9 +174,7 @@ namespace LiveSplit.FFX
         {
 
             if(Settings.hasChanged)
-            {
                 activatedSplits = Settings.GetSplits();
-            }
             
             //Try to rehook process
             if (_process == null || _process.HasExited)

@@ -101,9 +101,7 @@ namespace LiveSplit.FFX
             {
                 settingsNode.AppendChild(ToElement(doc, listViewItem.Text, listViewItem.Checked));
                 if (listViewItem.Checked)
-                {
                     _activatedSplits.Add(listViewItem.Text);
-                }
             }
 
             return settingsNode;
