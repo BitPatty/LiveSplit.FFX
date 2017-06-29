@@ -1,22 +1,32 @@
 <updates>
-	 <update version="0.4.2">
-		  <files>
-				<file path="Components/LiveSplit.FFX.dll" status="changed"/>
-		  </files>
-		  <changelog>
-				<change>
-					Bug Fix - Store/Load splitter options
-				</change>
-		  </changelog>
-	 </update>
-	 <update version="0.4.1">
-		  <files>
-				<file path="Components/LiveSplit.FFX.dll" status="changed"/>
-		  </files>
-		  <changelog>
-				<change>
-					Initial upload
-				</change>
-		  </changelog>
-	 </update>
+  <update version="0.4.3">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        More Settings related fixes
+      </change>
+    </changelog>
+  </update>
+  <update version="0.4.2">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Bug Fix - Store/Load splitter options
+      </change>
+    </changelog>
+  </update>
+  <update version="0.4.1">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Initial upload
+      </change>
+    </changelog>
+  </update>
 </updates>
