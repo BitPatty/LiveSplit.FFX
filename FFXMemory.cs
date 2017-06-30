@@ -6,35 +6,6 @@ using System.Linq;
 using System.Windows.Forms;
 using StringList = System.Collections.Generic.List<string>;
 
-/*====================================================================*
- *      Memory Locations                                              *
- * ===================================================================*
- * 
- * Current Area (static):
- * FFX.exe+8CB990
- * FFX.exe+EFBBF8
- * FFX.exe+F30804
- * 
- * Loadingscreen: 
- * [0x8CC898 + 0x123A4]
- * 
- * Button inputs: 
- * FFX.exe+8CB170
- * 
- * Inputcounter (???): 
- * FFX.exe+EF4E3C
- * 
- * Cursor position: 
- * FFX.exe+146780A
- * 
- * Current Battle Over (static):
- * FFX.exe+F3F73C (4B, Includes Flee, resets on battle start, too late on Yu Yevon)
- * 
- * Story Progression:
- * FFX.exe+84949C
- * 
- * */
-
 namespace LiveSplit.FFX
 {
     class FFXData : MemoryWatcherList
@@ -56,16 +27,16 @@ namespace LiveSplit.FFX
         {
             if (version == GameVersion.v10)
             {
-                this.CurrentLevel = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB990));              //Current area ID, == 23 if main manu, 4B
+                this.CurrentLevel = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB990));              // Current area ID, == 23 if main menu, 4B
                 this.IsLoading = new MemoryWatcher<int>(new DeepPointer(0x8CC898, 0x123A4));                // == 2 if loading screen, 4B
-                this.CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x1467808));           //== 0 if cursor on yes, == 1 if cursor on no, 1B, 0x00FF0000
-                this.Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                     //Button Input, == 32 if A pressed, 4B
-                this.StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x84949C));          //Storyline progress
-                this.SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25B30));              //== 7 || == 8 on confirm sound screen; == 6 on sound selection screen, 4B
-                this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  //10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare
-                this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));
-                this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   //Yu Yevon screen transition = 1, back up - 0xD381AC = 3
-                this.EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          //Encounter counter
+                this.CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x1467808));           // == 0 if cursor on yes, == 1 if cursor on no, 1B, 0x00FF0000
+                this.Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                     // Button Input, == 32 if A pressed, 4B
+                this.StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x84949C));          // Storyline progress
+                this.SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25B30));              // == 7 || == 8 on confirm sound screen; == 6 on sound selection screen, 4B
+                this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  // 10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare, 4B
+                this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));                  // Cutscene type
+                this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   // Yu Yevon screen transition = 1, back up - 0xD381AC = 3
+                this.EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
             }
 
             this.CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
@@ -142,7 +113,7 @@ namespace LiveSplit.FFX
             {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle 
         };
 
-        //Eventhandlers
+        // Eventhandlers
         public event EventHandler OnLoadStarted;
         public event EventHandler OnLoadFinished;
         public event EventHandler OnMusicSelect;
@@ -150,57 +121,50 @@ namespace LiveSplit.FFX
         public event EventHandler OnAreaCompleted;
         public event EventHandler OnBossDefeated;
 
-        //PIDs to ignore if necessary
-        private List<int> _ignorePIDs;
+        // Vars
+        private List<int> _ignorePIDs;      // PIDs to ignore if necessary
+        private FFXData _data;              // Memory Information
+        private Process _process;           // Process Information
+        private bool _loadingStarted;       // true if loading screen active
+        private int _isaaruCounter = 0;     // Boss counter for Isaaru split
 
-        private FFXData _data;
-        private Process _process;
-        private bool _loadingStarted;
-        private int _isaaruCounter = 0;
-
-        //DLL Sizes to verify game version
+        // DLL Sizes to verify game version
         private enum ExpectedDllSizes
         {
             FFXExe = 37212160   //Steam release executable v1.0.0
         }
 
-        //Add PIDs to ignore if necessary
+        // Add PIDs to ignore if necessary
         public FFXMemory()
         {
             _ignorePIDs = new List<int>();
         }
 
-        //Read memory
-
         public StringList activatedSplits;
+
         public void Update(FFXSettings Settings)
         {
-
-            if(Settings.hasChanged)
-                activatedSplits = Settings.GetSplits();
-            
-            //Try to rehook process
+            // Try to rehook process if lost
             if (_process == null || _process.HasExited)
             {
                 if (!this.TryGetGameProcess())
                     return;
             }
 
+            if(Settings.hasChanged)
+                activatedSplits = Settings.GetSplits();
+
             TimedTraceListener.Instance.UpdateCount++;
 
-            //Update all memory data
             _data.UpdateAll(_process);
 
-            if (_data.CurrentLevel.Changed && _data.CurrentLevel.Current == 23)
-                _isaaruCounter = 0;
-
+            // Area splits
             if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
             {
                 Tuple<int, SplitPair> tuple = _LevelIDs[_data.CurrentLevel.Current];
                 int previousLevelID = tuple.Item1;
                 SplitPair splitPair = tuple.Item2;
 
-                //Split when changing Area if desired
                 if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag && previousLevelID == _data.CurrentLevel.Old)
                 {
                     this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); //Split
@@ -209,6 +173,7 @@ namespace LiveSplit.FFX
                 }
             }
 
+            // Boss / Enemy splits
             if ((_data.BattleState.Changed || (_data.StoryProgression.Changed && _data.StoryProgression.Current == 2085)) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
             {
                 // When battle state changes or for special case Bevelle Guards, when story progression changes as that is after the battle state has changed
@@ -233,12 +198,13 @@ namespace LiveSplit.FFX
 
                 if (canSplit)
                 {
-                    this.OnBossDefeated?.Invoke(this, EventArgs.Empty); //Split
+                    this.OnBossDefeated?.Invoke(this, EventArgs.Empty);
                     splitPair.SplitFlag = true;
                     _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
             }
 
+            // Misc splits
             if (_MiscellaneousIDs.ContainsKey(_data.Cutscene.Current) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
             {
                 bool canSplit = false;
@@ -247,52 +213,57 @@ namespace LiveSplit.FFX
                 {
                     if (_data.Cutscene.Current == 73 && _data.StoryProgression.Current == 119)
                     {
-                        canSplit = true; // Piranhas
+                        canSplit = true;    // Piranhas
                     }
                     else if (_data.Cutscene.Current == 22 && _data.StoryProgression.Current == 600 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10 )
                     {
-                        canSplit = true; // Garuda
+                        canSplit = true;    // Garuda
                     }
                     else if (_data.Cutscene.Current == 940 && _data.StoryProgression.Current == 835)
                     {
-                        canSplit = true; // Mushroom Rock Road
+                        canSplit = true;    // Mushroom Rock Road
                     }
                     else if (_data.Cutscene.Current == 80 && _data.StoryProgression.Current == 2220 && _data.BattleState.Current == 522)
                     {
                         if (_isaaruCounter == 0)
-                            _isaaruCounter = _data.EncounterCounter.Current;
-                        else if (_data.EncounterCounter.Current - _isaaruCounter == 2)
+                            _isaaruCounter = _data.EncounterCounter.Current;                // Set _isaaruCounter to EncounterCounter after beating Grothia
+                        else if (_data.EncounterCounter.Current - _isaaruCounter == 2)      // Split after beating the second boss following Grothia (Spathi)
                             canSplit = true; // Isaaru
                     }
                     else if ((_data.Cutscene.Current == 7 || _data.Cutscene.Current == 28) && _data.StoryProgression.Current == 3380 && _data.YuYevon.Changed && _data.YuYevon.Current == 1)
                     {
-                        canSplit = true; // Yu Yevon
+                        canSplit = true;    // Yu Yevon
                     }
                 }
-
+                    
+                // Split
                 if (canSplit)
                 {
-                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); //Split
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); 
                     splitPair.SplitFlag = true;
                     _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
             }
 
+            // Main Menu
             if (_data.CurrentLevel.Current == 23)
             {
-                //Reset timer before starting a new game (on music selection screen)
-                if (_data.SelectScreen.Current == 6) this.OnMusicSelect?.Invoke(this, EventArgs.Empty);
+                // Reset _isaaruCounter if the main menu is entered (in case of GO on Isaaru or game crash)
+                _isaaruCounter = 0;
 
-                //Start timer when starting a new game (on a press if on sound confirmation screen and cursor on "Yes")
+                // Reset timer before starting a new game (on music selection screen)
+                if (_data.SelectScreen.Current == 6)
+                    this.OnMusicSelect?.Invoke(this, EventArgs.Empty);
+
+                // Start timer when starting a new game (on a press if on sound confirmation screen and cursor on "Yes")
                 if ((_data.SelectScreen.Current == 7 || _data.SelectScreen.Current == 8) && ((_data.CursorPosition.Current >> 16) & 0xFF) == 0 && _data.Input.Current == 32)
-                {
                     this.OnMusicConfirm?.Invoke(this, EventArgs.Empty);
-                }
             }
 
+            // Loading screen in/out
             if (_data.IsLoading.Changed)
             {
-                //Pause Timer if Loading Screen active
+                // Pause Timer if Loading Screen active
                 if (_data.IsLoading.Current == 2)
                 {
                     _loadingStarted = true;
@@ -300,7 +271,7 @@ namespace LiveSplit.FFX
                 }
                 else
                 {
-                    //Resume timer if loading screen no longer active
+                    // Resume timer if loading screen no longer active
                     if (_loadingStarted)
                     {
                         _loadingStarted = false;
@@ -309,17 +280,16 @@ namespace LiveSplit.FFX
                 }
             }
         }
-
         bool TryGetGameProcess()
         {
-            //Find process
+            // Find process
             Process game = Process.GetProcesses().FirstOrDefault(p => p.ProcessName.ToLower() == "ffx" && !p.HasExited && !_ignorePIDs.Contains(p.Id));
 
             if (game == null) return false;
 
             GameVersion version;
 
-            //Verify .exe size
+            // Verify .exe size
             if (game.MainModuleWow64Safe().ModuleMemorySize == (int)ExpectedDllSizes.FFXExe)
             {
                 version = GameVersion.v10;
@@ -338,7 +308,7 @@ namespace LiveSplit.FFX
         }
     }
 
-    //Game versioning for possible updates, currently there's only 1.0.0
+    // Game versioning for possible updates, currently there's only the 1.0.0 .exe available on steam
     enum GameVersion
     {
         v10
