@@ -1,4 +1,14 @@
 <updates>
+  <update version="0.4.4">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Bug Fix - Isaaru split
+      </change>
+    </changelog>
+  </update>
   <update version="0.4.3">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
