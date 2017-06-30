@@ -109,6 +109,7 @@ namespace LiveSplit.FFX
                     _activatedSplits.Add(listViewItem.Text);
             }
 
+            hasChanged = true;
             return settingsNode;
         }
 
