@@ -7,7 +7,6 @@ namespace LiveSplit.FFX
 {
     public partial class FFXSettings : UserControl
     {
-        //Settings
         public bool Start { get; set; }
         public bool Split { get; set; }
         public bool Reset { get; set; }
@@ -60,16 +59,18 @@ namespace LiveSplit.FFX
             foreach(ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
 
-
             this.checkboxStart.DataBindings.Add("Checked", this, "Start", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxReset.DataBindings.Add("Checked", this, "Reset", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        private StringList _activatedSplits = new StringList();
-        public bool hasChanged = true;
+        private StringList _activatedSplits = new StringList();     // List of selected splits
+        public bool hasChanged = true;                              // True if split selection changed
 
+        /// <summary>
+        /// Updates the list with the activated splits everytime the settings window is closed.
+        /// </summary>
         private void ConfirmSplits(object sender, EventArgs e)
         {
             _activatedSplits.Clear();
@@ -83,20 +84,26 @@ namespace LiveSplit.FFX
             hasChanged = true;
         }
 
+        /// <summary>
+        /// Returns a StringList of the activated splits and resets the appropriate flag.
+        /// </summary>
         public StringList GetSplits()
         {
             hasChanged = false;
             return _activatedSplits;
         }
 
-        //Get settings from config 
+        /// <summary>
+        /// Generates the XML serialization of the component's settings.
+        /// </summary>
+        /// <param name="doc">XML Document</param>
+        /// <returns>Returns the XML serialization of the component's settings.</returns>
         public XmlNode GetSettings(XmlDocument doc)
         {
             XmlElement settingsNode = doc.CreateElement("Settings");
 
             _activatedSplits.Clear();
 
-            //settingsNode.AppendChild(ToElement(doc, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)));
             settingsNode.AppendChild(ToElement(doc, "Start", this.Start));
             settingsNode.AppendChild(ToElement(doc, "Reset", this.Reset));
             settingsNode.AppendChild(ToElement(doc, "Split", this.Split));
@@ -113,7 +120,9 @@ namespace LiveSplit.FFX
             return settingsNode;
         }
 
-        //Store settings in config
+        /// <summary>
+        /// Sets the component settings based on the serialized version of the settings.
+        /// </summary>
         public void SetSettings(XmlNode settings)
         {
             this.Start = ParseBool(settings, "Start");
@@ -125,14 +134,18 @@ namespace LiveSplit.FFX
                 listViewItem.Checked = ParseBool(settings, listViewItem.Text);
         }
 
-        //Parse settings
+        /// <summary>
+        /// Parses the boolean values based on the serialized version of the settings.
+        /// </summary>
         static bool ParseBool(XmlNode settings, string setting, bool default_ = false)
         {
             bool val;
             return settings[setting] != null ? (Boolean.TryParse(settings[setting].InnerText, out val) ? val : default_) : default_;
         }
 
-        //Convert settings to obj
+        /// <summary>
+        /// Returns a serialized version of a setting based on its identifier.
+        /// </summary>
         static XmlElement ToElement<T>(XmlDocument document, string name, T value)
         {
             XmlElement str = document.CreateElement(name);

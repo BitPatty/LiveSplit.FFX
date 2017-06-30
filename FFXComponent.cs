@@ -22,6 +22,7 @@ namespace LiveSplit.FFX
 
         public FFXComponent(LiveSplitState state)
         {
+
 #if DEBUG
             Debug.Listeners.Clear();
             Debug.Listeners.Add(TimedTraceListener.Instance);
@@ -45,14 +46,12 @@ namespace LiveSplit.FFX
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
         }
 
-        //Free ressources
         public override void Dispose()
         {
             _timer.CurrentState.OnStart -= timer_OnStart;
             _updateTimer?.Dispose();
         }
 
-        //Check memory changes
         void updateTimer_Tick(object sender, EventArgs eventArgs)
         {
             try
@@ -65,13 +64,14 @@ namespace LiveSplit.FFX
             }
 }
 
-        //Initialize as IGT
+        /// <summary>
+        /// Initializes the timer as in game time.
+        /// </summary>
         void timer_OnStart(object sender, EventArgs e)
         {
             _timer.InitializeGameTime();
         }
 
-        //User has reset timer
         void timer_OnReset(object sender, TimerPhase t)
         {
             onTimerReset();
@@ -84,8 +84,8 @@ namespace LiveSplit.FFX
         void onTimerReset()
         {
             _timer.Reset();
-            _gameMemory = null; // Not sure about this either, definitely seemed the easiest to do to get all the flags to reset, but might be more elegant to manually make them false
-            _gameMemory = new FFXMemory(); //Generate new FFXMemory so all flags reset back to false
+            _gameMemory = null;             // Not sure about this either, definitely seemed the easiest to do to get all the flags to reset, but might be more elegant to manually make them false
+            _gameMemory = new FFXMemory();  //Generate new FFXMemory so all flags reset back to false
             _gameMemory.OnAreaCompleted += gameMemory_OnAreaCompleted;
             _gameMemory.OnLoadFinished += gameMemory_OnLoadFinished;
             _gameMemory.OnLoadStarted += gameMemory_OnLoadStarted;
@@ -94,55 +94,46 @@ namespace LiveSplit.FFX
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
         }
 
-        //Reset timer on music selection screen
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
         {
             if (this.Settings.Reset) onTimerReset();
         }
 
-        //Start timer on music confirmation
         void gameMemory_OnMusicConfirm(object sender, EventArgs e)
         {
             if (this.Settings.Start) _timer.Start();
         }
 
-        //Pause timer on loading screen
         void gameMemory_OnLoadStarted(object sender, EventArgs e)
         {
             if (this.Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = true;
         }
 
-        //Resume timer after loading screen
         void gameMemory_OnLoadFinished(object sender, EventArgs e)
         {
             if (this.Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = false;
         }
 
-        //Split on area completed
         void gameMemory_OnAreaCompleted(object sender, EventArgs e)
         {
             if (this.Settings.Split) _timer.Split();
         }
 
-        //Split on boss defeated
         void gameMemory_OnBossDefeated(object sender, EventArgs e)
         {
             if (this.Settings.Split) _timer.Split();
         }
 
-        //Get config file
         public override XmlNode GetSettings(XmlDocument document)
         {
             return this.Settings.GetSettings(document);
         }
 
-        //Get control module config
         public override Control GetSettingsControl(LayoutMode mode)
         {
             return this.Settings;
         }
 
-        //Save to config file
         public override void SetSettings(XmlNode settings)
         {
             this.Settings.SetSettings(settings);
@@ -189,7 +180,7 @@ namespace LiveSplit.FFX
         public static string YU_YEVON = "YuYevon";
     }
 
-    //Debug
+    // Debug
     public class TimedTraceListener : DefaultTraceListener
     {
         private static TimedTraceListener _instance;
