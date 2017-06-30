@@ -50,6 +50,7 @@ namespace LiveSplit.FFX
 
         public MemoryWatcher<int> Cutscene { get; }
         public MemoryWatcher<int> YuYevon { get; }
+        public MemoryWatcher<int> EncounterCounter { get; }
 
         public FFXData(GameVersion version, int baseOffset)
         {
@@ -64,6 +65,7 @@ namespace LiveSplit.FFX
                 this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  //10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare
                 this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));
                 this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   //Yu Yevon screen transition = 1, back up - 0xD381AC = 3
+                this.EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          //Encounter counter
             }
 
             this.CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
@@ -154,6 +156,7 @@ namespace LiveSplit.FFX
         private FFXData _data;
         private Process _process;
         private bool _loadingStarted;
+        private int _isaaruCounter = 0;
 
         //DLL Sizes to verify game version
         private enum ExpectedDllSizes
@@ -187,6 +190,9 @@ namespace LiveSplit.FFX
 
             //Update all memory data
             _data.UpdateAll(_process);
+
+            if (_data.CurrentLevel.Changed && _data.CurrentLevel.Current == 23)
+                _isaaruCounter = 0;
 
             if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
             {
@@ -253,7 +259,10 @@ namespace LiveSplit.FFX
                     }
                     else if (_data.Cutscene.Current == 80 && _data.StoryProgression.Current == 2220 && _data.BattleState.Current == 522)
                     {
-                        canSplit = true; // Isaaru
+                        if (_isaaruCounter == 0)
+                            _isaaruCounter = _data.EncounterCounter.Current;
+                        else if (_data.EncounterCounter.Current - _isaaruCounter == 2)
+                            canSplit = true; // Isaaru
                     }
                     else if ((_data.Cutscene.Current == 7 || _data.Cutscene.Current == 28) && _data.StoryProgression.Current == 3380 && _data.YuYevon.Changed && _data.YuYevon.Current == 1)
                     {
