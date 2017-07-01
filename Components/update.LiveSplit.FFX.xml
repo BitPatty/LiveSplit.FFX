@@ -2,7 +2,7 @@
   <update version="1.1.2">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
-      <file path="LiveSplit.FFX.UI/Components/LiveSplit.FFX.UI.dll" status="added"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="added"/>
     </files>
     <changelog>
       <change>
