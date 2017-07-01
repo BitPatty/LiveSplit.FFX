@@ -4,15 +4,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F2676F58-2E3A-4421-98E5-9392E1AFA886}</ProjectGuid>
+    <ProjectGuid>{CFC9D0A4-46FC-434A-AF27-86B6A891A4A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>LiveSplit.FFX</RootNamespace>
-    <AssemblyName>LiveSplit.FFX</AssemblyName>
+    <RootNamespace>LiveSplit.FFX.UI</RootNamespace>
+    <AssemblyName>LiveSplit.FFX.UI</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -22,55 +24,41 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveSplit.Core">
-      <HintPath>..\LiveSplit\LiveSplit\LiveSplit.Core\obj\Debug\LiveSplit.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveSplit.FFX.UI">
-      <HintPath>LiveSplit.FFX.UI\bin\Release\LiveSplit.FFX.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="LiveSplit.ScriptableAutoSplit">
-      <HintPath>..\LiveSplit\LiveSplit\Components\LiveSplit.ScriptableAutoSplit\obj\Debug\LiveSplit.ScriptableAutoSplit.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="UpdateManager">
-      <HintPath>..\LiveSplit\LiveSplit\UpdateManager\obj\Debug\UpdateManager.dll</HintPath>
-    </Reference>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FFXFactory.cs" />
-    <Compile Include="FFXComponent.cs" />
-    <Compile Include="FFXMemory.cs" />
-    <Compile Include="FFXSettings.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="FFXSettings.Designer.cs">
-      <DependentUpon>FFXSettings.cs</DependentUpon>
-    </Compile>
+    <Compile Include="FFXUIComponent.cs" />
+    <Compile Include="FFXUIFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FFXSettings.resx">
-      <DependentUpon>FFXSettings.cs</DependentUpon>
-    </EmbeddedResource>
+    <Reference Include="LiveSplit.Core">
+      <HintPath>..\..\LiveSplit\LiveSplit\LiveSplit.Core\obj\Debug\LiveSplit.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UpdateManager">
+      <HintPath>..\..\..\livesplit\LiveSplit\bin\Release\UpdateManager.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="update.LiveSplit.FFX.UI.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

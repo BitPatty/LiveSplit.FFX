@@ -12,7 +12,6 @@ namespace LiveSplit.FFX
     {
         public string ComponentName => "Final Fantasy X Autosplitter";
         public string Description => "Automates splitting and load removal for FFX HD Remaster (PC)";
-
         public ComponentCategory Category => ComponentCategory.Control;
         public IComponent Create(LiveSplitState state)
         {
@@ -20,11 +19,8 @@ namespace LiveSplit.FFX
         }
 
         public string UpdateName => this.ComponentName;
-
-        public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/master/";
-
+        public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/devel/";
         public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
-
         public string XMLURL => this.UpdateURL + "Components/update.LiveSplit.FFX.xml";
     }
 }
