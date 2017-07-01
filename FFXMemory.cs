@@ -120,6 +120,7 @@ namespace LiveSplit.FFX
         public event EventHandler OnMusicConfirm;
         public event EventHandler OnAreaCompleted;
         public event EventHandler OnBossDefeated;
+        public event EventHandler<int> OnEncounter;
 
         // Vars
         private List<int> _ignorePIDs;      // PIDs to ignore if necessary
@@ -157,6 +158,11 @@ namespace LiveSplit.FFX
             TimedTraceListener.Instance.UpdateCount++;
 
             _data.UpdateAll(_process);
+
+            if (_data.EncounterCounter.Changed)
+            {
+                this.OnEncounter?.Invoke(this, _data.EncounterCounter.Current);
+            }
 
             // Area splits
             if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
@@ -280,6 +286,7 @@ namespace LiveSplit.FFX
                 }
             }
         }
+
         bool TryGetGameProcess()
         {
             // Find process
