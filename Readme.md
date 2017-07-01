@@ -9,6 +9,7 @@ Current Features
   * Auto starts the timer according to the [leaderboard rules](http://speedrun.com/ffx)
   * Auto resets the timer on the music selection screen
   * Auto Splitting/End
+  * Encounter counter, accessible via the Layout Editor -> Information -> FFX Display
 
 Requirements
 ------------
