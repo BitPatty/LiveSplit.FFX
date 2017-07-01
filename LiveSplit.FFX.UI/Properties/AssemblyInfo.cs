@@ -1,17 +1,18 @@
-﻿using System.Reflection;
+﻿using LiveSplit.FFX.UI;
 using LiveSplit.UI.Components;
-using LiveSplit.FFX;
+using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: ComponentFactory(typeof(FFXFactory))]
+[assembly: ComponentFactory(typeof(FFXUIFactory))]
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("LiveSplit.FFX")]
+[assembly: AssemblyTitle("LiveSplit.FFX.UI")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("LiveSplit.FFX")]
+[assembly: AssemblyProduct("LiveSplit.FFX.UI")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +23,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f2676f58-2e3a-4421-98e5-9392e1afa886")]
+[assembly: Guid("9d5709d5-105a-4e71-aa84-0ae3fac32bfd")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -31,8 +32,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-// You can specify all the values or you can default the Build and Revision Numbers 
-// by using the '*' as shown below:
-// [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.1.2.0")]
-[assembly: AssemblyFileVersion("1.1.2.0")]
+[assembly: AssemblyVersion("0.1.1.0")]
+[assembly: AssemblyFileVersion("0.1.1.0")]
