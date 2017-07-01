@@ -17,7 +17,7 @@ namespace LiveSplit.FFX
         }
 
         public string UpdateName => this.ComponentName;
-        public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/devel/";
+        public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/master/";
         public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
         public string XMLURL => this.UpdateURL + "Components/update.LiveSplit.FFX.xml";
     }
