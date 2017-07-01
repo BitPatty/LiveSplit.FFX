@@ -1,4 +1,15 @@
 <updates>
+  <update version="1.1.2">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="added"/>
+    </files>
+    <changelog>
+      <change>
+        Updated Assembly information
+      </change>
+    </changelog>
+  </update>
   <update version="1.1.1">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
