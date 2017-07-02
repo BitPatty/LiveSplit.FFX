@@ -101,6 +101,7 @@ namespace LiveSplit.FFX
             _gameMemory.OnMusicSelect += gameMemory_OnMusicSelect;
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
+            _gameMemory.OnEncounter += gameMemory_OnEncounter;
         }
 
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
