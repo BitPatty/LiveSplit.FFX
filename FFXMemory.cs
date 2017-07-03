@@ -128,6 +128,7 @@ namespace LiveSplit.FFX
         private Process _process;           // Process Information
         private bool _loadingStarted;       // true if loading screen active
         private int _isaaruCounter = 0;     // Boss counter for Isaaru split
+        public StringList activatedSplits;
 
         // DLL Sizes to verify game version
         private enum ExpectedDllSizes
@@ -139,9 +140,8 @@ namespace LiveSplit.FFX
         public FFXMemory()
         {
             _ignorePIDs = new List<int>();
+            activatedSplits = new StringList();
         }
-
-        public StringList activatedSplits;
 
         public void Update(FFXSettings Settings)
         {
@@ -150,10 +150,14 @@ namespace LiveSplit.FFX
             {
                 if (!this.TryGetGameProcess())
                     return;
+                Settings.hasChanged = true;
             }
 
             if(Settings.hasChanged)
-                activatedSplits = Settings.GetSplits();
+            {
+                activatedSplits.Clear();
+                activatedSplits.AddRange(Settings.GetSplits());
+            }
 
             TimedTraceListener.Instance.UpdateCount++;
 
