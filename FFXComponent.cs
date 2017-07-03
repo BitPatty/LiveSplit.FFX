@@ -112,6 +112,7 @@ namespace LiveSplit.FFX
         void gameMemory_OnMusicConfirm(object sender, EventArgs e)
         {
             if (this.Settings.Start) _timer.Start();
+            this.Settings.hasChanged = true;
         }
 
         void gameMemory_OnLoadStarted(object sender, EventArgs e)

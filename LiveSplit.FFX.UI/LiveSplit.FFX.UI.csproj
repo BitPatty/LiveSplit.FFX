@@ -54,7 +54,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="UpdateManager">
-      <HintPath>..\..\..\livesplit\LiveSplit\bin\Release\UpdateManager.dll</HintPath>
+      <HintPath>..\..\LiveSplit\LiveSplit\bin\Debug\UpdateManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

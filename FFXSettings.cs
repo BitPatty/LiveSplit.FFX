@@ -12,6 +12,8 @@ namespace LiveSplit.FFX
         public bool Reset { get; set; }
         public bool RemoveLoads { get; set; }
 
+        public bool hasChanged;
+
         public FFXSettings()
         {
             InitializeComponent();
@@ -59,28 +61,22 @@ namespace LiveSplit.FFX
             foreach(ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
 
+            hasChanged = true;                       // True if split selection changed
+
             this.checkboxStart.DataBindings.Add("Checked", this, "Start", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxReset.DataBindings.Add("Checked", this, "Reset", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        private StringList _activatedSplits = new StringList();     // List of selected splits
-        public bool hasChanged = true;                              // True if split selection changed
+
+        
 
         /// <summary>
         /// Updates the list with the activated splits everytime the settings window is closed.
         /// </summary>
         private void ConfirmSplits(object sender, EventArgs e)
         {
-            _activatedSplits.Clear();
-
-            foreach(ListViewItem listViewItem in listView.Items)
-            {
-                if(listViewItem.Checked)
-                    _activatedSplits.Add(listViewItem.Text);
-            }
-
             hasChanged = true;
         }
 
@@ -89,6 +85,13 @@ namespace LiveSplit.FFX
         /// </summary>
         public StringList GetSplits()
         {
+            StringList _activatedSplits = new StringList();     // List of selected splits
+
+            foreach (ListViewItem listViewItem in listView.Items)
+            {
+                if (listViewItem.Checked)
+                    _activatedSplits.Add(listViewItem.Text);
+            }
             hasChanged = false;
             return _activatedSplits;
         }
@@ -102,21 +105,14 @@ namespace LiveSplit.FFX
         {
             XmlElement settingsNode = doc.CreateElement("Settings");
 
-            _activatedSplits.Clear();
-
             settingsNode.AppendChild(ToElement(doc, "Start", this.Start));
             settingsNode.AppendChild(ToElement(doc, "Reset", this.Reset));
             settingsNode.AppendChild(ToElement(doc, "Split", this.Split));
             settingsNode.AppendChild(ToElement(doc, "RemoveLoads", this.RemoveLoads));
 
             foreach (ListViewItem listViewItem in listView.Items)
-            {
                 settingsNode.AppendChild(ToElement(doc, listViewItem.Text, listViewItem.Checked));
-                if (listViewItem.Checked)
-                    _activatedSplits.Add(listViewItem.Text);
-            }
 
-            hasChanged = true;
             return settingsNode;
         }
 
@@ -132,6 +128,8 @@ namespace LiveSplit.FFX
 
             foreach (ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = ParseBool(settings, listViewItem.Text);
+
+            hasChanged = true;
         }
 
         /// <summary>
