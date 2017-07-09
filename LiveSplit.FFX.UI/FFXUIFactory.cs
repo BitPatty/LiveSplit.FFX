@@ -1,7 +1,10 @@
-﻿using LiveSplit.UI.Components;
+﻿using LiveSplit.FFX.UI;
+using LiveSplit.UI.Components;
 using LiveSplit.Model;
 using System;
 using System.Reflection;
+
+[assembly: ComponentFactory(typeof(FFXUIFactory))]
 
 namespace LiveSplit.FFX.UI
 {

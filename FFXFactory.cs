@@ -4,6 +4,8 @@ using LiveSplit.Model;
 using System;
 using System.Reflection;
 
+[assembly: ComponentFactory(typeof(FFXFactory))]
+
 namespace LiveSplit.FFX
 {
     class FFXFactory : IComponentFactory

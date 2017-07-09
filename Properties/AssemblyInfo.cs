@@ -3,7 +3,6 @@ using LiveSplit.UI.Components;
 using LiveSplit.FFX;
 using System.Runtime.InteropServices;
 
-[assembly: ComponentFactory(typeof(FFXFactory))]
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
