@@ -108,7 +108,7 @@ namespace LiveSplit.FFX
             {0x49,  FFXComponent.PIRANHAS},                // 73 - Post Piranha Cutscene
             {0x16,  FFXComponent.GARUDA},                  // 22 - Garuda battle
             {0x3AC, FFXComponent.MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
-            {0x50,  FFXComponent.ISAARU},                  // 80 - Bahamut/Spathi battle
+            {0x50,  FFXComponent.ISAARU},                  // 80 - Shiva summon
             {0x7,   FFXComponent.YU_YEVON},                // 7 - Yu Yevon battle
             {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle 
         };
@@ -233,13 +233,6 @@ namespace LiveSplit.FFX
                     {
                         canSplit = true;    // Mushroom Rock Road
                     }
-                    else if (_data.Cutscene.Current == 80 && _data.StoryProgression.Current == 2220 && _data.BattleState.Current == 522)
-                    {
-                        if (_isaaruCounter == 0)
-                            _isaaruCounter = _data.EncounterCounter.Current;                // Set _isaaruCounter to EncounterCounter after beating Grothia
-                        else if (_data.EncounterCounter.Current - _isaaruCounter == 2)      // Split after beating the second boss following Grothia (Spathi)
-                            canSplit = true; // Isaaru
-                    }
                     else if ((_data.Cutscene.Current == 7 || _data.Cutscene.Current == 28) && _data.StoryProgression.Current == 3380 && _data.YuYevon.Changed && _data.YuYevon.Current == 1)
                     {
                         canSplit = true;    // Yu Yevon
@@ -250,6 +243,20 @@ namespace LiveSplit.FFX
                 if (canSplit)
                 {
                     this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); 
+                    splitPair.SplitFlag = true;
+                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                }
+            }
+
+            // Special Isaaru split
+            if (_data.StoryProgression.Current == 2220 && _data.BattleState.Changed && _data.BattleState.Current == 522)
+            {
+                SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
+                ++_isaaruCounter;
+
+                if (_isaaruCounter == 3 && !splitPair.SplitFlag)
+                {
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
                     splitPair.SplitFlag = true;
                     _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
