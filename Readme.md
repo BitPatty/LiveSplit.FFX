@@ -1,7 +1,7 @@
 LiveSplit.FFX 
 ==============
 
-LiveSplit.FFX is a WIP [LiveSplit](http://livesplit.org/) component for Final Fantasy X HD-Remaster. The plugin is based off [LiveSplit.Dishonored](https://github.com/fatalis/LiveSplit.Dishonored).
+LiveSplit.FFX is a [LiveSplit](http://livesplit.org/) component for Final Fantasy X HD-Remaster. The plugin is based off [LiveSplit.Dishonored](https://github.com/fatalis/LiveSplit.Dishonored).
 
 Current Features
 ----------------
@@ -21,6 +21,8 @@ Install
 Right click on your splits and click 'Edit Splits'. Click on the 'Activate' button and check any options/splits you desire (see below for details of each option). Hit OK to apply these settings.
 
 To activate the Encounter Counter, right click on your splits and click 'Edit Layout'. Hit the add '+' button, and click on Information->FFX Display. This will add a basic component to your splits, which will keep track of all the encounters in a run.
+
+Full instructions here - [Autosplitter/Load Remover/Encounter Count Guide](http://www.speedrun.com/ffx/guide/vnxps)
 
 The following settings are currently available:
 
