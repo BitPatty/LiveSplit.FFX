@@ -4,10 +4,11 @@ using LiveSplit.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Xml;
-
+using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX.UI
 {
@@ -30,15 +31,24 @@ namespace LiveSplit.FFX.UI
         public float PaddingBottom { get { return this.InternalComponent.PaddingBottom; } }
 
         private LiveSplitState _state;
-        private int _encounters;
+        //private int _encounters;
+        public FFXUISettings UISettings { get; set; }
+
+        public Dictionary<string, int> MemoryValues { get; private set; } = new Dictionary<string, int>
+        {
+            {"Encounter Count", 0 },
+            {"Speed Spheres", 0 }
+        };
 
         public FFXUIComponent(LiveSplitState state)
         {
             this.ContextMenuControls = new Dictionary<string, Action>();
-            this.InternalComponent = new InfoTextComponent("Encounter Count", "0");
+            this.InternalComponent = new InfoTextComponent("Value", "0");
 
             _state = state;
             _state.OnReset += state_OnReset;
+
+            UISettings = new FFXUISettings(new StringList(this.MemoryValues.Keys));
         }
 
         public void Dispose()
@@ -48,58 +58,77 @@ namespace LiveSplit.FFX.UI
 
         public void SetEncounters(int count)
         {
-            _encounters = count;
+            MemoryValues["Encounter Count"] = count;
+        }
+
+        public void SetSpeedSpheres(int count)
+        {
+            MemoryValues["Speed Spheres"] = count;
         }
 
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-            string encounters = _encounters.ToString(CultureInfo.InvariantCulture);
 
-            if (invalidator != null && this.InternalComponent.InformationValue != encounters)
+            string selectedValue = UISettings.ValueString;
+
+            if (invalidator != null && (this.InternalComponent.InformationValue != MemoryValues[selectedValue].ToString(CultureInfo.InvariantCulture) || this.InternalComponent.InformationName != selectedValue))
             {
-                this.InternalComponent.InformationValue = encounters;
+                this.InternalComponent.InformationName = selectedValue;
+                this.InternalComponent.InformationValue = MemoryValues[selectedValue].ToString(CultureInfo.InvariantCulture);
                 invalidator.Invalidate(0f, 0f, width, height);
-            }
-
+            } 
         }
 
-        void PrepareDraw(LiveSplitState state)
+        public void DrawBackground(Graphics g, LiveSplitState state, float width, float height)
         {
-            this.InternalComponent.NameLabel.ForeColor = state.LayoutSettings.TextColor;
-            this.InternalComponent.ValueLabel.ForeColor = state.LayoutSettings.TextColor;
+            if(UISettings.BackgroundColor1.A > 0 || UISettings.BackgroundGradient != GradientType.Plain && UISettings.BackgroundColor2.A > 0)
+            {
+                var gradientBrush = new LinearGradientBrush(
+                    new PointF(0, 0),
+                    UISettings.BackgroundGradient == GradientType.Horizontal ? new PointF(width, 0) : new PointF(0, height),
+                    UISettings.BackgroundColor1,
+                    UISettings.BackgroundGradient == GradientType.Plain ? UISettings.BackgroundColor1 : UISettings.BackgroundColor2);
+
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+
+            this.InternalComponent.NameLabel.ForeColor = UISettings.OverrideTextColor ? UISettings.TextColor : state.LayoutSettings.TextColor;
+            this.InternalComponent.ValueLabel.ForeColor = UISettings.OverrideTextColor ? UISettings.TextColor : state.LayoutSettings.TextColor;
             this.InternalComponent.NameLabel.HasShadow = this.InternalComponent.ValueLabel.HasShadow = state.LayoutSettings.DropShadows;
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region region)
         {
-            this.PrepareDraw(state);
+            DrawBackground(g, state, width, VerticalHeight);
             this.InternalComponent.DrawVertical(g, state, width, region);
+            
         }
 
         public void DrawHorizontal(Graphics g, LiveSplitState state, float width, Region region)
         {
-            this.PrepareDraw(state);
+            DrawBackground(g, state, width, VerticalHeight);
             this.InternalComponent.DrawHorizontal(g, state, width, region);
         }
 
         void state_OnReset(object sender, TimerPhase t)
         {
-            _encounters = 0;
+
         }
 
         public XmlNode GetSettings(XmlDocument document)
         {
-            return document.CreateElement("Settings");
+            return UISettings.GetSettings(document);
         }
 
         public Control GetSettingsControl(LayoutMode mode)
         {
-            return null;
+            UISettings.Mode = mode;
+            return UISettings;
         }
 
         public void SetSettings(XmlNode settings)
         {
-
+            UISettings.SetSettings(settings);
         }
     }
 }

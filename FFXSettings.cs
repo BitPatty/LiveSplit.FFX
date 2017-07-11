@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Xml;
 using StringList = System.Collections.Generic.List<string>;
@@ -104,6 +105,8 @@ namespace LiveSplit.FFX
         public XmlNode GetSettings(XmlDocument doc)
         {
             XmlElement settingsNode = doc.CreateElement("Settings");
+
+            settingsNode.AppendChild(ToElement(doc, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)));
 
             settingsNode.AppendChild(ToElement(doc, "Start", this.Start));
             settingsNode.AppendChild(ToElement(doc, "Reset", this.Reset));

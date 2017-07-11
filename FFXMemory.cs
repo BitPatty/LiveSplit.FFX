@@ -22,6 +22,7 @@ namespace LiveSplit.FFX
         public MemoryWatcher<int> Cutscene { get; }
         public MemoryWatcher<int> YuYevon { get; }
         public MemoryWatcher<int> EncounterCounter { get; }
+        public MemoryWatcher<short> SpeedSpheres { get; }
 
         public FFXData(GameVersion version, int baseOffset)
         {
@@ -37,6 +38,7 @@ namespace LiveSplit.FFX
                 this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));                  // Cutscene type
                 this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   // Yu Yevon screen transition = 1, back up - 0xD381AC = 3
                 this.EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
+                this.SpeedSpheres = new MemoryWatcher<short>(new IntPtr(baseOffset + 0x11973C0));
             }
 
             this.CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
@@ -121,6 +123,7 @@ namespace LiveSplit.FFX
         public event EventHandler OnAreaCompleted;
         public event EventHandler OnBossDefeated;
         public event EventHandler<int> OnEncounter;
+        public event EventHandler<int> OnSpeedSphere;
 
         // Vars
         private List<int> _ignorePIDs;      // PIDs to ignore if necessary
@@ -166,6 +169,11 @@ namespace LiveSplit.FFX
             if (_data.EncounterCounter.Changed)
             {
                 this.OnEncounter?.Invoke(this, _data.EncounterCounter.Current);
+            }
+
+            if (_data.SpeedSpheres.Changed)
+            {
+                this.OnSpeedSphere?.Invoke(this, (int)_data.SpeedSpheres.Current);
             }
 
             // Area splits

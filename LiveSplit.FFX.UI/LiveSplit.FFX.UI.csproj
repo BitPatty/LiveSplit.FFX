@@ -42,6 +42,12 @@
   <ItemGroup>
     <Compile Include="FFXUIComponent.cs" />
     <Compile Include="FFXUIFactory.cs" />
+    <Compile Include="FFXUISettings.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="FFXUISettings.Designer.cs">
+      <DependentUpon>FFXUISettings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +62,11 @@
     <Reference Include="UpdateManager">
       <HintPath>..\..\LiveSplit\LiveSplit\bin\Debug\UpdateManager.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FFXUISettings.resx">
+      <DependentUpon>FFXUISettings.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

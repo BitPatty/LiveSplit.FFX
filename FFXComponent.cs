@@ -53,6 +53,7 @@ namespace LiveSplit.FFX
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
             _gameMemory.OnEncounter += gameMemory_OnEncounter;
+            _gameMemory.OnSpeedSphere += gameMemory_OnSpeedSphere;
         }
 
         public override void Dispose()
@@ -102,6 +103,7 @@ namespace LiveSplit.FFX
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
             _gameMemory.OnEncounter += gameMemory_OnEncounter;
+            _gameMemory.OnSpeedSphere += gameMemory_OnSpeedSphere;
         }
 
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
@@ -139,6 +141,12 @@ namespace LiveSplit.FFX
         {
             if (this.UI != null)
                 this.UI.SetEncounters(count);
+        }
+
+        void gameMemory_OnSpeedSphere(object sender, int count)
+        {
+            if (this.UI != null)
+                this.UI.SetSpeedSpheres(count);
         }
 
         public override XmlNode GetSettings(XmlDocument document)
