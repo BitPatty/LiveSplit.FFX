@@ -37,8 +37,6 @@ namespace LiveSplit.FFX
                 this.BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  // 10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare, 4B
                 this.Cutscene = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));                  // Cutscene type
                 this.YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   // Yu Yevon screen transition = 1, back up - 0xD381AC = 3
-                this.EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
-                this.SpeedSpheres = new MemoryWatcher<short>(new IntPtr(baseOffset + 0x11973C0));
             }
 
             this.CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
@@ -60,21 +58,21 @@ namespace LiveSplit.FFX
     {
         private Dictionary<int, Tuple<int, SplitPair>> _LevelIDs = new Dictionary<int, Tuple<int, SplitPair>>
         {
-            {0x2E, new Tuple<int, SplitPair>(0x12,  new SplitPair {SplitName = FFXComponent.KILIKA_WOODS,         SplitFlag = false})},     // FROM 18 - Kilika Woods                           TO  46 - Kilika - Residential Area 
+            {0x2E, new Tuple<int, SplitPair>(0x12,  new SplitPair {SplitName = FFXComponent.KILIKA_WOODS,         SplitFlag = false})},     // FROM 18 - Kilika Woods                           TO  46 - Kilika - Residential Area
             {0xFA, new Tuple<int, SplitPair>(0xD4,  new SplitPair {SplitName = FFXComponent.BLITZBALL_COMPLETE,   SplitFlag = false})},     // FROM 212 - Stadium - Pool (Blitzball Exp Screen) TO  250 - Stadium - Stands
-            {0x3A, new Tuple<int, SplitPair>(0x7F,  new SplitPair {SplitName = FFXComponent.MIIHEN_HIGHROAD,      SplitFlag = false})},     // FROM 127 - Highroad - Central                    TO  58 - Highroad - Agency, Front 
-            {0x4F, new Tuple<int, SplitPair>(0x3B,  new SplitPair {SplitName = FFXComponent.OLD_ROAD,             SplitFlag = false})},     // FROM 59 - Highroad - North End                   TO  79 - Mushroom Rock 
-            {0x4C, new Tuple<int, SplitPair>(0x5D,  new SplitPair {SplitName = FFXComponent.DJOSE_HIGHROAD,       SplitFlag = false})},     // FROM 93 - Djose Highroad                         TO  76 - Djose - Pilgrimage Road 
-            {0x69, new Tuple<int, SplitPair>(0x4B,  new SplitPair {SplitName = FFXComponent.MOONFLOW,             SplitFlag = false})},     // FROM 75 - Moonflow - South Bank Road             TO  105 - Moonflow - South Bank 
-            {0x8C, new Tuple<int, SplitPair>(0x87,  new SplitPair {SplitName = FFXComponent.GUADOSALAM,           SplitFlag = false})},     // FROM 135 - Guadosalam                            TO  140 - Thunder Plains - South 
-            {0x6E, new Tuple<int, SplitPair>(0xA2,  new SplitPair {SplitName = FFXComponent.THUNDER_PLAINS,       SplitFlag = false})},     // FROM 162 - Thunder Plains - North                TO  110 - Macalania Woods - South 
-            {0xDB, new Tuple<int, SplitPair>(0x118, new SplitPair {SplitName = FFXComponent.HOME,                 SplitFlag = false})},     // FROM 280 - Home - Main Corridor                  TO  219 - Home - Environment Controls 
-            {0xE2, new Tuple<int, SplitPair>(0x132, new SplitPair {SplitName = FFXComponent.BEVELLE_TRIALS,       SplitFlag = false})}      // FROM 306 - Bevelle - Trials                      TO  226 - Bevelle - Antechamber (Cutscene) 
+            {0x3A, new Tuple<int, SplitPair>(0x7F,  new SplitPair {SplitName = FFXComponent.MIIHEN_HIGHROAD,      SplitFlag = false})},     // FROM 127 - Highroad - Central                    TO  58 - Highroad - Agency, Front
+            {0x4F, new Tuple<int, SplitPair>(0x3B,  new SplitPair {SplitName = FFXComponent.OLD_ROAD,             SplitFlag = false})},     // FROM 59 - Highroad - North End                   TO  79 - Mushroom Rock
+            {0x4C, new Tuple<int, SplitPair>(0x5D,  new SplitPair {SplitName = FFXComponent.DJOSE_HIGHROAD,       SplitFlag = false})},     // FROM 93 - Djose Highroad                         TO  76 - Djose - Pilgrimage Road
+            {0x69, new Tuple<int, SplitPair>(0x4B,  new SplitPair {SplitName = FFXComponent.MOONFLOW,             SplitFlag = false})},     // FROM 75 - Moonflow - South Bank Road             TO  105 - Moonflow - South Bank
+            {0x8C, new Tuple<int, SplitPair>(0x87,  new SplitPair {SplitName = FFXComponent.GUADOSALAM,           SplitFlag = false})},     // FROM 135 - Guadosalam                            TO  140 - Thunder Plains - South
+            {0x6E, new Tuple<int, SplitPair>(0xA2,  new SplitPair {SplitName = FFXComponent.THUNDER_PLAINS,       SplitFlag = false})},     // FROM 162 - Thunder Plains - North                TO  110 - Macalania Woods - South
+            {0xDB, new Tuple<int, SplitPair>(0x118, new SplitPair {SplitName = FFXComponent.HOME,                 SplitFlag = false})},     // FROM 280 - Home - Main Corridor                  TO  219 - Home - Environment Controls
+            {0xE2, new Tuple<int, SplitPair>(0x132, new SplitPair {SplitName = FFXComponent.BEVELLE_TRIALS,       SplitFlag = false})}      // FROM 306 - Bevelle - Trials                      TO  226 - Bevelle - Antechamber (Cutscene)
         };
 
         private Dictionary<int, SplitPair> _ProgressionIDs = new Dictionary<int, SplitPair>
         {
-            {0xF,   new SplitPair {SplitName = FFXComponent.SINSPAWN_AMMES,       SplitFlag = false}},     // 15 - Start Sinspawn Ammes battle 
+            {0xF,   new SplitPair {SplitName = FFXComponent.SINSPAWN_AMMES,       SplitFlag = false}},     // 15 - Start Sinspawn Ammes battle
             {0x37,  new SplitPair {SplitName = FFXComponent.KLIKK,                SplitFlag = false}},     // 55 - Enter Klikk cutscene
             {0x4C,  new SplitPair {SplitName = FFXComponent.TROS,                 SplitFlag = false}},     // 76 - Enter Tros area after opening the door
             {0x77,  new SplitPair {SplitName = FFXComponent.PIRANHAS,             SplitFlag = false}},     // 119 - Enter Besaid Crossroads cutscene
@@ -112,7 +110,7 @@ namespace LiveSplit.FFX
             {0x3AC, FFXComponent.MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
             {0x50,  FFXComponent.ISAARU},                  // 80 - Shiva summon
             {0x7,   FFXComponent.YU_YEVON},                // 7 - Yu Yevon battle
-            {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle 
+            {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle
         };
 
         // Eventhandlers
@@ -122,8 +120,6 @@ namespace LiveSplit.FFX
         public event EventHandler OnMusicConfirm;
         public event EventHandler OnAreaCompleted;
         public event EventHandler OnBossDefeated;
-        public event EventHandler<int> OnEncounter;
-        public event EventHandler<int> OnSpeedSphere;
 
         // Vars
         private List<int> _ignorePIDs;      // PIDs to ignore if necessary
@@ -165,16 +161,6 @@ namespace LiveSplit.FFX
             TimedTraceListener.Instance.UpdateCount++;
 
             _data.UpdateAll(_process);
-
-            if (_data.EncounterCounter.Changed)
-            {
-                this.OnEncounter?.Invoke(this, _data.EncounterCounter.Current);
-            }
-
-            if (_data.SpeedSpheres.Changed)
-            {
-                this.OnSpeedSphere?.Invoke(this, (int)_data.SpeedSpheres.Current);
-            }
 
             // Area splits
             if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
@@ -246,11 +232,11 @@ namespace LiveSplit.FFX
                         canSplit = true;    // Yu Yevon
                     }
                 }
-                    
+
                 // Split
                 if (canSplit)
                 {
-                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty); 
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
                     splitPair.SplitFlag = true;
                     _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
                 }
@@ -322,8 +308,8 @@ namespace LiveSplit.FFX
             }
             else
             {
-                _ignorePIDs.Add(game.Id);
-                MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //_ignorePIDs.Add(game.Id);
+                //MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

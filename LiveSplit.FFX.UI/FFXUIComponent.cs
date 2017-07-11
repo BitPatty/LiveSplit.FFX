@@ -1,4 +1,5 @@
-﻿using LiveSplit.Model;
+﻿using LiveSplit.ComponentUtil;
+using LiveSplit.Model;
 using LiveSplit.UI;
 using LiveSplit.UI.Components;
 using System;
@@ -12,6 +13,16 @@ using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX.UI
 {
+    public struct Counter
+    {
+        private int _size;
+        public string Text { get; set; }
+        public int Count { get; set; }
+        public int Offset { get; set; }
+        public int Size { get { return this._size; } set { if (value >= 4) this._size = 0x7fffffff; else this._size = (1 << (8 * value)) - 1; } }
+        public MemoryWatcher Watcher { get; set; }
+    }
+
     public class FFXUIComponent : IComponent
     {
         public string ComponentName => "FFX Display";
@@ -30,25 +41,46 @@ namespace LiveSplit.FFX.UI
         public float PaddingTop { get { return this.InternalComponent.PaddingTop; } }
         public float PaddingBottom { get { return this.InternalComponent.PaddingBottom; } }
 
+        // Vars
         private LiveSplitState _state;
-        //private int _encounters;
         public FFXUISettings UISettings { get; set; }
+        private Timer _updateTimer;
+        private FFXUIMemory _gameMemory;
 
-        public Dictionary<string, int> MemoryValues { get; private set; } = new Dictionary<string, int>
-        {
-            {"Encounter Count", 0 },
-            {"Speed Spheres", 0 }
-        };
+        // Display data
+        public string displayName { get; set; }
+        public string displayValue { get; set; }
+        public int counterIndex { get; set; }
 
+        // Possible values to display, new values can be added here
+        public Counter[] counterData  = new Counter[]
+            {
+                new Counter { Text = "Encounter Count", Count = 0, Offset = 0xD307A4,  Size = sizeof(int) },
+                new Counter { Text = "Speed Spheres", Count = 0, Offset = 0x11973C0, Size = sizeof(short) } //TODO, wrong Address
+            };
+
+        //Init
         public FFXUIComponent(LiveSplitState state)
         {
             this.ContextMenuControls = new Dictionary<string, Action>();
-            this.InternalComponent = new InfoTextComponent("Value", "0");
+            this.InternalComponent = new InfoTextComponent("Select Value", "0");
+
+            StringList valueList = new StringList();
+
+            foreach (Counter item in counterData)
+                valueList.Add(item.Text);
+
+            this.UISettings = new FFXUISettings(valueList);
+            UISettings.OnSelectionChanged += uiSettings_OnSelectionChanged;
 
             _state = state;
             _state.OnReset += state_OnReset;
 
-            UISettings = new FFXUISettings(new StringList(this.MemoryValues.Keys));
+            _gameMemory = new FFXUIMemory(counterData);
+            _gameMemory.OnValueChanged += gameMemory_OnValueChanged;
+
+            _updateTimer = new Timer() { Interval = 15, Enabled = true };
+            _updateTimer.Tick += updateTimer_Tick;
         }
 
         public void Dispose()
@@ -56,27 +88,14 @@ namespace LiveSplit.FFX.UI
             _state.OnReset -= state_OnReset;
         }
 
-        public void SetEncounters(int count)
-        {
-            MemoryValues["Encounter Count"] = count;
-        }
-
-        public void SetSpeedSpheres(int count)
-        {
-            MemoryValues["Speed Spheres"] = count;
-        }
-
         public void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
-
-            string selectedValue = UISettings.ValueString;
-
-            if (invalidator != null && (this.InternalComponent.InformationValue != MemoryValues[selectedValue].ToString(CultureInfo.InvariantCulture) || this.InternalComponent.InformationName != selectedValue))
+            if (invalidator != null && (this.InternalComponent.InformationValue != this.displayValue || this.InternalComponent.InformationName != this.displayName))
             {
-                this.InternalComponent.InformationName = selectedValue;
-                this.InternalComponent.InformationValue = MemoryValues[selectedValue].ToString(CultureInfo.InvariantCulture);
+                this.InternalComponent.InformationName = this.displayName;
+                this.InternalComponent.InformationValue = this.displayValue;
                 invalidator.Invalidate(0f, 0f, width, height);
-            } 
+            }
         }
 
         public void DrawBackground(Graphics g, LiveSplitState state, float width, float height)
@@ -101,7 +120,6 @@ namespace LiveSplit.FFX.UI
         {
             DrawBackground(g, state, width, VerticalHeight);
             this.InternalComponent.DrawVertical(g, state, width, region);
-            
         }
 
         public void DrawHorizontal(Graphics g, LiveSplitState state, float width, Region region)
@@ -113,6 +131,39 @@ namespace LiveSplit.FFX.UI
         void state_OnReset(object sender, TimerPhase t)
         {
 
+        }
+
+        void updateTimer_Tick(object sender, EventArgs eventArgs)
+        {
+            try
+            {
+                _gameMemory.Update(this.UISettings);
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        void gameMemory_OnValueChanged(object sender, Tuple<int, int> valueData)
+        {
+            int index = valueData.Item1;
+            int count = valueData.Item2;
+
+            this.counterData[index].Count = count;
+
+            if(index == this.counterIndex)
+            {
+                this.displayName = counterData[counterIndex].Text;
+                this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);
+            }
+        }
+
+        void uiSettings_OnSelectionChanged(object sender, int index)
+        {
+            this.counterIndex = index;
+            this.displayName = counterData[counterIndex].Text;
+            this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);
         }
 
         public XmlNode GetSettings(XmlDocument document)

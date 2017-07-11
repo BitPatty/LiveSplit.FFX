@@ -35,9 +35,6 @@
     <Reference Include="LiveSplit.Core">
       <HintPath>..\LiveSplit\LiveSplit\LiveSplit.Core\obj\Debug\LiveSplit.Core.dll</HintPath>
     </Reference>
-    <Reference Include="LiveSplit.FFX.UI">
-      <HintPath>LiveSplit.FFX.UI\Components\LiveSplit.FFX.UI.dll</HintPath>
-    </Reference>
     <Reference Include="LiveSplit.ScriptableAutoSplit">
       <HintPath>..\LiveSplit\LiveSplit\Components\LiveSplit.ScriptableAutoSplit\obj\Debug\LiveSplit.ScriptableAutoSplit.dll</HintPath>
     </Reference>

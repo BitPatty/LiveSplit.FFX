@@ -23,11 +23,19 @@ namespace LiveSplit.FFX.UI
         }
 
         public string ValueString { get; set; }
+        public int ValueIndex { get; set; }
         public LayoutMode Mode { get; set; }
+
+        public event EventHandler<int> OnSelectionChanged;
 
         public FFXUISettings(StringList valueList)
         {
             InitializeComponent();
+
+            foreach (string Item in valueList)
+            {
+                cmbValue.Items.Add(Item);
+            }
 
             TextColor = Color.FromArgb(255, 255, 255);
             OverrideTextColor = false;
@@ -35,11 +43,8 @@ namespace LiveSplit.FFX.UI
             BackgroundColor2 = Color.Transparent;
             BackgroundGradient = GradientType.Plain;
 
-            cmbValuePopulate(valueList);
-
-
-            cmbGradientType.SelectedIndexChanged += cmbGradientType_SelectedIndexChanged;
-            cmbValue.SelectedIndexChanged += cmbValue_SelectedIndexChanged;
+            //cmbGradientType.SelectedIndexChanged += cmbGradientType_SelectedIndexChanged;
+            //cmbValue.SelectedIndexChanged += cmbValue_SelectedIndexChanged;
 
             cbOverrideTextColor.DataBindings.Add("Checked", this, "OverrideTextColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnBackgroundColor1.DataBindings.Add("BackColor", this, "BackgroundColor1", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -49,26 +54,16 @@ namespace LiveSplit.FFX.UI
             cmbValue.DataBindings.Add("SelectedItem", this, "ValueString", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
-        void cmbValuePopulate(StringList valueList)
-        {
-            foreach(string Item in valueList)
-            {
-                cmbValue.Items.Add(Item);
-            }
-        }
-
         void UISettings_Load(object sender, EventArgs e)
         {
             cbOverrideTextColor.Checked = OverrideTextColor;
             cbOverrideTextColor_CheckedChanged(null, null);
         }
 
-
         void cbOverrideTextColor_CheckedChanged(object sender, EventArgs e)
         {
             lblTextColor.Enabled = btnTextColor.Enabled = cbOverrideTextColor.Checked;
         }
-
 
         void cmbGradientType_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -81,6 +76,8 @@ namespace LiveSplit.FFX.UI
         void cmbValue_SelectedIndexChanged(object sender, EventArgs e)
         {
             ValueString = cmbValue.SelectedItem.ToString();
+            ValueIndex = cmbValue.SelectedIndex;
+            this.OnSelectionChanged?.Invoke(this, ValueIndex);
         }
 
         public void SetSettings(XmlNode node)
@@ -91,7 +88,10 @@ namespace LiveSplit.FFX.UI
             BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
             BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
             GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
-            ValueString = SettingsHelper.ParseString(element["Value"]);
+            ValueString = SettingsHelper.ParseString(element["ValueString"]);
+            ValueIndex = SettingsHelper.ParseInt(element["ValueIndex"]);
+
+            this.OnSelectionChanged?.Invoke(this, ValueIndex);
         }
 
 
@@ -105,7 +105,8 @@ namespace LiveSplit.FFX.UI
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor1", BackgroundColor1);
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2);
             SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient);
-            SettingsHelper.CreateSetting(document, parent, "Value", ValueString);
+            SettingsHelper.CreateSetting(document, parent, "ValueString", ValueString);
+            SettingsHelper.CreateSetting(document, parent, "ValueIndex", ValueIndex);
 
             return parent;
         }
@@ -115,8 +116,5 @@ namespace LiveSplit.FFX.UI
         {
             SettingsHelper.ColorButtonClick((Button)sender, this);
         }
-
-
-
     }
 }

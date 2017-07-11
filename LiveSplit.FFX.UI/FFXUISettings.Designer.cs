@@ -199,6 +199,7 @@
             // 
             this.tableLayoutPanel1.SetColumnSpan(this.cmbValue, 3);
             this.cmbValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbValue.FormattingEnabled = true;
             this.cmbValue.Location = new System.Drawing.Point(162, 135);
             this.cmbValue.Name = "cmbValue";

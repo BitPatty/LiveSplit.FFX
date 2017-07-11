@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="FFXUIComponent.cs" />
     <Compile Include="FFXUIFactory.cs" />
+    <Compile Include="FFXUIMemory.cs" />
     <Compile Include="FFXUISettings.cs">
       <SubType>UserControl</SubType>
     </Compile>
