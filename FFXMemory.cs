@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Windows.Forms;
 using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX
@@ -18,7 +17,6 @@ namespace LiveSplit.FFX
         public MemoryWatcher<int> StoryProgression { get; }
         public MemoryWatcher<int> SelectScreen { get; }
         public MemoryWatcher<int> BattleState { get; }
-
         public MemoryWatcher<int> Cutscene { get; }
         public MemoryWatcher<int> YuYevon { get; }
         public MemoryWatcher<int> EncounterCounter { get; }
@@ -152,7 +150,7 @@ namespace LiveSplit.FFX
                 Settings.hasChanged = true;
             }
 
-            if(Settings.hasChanged)
+            if (Settings.hasChanged)
             {
                 activatedSplits.Clear();
                 activatedSplits.AddRange(Settings.GetSplits());
@@ -219,7 +217,7 @@ namespace LiveSplit.FFX
                     {
                         canSplit = true;    // Piranhas
                     }
-                    else if (_data.Cutscene.Current == 22 && _data.StoryProgression.Current == 600 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10 )
+                    else if (_data.Cutscene.Current == 22 && _data.StoryProgression.Current == 600 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10)
                     {
                         canSplit = true;    // Garuda
                     }

@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using LiveSplit.UI.Components;
-using LiveSplit.FFX;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following

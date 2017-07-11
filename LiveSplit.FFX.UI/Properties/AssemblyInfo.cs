@@ -1,6 +1,4 @@
-﻿using LiveSplit.FFX.UI;
-using LiveSplit.UI.Components;
-using System;
+﻿using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 

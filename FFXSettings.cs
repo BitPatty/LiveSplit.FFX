@@ -12,7 +12,6 @@ namespace LiveSplit.FFX
         public bool Split { get; set; }
         public bool Reset { get; set; }
         public bool RemoveLoads { get; set; }
-
         public bool hasChanged;
 
         public FFXSettings()
@@ -59,7 +58,7 @@ namespace LiveSplit.FFX
             listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
             listView.Items.Add(FFXComponent.YU_YEVON);
 
-            foreach(ListViewItem listViewItem in listView.Items)
+            foreach (ListViewItem listViewItem in listView.Items)
                 listViewItem.Checked = true;
 
             hasChanged = true;                       // True if split selection changed
@@ -69,9 +68,6 @@ namespace LiveSplit.FFX
             this.checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
             this.checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
         }
-
-
-        
 
         /// <summary>
         /// Updates the list with the activated splits everytime the settings window is closed.

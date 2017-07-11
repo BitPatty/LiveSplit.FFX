@@ -53,7 +53,7 @@ namespace LiveSplit.FFX.UI
         public int counterIndex { get; set; }
 
         // Possible values to display, new values can be added here
-        public Counter[] counterData  = new Counter[]
+        public Counter[] counterData = new Counter[]
             {
                 new Counter { Text = "Encounter Count", Count = 0, Offset = 0xD307A4,  Size = sizeof(int) },
                 new Counter { Text = "Speed Spheres", Count = 0, Offset = 0x11973C0, Size = sizeof(short) } //TODO, wrong Address
@@ -100,7 +100,7 @@ namespace LiveSplit.FFX.UI
 
         public void DrawBackground(Graphics g, LiveSplitState state, float width, float height)
         {
-            if(UISettings.BackgroundColor1.A > 0 || UISettings.BackgroundGradient != GradientType.Plain && UISettings.BackgroundColor2.A > 0)
+            if (UISettings.BackgroundColor1.A > 0 || UISettings.BackgroundGradient != GradientType.Plain && UISettings.BackgroundColor2.A > 0)
             {
                 var gradientBrush = new LinearGradientBrush(
                     new PointF(0, 0),
@@ -152,7 +152,7 @@ namespace LiveSplit.FFX.UI
 
             this.counterData[index].Count = count;
 
-            if(index == this.counterIndex)
+            if (index == this.counterIndex)
             {
                 this.displayName = counterData[counterIndex].Text;
                 this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);

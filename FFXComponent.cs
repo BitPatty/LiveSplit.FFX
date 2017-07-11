@@ -78,6 +78,7 @@ namespace LiveSplit.FFX
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+
         }
 
         void onTimerReset()
