@@ -3,15 +3,48 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace LiveSplit.FFX.UI
 {
     class FFXData : MemoryWatcherList
     {
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool ReadProcessMemory(int hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
         public Counter[] _counterData { get; set; }
 
-        public FFXData(GameVersion version, int baseOffset, Counter[] counterData)
+        public bool SetIndex(Process process, int counterIndex, int key, int offset, int range)
         {
+            byte[] buffer = new byte[range];
+
+            int bytesRead;
+
+            try
+            {
+                ReadProcessMemory((int)process.Handle, new IntPtr(process.MainModule.BaseAddress.ToInt32() + offset), buffer, range, out bytesRead);
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < range; i += 2)
+            {
+                if (buffer[i] == key)
+                {
+                    i /= 2;
+                    _counterData[counterIndex].Index = i;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public FFXData(GameVersion version, Process process, Counter[] counterData)
+        {
+            int baseOffset = process.MainModule.BaseAddress.ToInt32();
             _counterData = new Counter[counterData.Length];
             counterData.CopyTo(_counterData, 0);
 
@@ -19,34 +52,43 @@ namespace LiveSplit.FFX.UI
             {
                 for (int i = 0; i < _counterData.Length; i++)
                 {
-                    _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(baseOffset + _counterData[i].Offset));
+                    if (_counterData[i].IndexOffset == 0)
+                    {
+                        _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(baseOffset + _counterData[i].Offset));
+                    }
+                    else
+                    {
+                        if (SetIndex(process, i, _counterData[i].IndexKey, _counterData[i].IndexOffset, _counterData[i].IndexBufferSize))
+                        {
+                            _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(baseOffset + _counterData[i].Offset + _counterData[i].Index));
+                        }
+                        else
+                        {
+                            _counterData[i].Watcher = null;
+                        }
+                    }
                 }
             }
         }
 
-        public event MemoryWatcherDataChangedEventHandler OnCounterWatcherDataChanged;
-
         public void Update(Process process)
         {
-            if (OnCounterWatcherDataChanged != null)
+            for (int i = 0; i < _counterData.Length; i++)
             {
-                var changedList = new List<MemoryWatcher>();
-
-                for (int i = 0; i < _counterData.Length; i++)
+                if (_counterData[i].IndexOffset != 0)
                 {
-                    if (_counterData[i].Watcher.Update(process))
-                        changedList.Add(_counterData[i].Watcher);
+                    if (SetIndex(process, i, _counterData[i].IndexKey, _counterData[i].IndexOffset, _counterData[i].IndexBufferSize))
+                    {
+                        _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(process.MainModule.BaseAddress.ToInt32() + _counterData[i].Offset + _counterData[i].Index));
+                    }
+                    else
+                    {
+                        _counterData[i].Watcher = null;
+                    }
                 }
 
-                foreach (var watcher in changedList)
-                    OnCounterWatcherDataChanged(watcher);
-            }
-            else
-            {
-                for (int i = 0; i < _counterData.Length; i++)
-                {
+                if (_counterData[i].Watcher != null)
                     _counterData[i].Watcher.Update(process);
-                }
             }
         }
     }
@@ -63,7 +105,7 @@ namespace LiveSplit.FFX.UI
 
         private Counter[] _counterData { get; set; }
 
-        // DLL Sizes to verify game version
+        // DLL Sizes to verify process version
         private enum ExpectedDllSizes
         {
             FFXExe = 37212160   //Steam release executable v1.0.0
@@ -89,7 +131,7 @@ namespace LiveSplit.FFX.UI
 
             for (int i = 0; i < _data._counterData.Length; i++)
             {
-                if (_data._counterData[i].Watcher.Changed)
+                if (_data._counterData[i].Watcher != null)
                 {
                     int counterValue = (int)_data._counterData[i].Watcher.Current & _data._counterData[i].Size;
                     Tuple<int, int> values = new Tuple<int, int>(i, counterValue);
@@ -114,12 +156,12 @@ namespace LiveSplit.FFX.UI
             }
             else
             {
-                //_ignorePIDs.Add(game.Id);
-                //MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                //_ignorePIDs.Add(process.Id);
+                //MessageBox.Show("Unexpected process version. Final Fantasy X 1.0.0 is required", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 
-            _data = new FFXData(version, game.MainModule.BaseAddress.ToInt32(), _counterData);
+            _data = new FFXData(version, game, _counterData);
             _process = game;
 
             return true;

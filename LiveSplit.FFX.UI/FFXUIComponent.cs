@@ -16,11 +16,17 @@ namespace LiveSplit.FFX.UI
     public struct Counter
     {
         private int _size;
-        public string Text { get; set; }
-        public int Count { get; set; }
-        public int Offset { get; set; }
-        public int Size { get { return this._size; } set { if (value >= 4) this._size = 0x7fffffff; else this._size = (1 << (8 * value)) - 1; } }
-        public MemoryWatcher Watcher { get; set; }
+        public string Text { get; set; }                    // Display Name
+        public int Count { get; set; }                      // Display Count
+        public int Offset { get; set; }                     // Offset of Count
+
+        public int IndexOffset { get; set; }                // Index offset if Offset is an indexed address (not pointers, used for items)
+        public int IndexBufferSize { get; set; }            // Area to search for Index
+        public int Index { get; set; }                      // Index
+        public int IndexKey { get; set; }                   // Key
+
+        public int Size { get { return this._size; } set { if (value >= 4) this._size = 0x7fffffff; else this._size = (1 << (8 * value)) - 1; } }       // Memory type (could use MemoryWatcher<T> instead)
+        public MemoryWatcher Watcher { get; set; }          // MemoryWatcher for Count
     }
 
     public class FFXUIComponent : IComponent
@@ -55,8 +61,15 @@ namespace LiveSplit.FFX.UI
         // Possible values to display, new values can be added here
         public Counter[] counterData = new Counter[]
             {
-                new Counter { Text = "Encounter Count", Count = 0, Offset = 0xD307A4,  Size = sizeof(int) },
-                new Counter { Text = "Speed Spheres", Count = 0, Offset = 0x11973C0, Size = sizeof(short) } //TODO, wrong Address
+                new Counter { Text = "Encounter Count",     Offset = 0xD307A4, Size = sizeof(int) },
+                new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
+                new Counter { Text = "Gil",                 Offset = 0xD307D8, Size = sizeof(int) },
+                new Counter { Text = "Affection Yuna",      Offset = 0xD2CAC0, Size = sizeof(int) },
+                new Counter { Text = "Affection Auron",     Offset = 0xD2CAC4, Size = sizeof(int) },
+                new Counter { Text = "Affection Kimahri",   Offset = 0xD2CAC8, Size = sizeof(int) },
+                new Counter { Text = "Affection Wakka",     Offset = 0xD2CACC, Size = sizeof(int) },
+                new Counter { Text = "Affection Lulu",      Offset = 0xD2CAD0, Size = sizeof(int) },
+                new Counter { Text = "Affection Rikku",     Offset = 0xD2CAD4, Size = sizeof(int) }
             };
 
         //Init
@@ -79,7 +92,7 @@ namespace LiveSplit.FFX.UI
             _gameMemory = new FFXUIMemory(counterData);
             _gameMemory.OnValueChanged += gameMemory_OnValueChanged;
 
-            _updateTimer = new Timer() { Interval = 15, Enabled = true };
+            _updateTimer = new Timer() { Interval = 1000, Enabled = true };
             _updateTimer.Tick += updateTimer_Tick;
         }
 
