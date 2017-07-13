@@ -43,9 +43,6 @@ namespace LiveSplit.FFX.UI
             BackgroundColor2 = Color.Transparent;
             BackgroundGradient = GradientType.Plain;
 
-            //cmbGradientType.SelectedIndexChanged += cmbGradientType_SelectedIndexChanged;
-            //cmbValue.SelectedIndexChanged += cmbValue_SelectedIndexChanged;
-
             cbOverrideTextColor.DataBindings.Add("Checked", this, "OverrideTextColor", false, DataSourceUpdateMode.OnPropertyChanged);
             btnBackgroundColor1.DataBindings.Add("BackColor", this, "BackgroundColor1", false, DataSourceUpdateMode.OnPropertyChanged);
             btnBackgroundColor2.DataBindings.Add("BackColor", this, "BackgroundColor2", false, DataSourceUpdateMode.OnPropertyChanged);
@@ -91,7 +88,10 @@ namespace LiveSplit.FFX.UI
             ValueString = SettingsHelper.ParseString(element["ValueString"]);
             ValueIndex = SettingsHelper.ParseInt(element["ValueIndex"]);
 
-            this.OnSelectionChanged?.Invoke(this, ValueIndex);
+            if (ValueString != "")
+            {
+                this.OnSelectionChanged?.Invoke(this, ValueIndex);
+            }
         }
 
 

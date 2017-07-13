@@ -55,7 +55,9 @@ namespace LiveSplit.FFX.UI
 
         // Display data
         public string displayName { get; set; }
+        public string defaultDisplayName { get; set; }
         public string displayValue { get; set; }
+        public string defaultDisplayValue { get; set; }
         public int counterIndex { get; set; }
 
         // Possible values to display, new values can be added here
@@ -75,8 +77,11 @@ namespace LiveSplit.FFX.UI
         //Init
         public FFXUIComponent(LiveSplitState state)
         {
+            this.defaultDisplayName = "Select Value";
+            this.defaultDisplayValue = "0";
+
             this.ContextMenuControls = new Dictionary<string, Action>();
-            this.InternalComponent = new InfoTextComponent("Select Value", "0");
+            this.InternalComponent = new InfoTextComponent(this.defaultDisplayName, this.defaultDisplayValue);
 
             StringList valueList = new StringList();
 
@@ -105,8 +110,8 @@ namespace LiveSplit.FFX.UI
         {
             if (invalidator != null && (this.InternalComponent.InformationValue != this.displayValue || this.InternalComponent.InformationName != this.displayName))
             {
-                this.InternalComponent.InformationName = this.displayName;
-                this.InternalComponent.InformationValue = this.displayValue;
+                this.InternalComponent.InformationName = this.displayName == null ? this.defaultDisplayName : this.displayName;
+                this.InternalComponent.InformationValue = this.displayValue == null ? this.defaultDisplayValue : this.displayValue;
                 invalidator.Invalidate(0f, 0f, width, height);
             }
         }
@@ -152,9 +157,17 @@ namespace LiveSplit.FFX.UI
             {
                 _gameMemory.Update(this.UISettings);
             }
+            catch (ProcessLostException)
+            {
+                // Reset counters
+                for (int i = 0; i < counterData.Length; i++)
+                    counterData[i].Count = 0;
+
+                this.displayValue = this.defaultDisplayValue;
+            }
             catch (Exception)
             {
-
+                // Any
             }
         }
 
@@ -165,7 +178,7 @@ namespace LiveSplit.FFX.UI
 
             this.counterData[index].Count = count;
 
-            if (index == this.counterIndex)
+            if (index == this.counterIndex && !(this.displayName.Equals(this.defaultDisplayName)))
             {
                 this.displayName = counterData[counterIndex].Text;
                 this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);

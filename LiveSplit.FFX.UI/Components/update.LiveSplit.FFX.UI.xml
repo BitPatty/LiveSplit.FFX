@@ -5,6 +5,19 @@
     </files>
     <changelog>
       <change>
+        Added default display value
+      </change>
+      <change>
+        Changed exception handling
+      </change>
+    </changelog>
+  </update>
+  <update version="1.0.3">
+    <files>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
         Added more Display options
       </change>
     </changelog>

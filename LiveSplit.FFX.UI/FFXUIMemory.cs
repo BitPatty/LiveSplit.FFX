@@ -124,7 +124,7 @@ namespace LiveSplit.FFX.UI
             if (_process == null || _process.HasExited)
             {
                 if (!this.TryGetGameProcess())
-                    return;
+                    throw new ProcessLostException();
             }
 
             _data.Update(_process);
@@ -133,7 +133,17 @@ namespace LiveSplit.FFX.UI
             {
                 if (_data._counterData[i].Watcher != null)
                 {
-                    int counterValue = (int)_data._counterData[i].Watcher.Current & _data._counterData[i].Size;
+                    int counterValue;
+                    try
+                    {
+                        counterValue = (int)_data._counterData[i].Watcher.Current & _data._counterData[i].Size;
+                    }
+                    catch (NullReferenceException)
+                    {
+                        // Watcher.Current == null
+                        counterValue = 0;
+                    }
+
                     Tuple<int, int> values = new Tuple<int, int>(i, counterValue);
                     this.OnValueChanged?.Invoke(this, values);
                 }
@@ -172,5 +182,15 @@ namespace LiveSplit.FFX.UI
     enum GameVersion
     {
         v10
+    }
+
+
+    public class ProcessLostException : System.Exception
+    {
+        public ProcessLostException() : base() { }
+        public ProcessLostException(string message) : base(message) { }
+        public ProcessLostException(string message, System.Exception inner) : base(message, inner) { }
+
+        protected ProcessLostException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) { }
     }
 }
