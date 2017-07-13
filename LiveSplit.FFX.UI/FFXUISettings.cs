@@ -27,6 +27,7 @@ namespace LiveSplit.FFX.UI
         public LayoutMode Mode { get; set; }
 
         public event EventHandler<int> OnSelectionChanged;
+        public event EventHandler<Tuple<int, string>> OnSelectionLoaded;
 
         public FFXUISettings(StringList valueList)
         {
@@ -90,7 +91,7 @@ namespace LiveSplit.FFX.UI
 
             if (ValueString != "")
             {
-                this.OnSelectionChanged?.Invoke(this, ValueIndex);
+                this.OnSelectionLoaded?.Invoke(this, new Tuple<int,string>(ValueIndex, ValueString));
             }
         }
 
