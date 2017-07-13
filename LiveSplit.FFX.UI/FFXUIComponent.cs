@@ -64,8 +64,8 @@ namespace LiveSplit.FFX.UI
         public Counter[] counterData = new Counter[]
             {
                 new Counter { Text = "Encounter Count",     Offset = 0xD307A4, Size = sizeof(int) },
-                new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
                 new Counter { Text = "Gil",                 Offset = 0xD307D8, Size = sizeof(int) },
+                new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
                 new Counter { Text = "Affection Yuna",      Offset = 0xD2CAC0, Size = sizeof(int) },
                 new Counter { Text = "Affection Auron",     Offset = 0xD2CAC4, Size = sizeof(int) },
                 new Counter { Text = "Affection Kimahri",   Offset = 0xD2CAC8, Size = sizeof(int) },
@@ -90,6 +90,7 @@ namespace LiveSplit.FFX.UI
 
             this.UISettings = new FFXUISettings(valueList);
             UISettings.OnSelectionChanged += uiSettings_OnSelectionChanged;
+            UISettings.OnSelectionLoaded += uiSettings_OnSelectionLoaded;
 
             _state = state;
             _state.OnReset += state_OnReset;
@@ -188,6 +189,36 @@ namespace LiveSplit.FFX.UI
         void uiSettings_OnSelectionChanged(object sender, int index)
         {
             this.counterIndex = index;
+            this.displayName = counterData[counterIndex].Text;
+            this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);
+        }
+
+        void uiSettings_OnSelectionLoaded(object sender, Tuple<int, string> selectionData)
+        {
+            this.counterIndex = selectionData.Item1;
+
+            // If index or value order changes because of FFXUI updates
+            if (this.counterIndex >= counterData.Length || !(counterData[counterIndex].Text.Equals(selectionData.Item2)))
+            {
+                int newIndex;
+
+                try
+                {
+                    // Try to find new Index of old value
+                    newIndex = Array.FindIndex(counterData, item => item.Text.Equals(selectionData.Item2));
+                }
+                catch (ArgumentNullException)
+                {
+                    // Reset display if value not found
+                    this.counterIndex = 0;
+                    this.displayName = this.defaultDisplayName;
+                    this.displayValue = this.defaultDisplayValue;
+                    return;
+                }
+
+                this.counterIndex = newIndex;
+            }
+
             this.displayName = counterData[counterIndex].Text;
             this.displayValue = counterData[counterIndex].Count.ToString(CultureInfo.InvariantCulture);
         }
