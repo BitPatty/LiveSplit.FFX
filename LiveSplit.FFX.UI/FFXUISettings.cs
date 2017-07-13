@@ -22,21 +22,29 @@ namespace LiveSplit.FFX.UI
             set { BackgroundGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
         }
 
+        public Counter[] CounterData { get; set; }
+        public StringList ValueList { get; set; }
+        public string TypeString { get; set; }
         public string ValueString { get; set; }
-        public int ValueIndex { get; set; }
+        public int CounterIndex { get; set; }
         public LayoutMode Mode { get; set; }
 
         public event EventHandler<int> OnSelectionChanged;
         public event EventHandler<Tuple<int, string>> OnSelectionLoaded;
 
-        public FFXUISettings(StringList valueList)
+        public FFXUISettings(Counter[] counterData)
         {
+            this.CounterData = new Counter[counterData.Length];
+            Array.Copy(counterData, CounterData, counterData.Length);
+
             InitializeComponent();
 
-            foreach (string Item in valueList)
-            {
-                cmbValue.Items.Add(Item);
-            }
+            this.ValueList = new StringList();
+            foreach (Counter item in this.CounterData)
+                this.ValueList.Add(item.Text);
+
+            foreach (CategoryType categoryType in Enum.GetValues(typeof(CategoryType)))
+                cmbType.Items.Add(categoryType.ToString("G"));
 
             TextColor = Color.FromArgb(255, 255, 255);
             OverrideTextColor = false;
@@ -50,12 +58,39 @@ namespace LiveSplit.FFX.UI
             btnTextColor.DataBindings.Add("BackColor", this, "TextColor", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbGradientType.DataBindings.Add("SelectedItem", this, "GradientString", false, DataSourceUpdateMode.OnPropertyChanged);
             cmbValue.DataBindings.Add("SelectedItem", this, "ValueString", false, DataSourceUpdateMode.OnPropertyChanged);
+            cmbType.DataBindings.Add("SelectedItem", this, "TypeString", false, DataSourceUpdateMode.OnPropertyChanged);
         }
 
         void UISettings_Load(object sender, EventArgs e)
         {
             cbOverrideTextColor.Checked = OverrideTextColor;
             cbOverrideTextColor_CheckedChanged(null, null);
+
+            if (TypeString != null && TypeString != "")
+            {
+                cmbType.SelectedItem = TypeString;
+                SetupCmbValue();
+            }
+        }
+
+        void SetupCmbValue()
+        {
+            cmbValue.Items.Clear();
+
+            CategoryType cat = (CategoryType)Enum.Parse(typeof(CategoryType), TypeString, true);
+
+            foreach (Counter item in CounterData)
+            {
+                if (item.Category == cat)
+                    cmbValue.Items.Add(item.Text);
+            }
+
+            if (ValueString != null && ValueString != "" && cmbValue.Items.Contains(ValueString))
+                cmbValue.SelectedItem = ValueString;
+            else
+                cmbValue.SelectedIndex = 0;
+
+            cmbValue_SelectedIndexChanged(null, null);
         }
 
         void cbOverrideTextColor_CheckedChanged(object sender, EventArgs e)
@@ -71,11 +106,24 @@ namespace LiveSplit.FFX.UI
             GradientString = cmbGradientType.SelectedItem.ToString();
         }
 
+        void cmbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbType.SelectedItem != null)
+            {
+                TypeString = cmbType.SelectedItem.ToString();
+                SetupCmbValue();
+            }
+        }
+
         void cmbValue_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ValueString = cmbValue.SelectedItem.ToString();
-            ValueIndex = cmbValue.SelectedIndex;
-            this.OnSelectionChanged?.Invoke(this, ValueIndex);
+            if (cmbValue.SelectedItem != null)
+            {
+                ValueString = cmbValue.SelectedItem.ToString();
+
+                this.CounterIndex = ValueList.IndexOf(ValueString);
+                this.OnSelectionChanged?.Invoke(this, CounterIndex);
+            }
         }
 
         public void SetSettings(XmlNode node)
@@ -86,12 +134,22 @@ namespace LiveSplit.FFX.UI
             BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
             BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
             GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
+            TypeString = SettingsHelper.ParseString(element["TypeString"]);
             ValueString = SettingsHelper.ParseString(element["ValueString"]);
-            ValueIndex = SettingsHelper.ParseInt(element["ValueIndex"]);
+            CounterIndex = SettingsHelper.ParseInt(element["CounterIndex"]);
+
+            if (!(ValueList.Contains(ValueString)))
+                TypeString = ValueString = "";
 
             if (ValueString != "")
             {
-                this.OnSelectionLoaded?.Invoke(this, new Tuple<int,string>(ValueIndex, ValueString));
+                if (TypeString == "")
+                {
+                    this.CounterIndex = ValueList.IndexOf(ValueString);
+                    this.TypeString = CounterData[CounterIndex].Category.ToString("G");
+                }
+
+                this.OnSelectionLoaded?.Invoke(this, new Tuple<int, string>(CounterIndex, ValueString));
             }
         }
 
@@ -106,8 +164,9 @@ namespace LiveSplit.FFX.UI
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor1", BackgroundColor1);
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2);
             SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient);
+            SettingsHelper.CreateSetting(document, parent, "TypeString", TypeString);
             SettingsHelper.CreateSetting(document, parent, "ValueString", ValueString);
-            SettingsHelper.CreateSetting(document, parent, "ValueIndex", ValueIndex);
+            SettingsHelper.CreateSetting(document, parent, "CounterIndex", CounterIndex);
 
             return parent;
         }

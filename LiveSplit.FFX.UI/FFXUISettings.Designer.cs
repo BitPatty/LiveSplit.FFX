@@ -38,11 +38,18 @@
             this.cbOverrideTextColor = new System.Windows.Forms.CheckBox();
             this.btnTextColor = new System.Windows.Forms.Button();
             this.lblTextColor = new System.Windows.Forms.Label();
-            this.lblValue = new System.Windows.Forms.Label();
+            this.gbDisplayValue = new System.Windows.Forms.GroupBox();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.cmbType = new System.Windows.Forms.ComboBox();
             this.cmbValue = new System.Windows.Forms.ComboBox();
+            this.lblType = new System.Windows.Forms.Label();
+            this.lblValue = new System.Windows.Forms.Label();
+            this.lblDisclaimer = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.gbText.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.gbDisplayValue.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel1
@@ -57,17 +64,16 @@
             this.tableLayoutPanel1.Controls.Add(this.btnBackgroundColor2, 2, 0);
             this.tableLayoutPanel1.Controls.Add(this.cmbGradientType, 3, 0);
             this.tableLayoutPanel1.Controls.Add(this.gbText, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.lblValue, 0, 3);
-            this.tableLayoutPanel1.Controls.Add(this.cmbValue, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.gbDisplayValue, 0, 3);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 83F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 170F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(470, 238);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(470, 372);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // lblBackgroundColor
@@ -185,27 +191,98 @@
             this.lblTextColor.TabIndex = 1;
             this.lblTextColor.Text = "Color:";
             // 
+            // gbDisplayValue
+            // 
+            this.tableLayoutPanel1.SetColumnSpan(this.gbDisplayValue, 4);
+            this.gbDisplayValue.Controls.Add(this.tableLayoutPanel3);
+            this.gbDisplayValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbDisplayValue.Location = new System.Drawing.Point(3, 135);
+            this.gbDisplayValue.Name = "gbDisplayValue";
+            this.gbDisplayValue.Size = new System.Drawing.Size(464, 164);
+            this.gbDisplayValue.TabIndex = 8;
+            this.gbDisplayValue.TabStop = false;
+            this.gbDisplayValue.Text = "Display Value";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 3;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 50F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.cmbType, 2, 1);
+            this.tableLayoutPanel3.Controls.Add(this.cmbValue, 2, 3);
+            this.tableLayoutPanel3.Controls.Add(this.lblType, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.lblValue, 0, 3);
+            this.tableLayoutPanel3.Controls.Add(this.lblDisclaimer, 0, 5);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(3, 16);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 6;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 29F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(458, 145);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // cmbType
+            // 
+            this.cmbType.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbType.FormattingEnabled = true;
+            this.cmbType.Location = new System.Drawing.Point(73, 23);
+            this.cmbType.Name = "cmbType";
+            this.cmbType.Size = new System.Drawing.Size(382, 21);
+            this.cmbType.TabIndex = 5;
+            this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
+            // 
+            // cmbValue
+            // 
+            this.cmbValue.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.cmbValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbValue.FormattingEnabled = true;
+            this.cmbValue.Location = new System.Drawing.Point(73, 72);
+            this.cmbValue.Name = "cmbValue";
+            this.cmbValue.Size = new System.Drawing.Size(382, 21);
+            this.cmbValue.TabIndex = 6;
+            this.cmbValue.SelectedIndexChanged += new System.EventHandler(this.cmbValue_SelectedIndexChanged);
+            // 
+            // lblType
+            // 
+            this.lblType.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblType.AutoSize = true;
+            this.lblType.Location = new System.Drawing.Point(3, 28);
+            this.lblType.Name = "lblType";
+            this.lblType.Size = new System.Drawing.Size(44, 13);
+            this.lblType.TabIndex = 4;
+            this.lblType.Text = "Type:";
+            // 
             // lblValue
             // 
             this.lblValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.lblValue.AutoSize = true;
-            this.lblValue.Location = new System.Drawing.Point(3, 140);
+            this.lblValue.Location = new System.Drawing.Point(3, 77);
             this.lblValue.Name = "lblValue";
-            this.lblValue.Size = new System.Drawing.Size(153, 13);
+            this.lblValue.Size = new System.Drawing.Size(44, 13);
             this.lblValue.TabIndex = 4;
             this.lblValue.Text = "Value:";
             // 
-            // cmbValue
+            // lblDisclaimer
             // 
-            this.tableLayoutPanel1.SetColumnSpan(this.cmbValue, 3);
-            this.cmbValue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cmbValue.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbValue.FormattingEnabled = true;
-            this.cmbValue.Location = new System.Drawing.Point(162, 135);
-            this.cmbValue.Name = "cmbValue";
-            this.cmbValue.Size = new System.Drawing.Size(305, 21);
-            this.cmbValue.TabIndex = 5;
-            this.cmbValue.SelectedIndexChanged += new System.EventHandler(this.cmbValue_SelectedIndexChanged);
+            this.lblDisclaimer.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblDisclaimer.AutoSize = true;
+            this.tableLayoutPanel3.SetColumnSpan(this.lblDisclaimer, 4);
+            this.lblDisclaimer.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDisclaimer.ForeColor = System.Drawing.Color.Red;
+            this.lblDisclaimer.Location = new System.Drawing.Point(3, 118);
+            this.lblDisclaimer.Name = "lblDisclaimer";
+            this.lblDisclaimer.Size = new System.Drawing.Size(452, 13);
+            this.lblDisclaimer.TabIndex = 7;
+            this.lblDisclaimer.Text = "Note: Some of these Values may not be used during runs.";
+            this.lblDisclaimer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // FFXUISettings
             // 
@@ -213,13 +290,16 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "FFXUISettings";
-            this.Size = new System.Drawing.Size(476, 304);
+            this.Size = new System.Drawing.Size(476, 380);
             this.Load += new System.EventHandler(this.UISettings_Load);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.gbText.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.gbDisplayValue.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -228,7 +308,6 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Label lblBackgroundColor;
-        private System.Windows.Forms.ComboBox cmbGradientType;
         private System.Windows.Forms.Button btnBackgroundColor1;
         private System.Windows.Forms.Button btnBackgroundColor2;
         private System.Windows.Forms.GroupBox gbText;
@@ -236,7 +315,13 @@
         private System.Windows.Forms.CheckBox cbOverrideTextColor;
         private System.Windows.Forms.Label lblTextColor;
         private System.Windows.Forms.Button btnTextColor;
+        private System.Windows.Forms.Label lblType;
+        private System.Windows.Forms.ComboBox cmbType;
+        private System.Windows.Forms.ComboBox cmbGradientType;
         private System.Windows.Forms.Label lblValue;
         private System.Windows.Forms.ComboBox cmbValue;
+        private System.Windows.Forms.GroupBox gbDisplayValue;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.Label lblDisclaimer;
     }
 }

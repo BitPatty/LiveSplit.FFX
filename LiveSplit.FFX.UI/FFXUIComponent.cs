@@ -19,6 +19,7 @@ namespace LiveSplit.FFX.UI
         public string Text { get; set; }                    // Display Name
         public int Count { get; set; }                      // Display Count
         public int Offset { get; set; }                     // Offset of Count
+        public CategoryType Category { get; set; }         // Category for Dropdown
 
         public int IndexOffset { get; set; }                // Index offset if Offset is an indexed address (not pointers, used for items)
         public int IndexBufferSize { get; set; }            // Area to search for Index
@@ -27,6 +28,13 @@ namespace LiveSplit.FFX.UI
 
         public int Size { get { return this._size; } set { if (value >= 4) this._size = 0x7fffffff; else this._size = (1 << (8 * value)) - 1; } }       // Memory type (could use MemoryWatcher<T> instead)
         public MemoryWatcher Watcher { get; set; }          // MemoryWatcher for Count
+    }
+
+    public enum CategoryType
+    {
+        Item,
+        Affection,
+        Misc
     }
 
     public class FFXUIComponent : IComponent
@@ -63,15 +71,20 @@ namespace LiveSplit.FFX.UI
         // Possible values to display, new values can be added here
         public Counter[] counterData = new Counter[]
             {
-                new Counter { Text = "Encounter Count",     Offset = 0xD307A4, Size = sizeof(int) },
-                new Counter { Text = "Gil",                 Offset = 0xD307D8, Size = sizeof(int) },
-                new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
-                new Counter { Text = "Affection Yuna",      Offset = 0xD2CAC0, Size = sizeof(int) },
-                new Counter { Text = "Affection Auron",     Offset = 0xD2CAC4, Size = sizeof(int) },
-                new Counter { Text = "Affection Kimahri",   Offset = 0xD2CAC8, Size = sizeof(int) },
-                new Counter { Text = "Affection Wakka",     Offset = 0xD2CACC, Size = sizeof(int) },
-                new Counter { Text = "Affection Lulu",      Offset = 0xD2CAD0, Size = sizeof(int) },
-                new Counter { Text = "Affection Rikku",     Offset = 0xD2CAD4, Size = sizeof(int) }
+                // Misc
+                new Counter { Text = "Encounter Count",     Offset = 0xD307A4, Category = CategoryType.Misc, Size = sizeof(int) },
+                //new Counter { Text = "Gil",                 Offset = 0xD307D8, Category = CategoryType.Misc, Size = sizeof(int) },
+
+                // Items
+                new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
+
+                // Affection Levels
+                new Counter { Text = "Affection Yuna",      Offset = 0xD2CAC0, Category = CategoryType.Affection, Size = sizeof(int) },
+                new Counter { Text = "Affection Auron",     Offset = 0xD2CAC4, Category = CategoryType.Affection, Size = sizeof(int) },
+                new Counter { Text = "Affection Kimahri",   Offset = 0xD2CAC8, Category = CategoryType.Affection, Size = sizeof(int) },
+                new Counter { Text = "Affection Wakka",     Offset = 0xD2CACC, Category = CategoryType.Affection, Size = sizeof(int) },
+                new Counter { Text = "Affection Lulu",      Offset = 0xD2CAD0, Category = CategoryType.Affection, Size = sizeof(int) },
+                new Counter { Text = "Affection Rikku",     Offset = 0xD2CAD4, Category = CategoryType.Affection, Size = sizeof(int) }
             };
 
         //Init
@@ -83,12 +96,7 @@ namespace LiveSplit.FFX.UI
             this.ContextMenuControls = new Dictionary<string, Action>();
             this.InternalComponent = new InfoTextComponent(this.defaultDisplayName, this.defaultDisplayValue);
 
-            StringList valueList = new StringList();
-
-            foreach (Counter item in counterData)
-                valueList.Add(item.Text);
-
-            this.UISettings = new FFXUISettings(valueList);
+            this.UISettings = new FFXUISettings(counterData);
             UISettings.OnSelectionChanged += uiSettings_OnSelectionChanged;
             UISettings.OnSelectionLoaded += uiSettings_OnSelectionLoaded;
 
