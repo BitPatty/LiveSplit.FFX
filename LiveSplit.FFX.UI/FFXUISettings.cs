@@ -22,6 +22,7 @@ namespace LiveSplit.FFX.UI
             set { BackgroundGradient = (GradientType)Enum.Parse(typeof(GradientType), value); }
         }
 
+        public string Version { get; set; }
         public Counter[] CounterData { get; set; }
         public StringList ValueList { get; set; }
         public string TypeString { get; set; }
@@ -129,26 +130,41 @@ namespace LiveSplit.FFX.UI
         public void SetSettings(XmlNode node)
         {
             var element = (XmlElement)node;
-            TextColor = SettingsHelper.ParseColor(element["TextColor"]);
-            OverrideTextColor = SettingsHelper.ParseBool(element["OverrideTextColor"]);
-            BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
-            BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
-            GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
-            TypeString = SettingsHelper.ParseString(element["TypeString"]);
-            ValueString = SettingsHelper.ParseString(element["ValueString"]);
-            CounterIndex = SettingsHelper.ParseInt(element["CounterIndex"]);
 
-            if (!(ValueList.Contains(ValueString)))
-                TypeString = ValueString = "";
+            Version = SettingsHelper.ParseString(element["Version"]);
 
-            if (ValueString != "")
+            if (Version == "")
             {
-                if (TypeString == "")
+                // Version 1.0.0 Upgrade
+                this.ValueString = "Encounter Count";
+            }
+            else
+            {
+                this.TextColor = SettingsHelper.ParseColor(element["TextColor"]);
+                this.OverrideTextColor = SettingsHelper.ParseBool(element["OverrideTextColor"]);
+                this.BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
+                this.BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
+                this.ValueString = SettingsHelper.ParseString(element["ValueString"]);
+                try
                 {
-                    this.CounterIndex = ValueList.IndexOf(ValueString);
-                    this.TypeString = CounterData[CounterIndex].Category.ToString("G");
+                    this.GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
                 }
+                catch (ArgumentException)
+                {
+                    BackgroundGradient = GradientType.Plain;
+                }
+            }
 
+
+            // Upgrade safety
+            if (!(this.ValueList.Contains(ValueString)))
+            {
+                this.ValueString = "";
+            }
+            else if (this.ValueString != "")
+            {
+                this.CounterIndex = ValueList.IndexOf(ValueString);
+                this.TypeString = CounterData[CounterIndex].Category.ToString("G");
                 this.OnSelectionLoaded?.Invoke(this, new Tuple<int, string>(CounterIndex, ValueString));
             }
         }
@@ -164,9 +180,7 @@ namespace LiveSplit.FFX.UI
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor1", BackgroundColor1);
             SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2);
             SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient);
-            SettingsHelper.CreateSetting(document, parent, "TypeString", TypeString);
             SettingsHelper.CreateSetting(document, parent, "ValueString", ValueString);
-            SettingsHelper.CreateSetting(document, parent, "CounterIndex", CounterIndex);
 
             return parent;
         }
