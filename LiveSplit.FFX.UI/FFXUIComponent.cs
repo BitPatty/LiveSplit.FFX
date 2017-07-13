@@ -73,10 +73,22 @@ namespace LiveSplit.FFX.UI
             {
                 // Misc
                 new Counter { Text = "Encounter Count",     Offset = 0xD307A4, Category = CategoryType.Misc, Size = sizeof(int) },
-                //new Counter { Text = "Gil",                 Offset = 0xD307D8, Category = CategoryType.Misc, Size = sizeof(int) },
+                new Counter { Text = "Gil",                 Offset = 0xD307D8, Category = CategoryType.Misc, Size = sizeof(int) },
 
                 // Items
+                new Counter { Text = "Arctic Wind",         Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x18, Size = sizeof(byte) },
+                new Counter { Text = "Ice Gems",            Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x19, Size = sizeof(byte) },
+                new Counter { Text = "Bomb Cores",          Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x1B, Size = sizeof(byte) },
+                new Counter { Text = "Fire Gems",           Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x1C, Size = sizeof(byte) },
+                new Counter { Text = "Lightning Marbles",   Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x1E, Size = sizeof(byte) },
+                new Counter { Text = "Lightning Gems",      Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x1F, Size = sizeof(byte) },
+                new Counter { Text = "Fish Scales",         Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x20, Size = sizeof(byte) },
+                new Counter { Text = "Water Gems",          Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x22, Size = sizeof(byte) },
+                new Counter { Text = "Sleeping Powders",    Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x25, Size = sizeof(byte) },
+                new Counter { Text = "Power Spheres",       Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x46, Size = sizeof(byte) },
+                new Counter { Text = "Mana Spheres",        Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x47, Size = sizeof(byte) },
                 new Counter { Text = "Speed Spheres",       Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x48, Size = sizeof(byte) },
+                new Counter { Text = "Ability Spheres",     Offset = 0xD30B5C, Category = CategoryType.Item, IndexOffset = 0xD3095C, IndexBufferSize = 224, IndexKey = 0x49, Size = sizeof(byte) },
 
                 // Affection Levels
                 new Counter { Text = "Affection Yuna",      Offset = 0xD2CAC0, Category = CategoryType.Affection, Size = sizeof(int) },

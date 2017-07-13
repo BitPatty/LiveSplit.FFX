@@ -1,4 +1,17 @@
 <updates>
+  <update version="1.0.5">
+    <files>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Added more Display options and disclaimer
+      </change>
+      <change>
+        Changed exception handling
+      </change>
+    </changelog>
+  </update>
   <update version="1.0.4">
     <files>
       <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
