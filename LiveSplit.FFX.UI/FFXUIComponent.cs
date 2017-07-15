@@ -4,6 +4,7 @@ using LiveSplit.UI.Components;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Windows.Forms;
 using System.Xml;
@@ -20,22 +21,26 @@ namespace LiveSplit.FFX.UI
 
         // IComponent implementations
         public void RenameComparison(string oldName, string newName) { }
-        public float MinimumWidth { get { return this.InternalComponent.MinimumWidth; } }
-        public float MinimumHeight { get { return this.InternalComponent.MinimumHeight; } }
-        public float VerticalHeight { get { return this.InternalComponent.VerticalHeight; } }
-        public float HorizontalWidth { get { return this.InternalComponent.HorizontalWidth; } }
-        public float PaddingLeft { get { return this.InternalComponent.PaddingLeft; } }
-        public float PaddingRight { get { return this.InternalComponent.PaddingRight; } }
-        public float PaddingTop { get { return this.InternalComponent.PaddingTop; } }
-        public float PaddingBottom { get { return this.InternalComponent.PaddingBottom; } }
+        public float MinimumWidth { get { return InternalComponent.MinimumWidth; } }
+        public float MinimumHeight { get { return InternalComponent.MinimumHeight; } }
+        public float VerticalHeight { get { return InternalComponent.VerticalHeight; } }
+        public float HorizontalWidth { get { return InternalComponent.HorizontalWidth; } }
+        public float PaddingLeft { get { return InternalComponent.PaddingLeft; } }
+        public float PaddingRight { get { return InternalComponent.PaddingRight; } }
+        public float PaddingTop { get { return InternalComponent.PaddingTop; } }
+        public float PaddingBottom { get { return InternalComponent.PaddingBottom; } }
 
+
+        public FFXUISettings UISettings { get; set; }
         private LiveSplitState _state;
         private int _encounters;
 
         public FFXUIComponent(LiveSplitState state)
         {
-            this.ContextMenuControls = new Dictionary<string, Action>();
-            this.InternalComponent = new InfoTextComponent("Encounter Count", "0");
+            ContextMenuControls = new Dictionary<string, Action>();
+            InternalComponent = new InfoTextComponent("Encounter Count", "0");
+
+            UISettings = new FFXUISettings();
 
             _state = state;
             _state.OnReset += state_OnReset;
@@ -55,31 +60,41 @@ namespace LiveSplit.FFX.UI
         {
             string encounters = _encounters.ToString(CultureInfo.InvariantCulture);
 
-            if (invalidator != null && this.InternalComponent.InformationValue != encounters)
+            if (invalidator != null && InternalComponent.InformationValue != encounters)
             {
-                this.InternalComponent.InformationValue = encounters;
+                InternalComponent.InformationValue = encounters;
                 invalidator.Invalidate(0f, 0f, width, height);
             }
-
         }
 
-        void PrepareDraw(LiveSplitState state)
+        void PrepareDraw(Graphics g, LiveSplitState state, float width, float height)
         {
-            this.InternalComponent.NameLabel.ForeColor = state.LayoutSettings.TextColor;
-            this.InternalComponent.ValueLabel.ForeColor = state.LayoutSettings.TextColor;
-            this.InternalComponent.NameLabel.HasShadow = this.InternalComponent.ValueLabel.HasShadow = state.LayoutSettings.DropShadows;
+            if (UISettings.BackgroundColor1.A > 0 || UISettings.BackgroundGradient != GradientType.Plain && UISettings.BackgroundColor2.A > 0)
+            {
+                var gradientBrush = new LinearGradientBrush(
+                    new PointF(0, 0),
+                    UISettings.BackgroundGradient == GradientType.Horizontal ? new PointF(width, 0) : new PointF(0, height),
+                    UISettings.BackgroundColor1,
+                    UISettings.BackgroundGradient == GradientType.Plain ? UISettings.BackgroundColor1 : UISettings.BackgroundColor2);
+
+                g.FillRectangle(gradientBrush, 0, 0, width, height);
+            }
+
+            InternalComponent.NameLabel.ForeColor = UISettings.OverrideTextColor ? UISettings.TextColor : state.LayoutSettings.TextColor;
+            InternalComponent.ValueLabel.ForeColor = UISettings.OverrideTextColor ? UISettings.TextColor : state.LayoutSettings.TextColor;
+            InternalComponent.NameLabel.HasShadow = InternalComponent.ValueLabel.HasShadow = state.LayoutSettings.DropShadows;
         }
 
         public void DrawVertical(Graphics g, LiveSplitState state, float width, Region region)
         {
-            this.PrepareDraw(state);
-            this.InternalComponent.DrawVertical(g, state, width, region);
+            PrepareDraw(g, state, width, VerticalHeight);
+            InternalComponent.DrawVertical(g, state, width, region);
         }
 
         public void DrawHorizontal(Graphics g, LiveSplitState state, float width, Region region)
         {
-            this.PrepareDraw(state);
-            this.InternalComponent.DrawHorizontal(g, state, width, region);
+            PrepareDraw(g, state, width, VerticalHeight);
+            InternalComponent.DrawHorizontal(g, state, width, region);
         }
 
         void state_OnReset(object sender, TimerPhase t)
@@ -89,17 +104,18 @@ namespace LiveSplit.FFX.UI
 
         public XmlNode GetSettings(XmlDocument document)
         {
-            return document.CreateElement("Settings");
+            return UISettings.GetSettings(document);
         }
 
         public Control GetSettingsControl(LayoutMode mode)
         {
-            return null;
+            UISettings.Mode = mode;
+            return UISettings;
         }
 
         public void SetSettings(XmlNode settings)
         {
-
+            UISettings.SetSettings(settings);
         }
     }
 }
