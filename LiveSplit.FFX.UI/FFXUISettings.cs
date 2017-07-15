@@ -35,14 +35,14 @@ namespace LiveSplit.FFX.UI
 
         public FFXUISettings(Counter[] counterData)
         {
-            this.CounterData = new Counter[counterData.Length];
+            CounterData = new Counter[counterData.Length];
             Array.Copy(counterData, CounterData, counterData.Length);
 
             InitializeComponent();
 
-            this.ValueList = new StringList();
-            foreach (Counter item in this.CounterData)
-                this.ValueList.Add(item.Text);
+            ValueList = new StringList();
+            foreach (Counter item in CounterData)
+                ValueList.Add(item.Text);
 
             foreach (CategoryType categoryType in Enum.GetValues(typeof(CategoryType)))
                 cmbType.Items.Add(categoryType.ToString("G"));
@@ -67,7 +67,7 @@ namespace LiveSplit.FFX.UI
             cbOverrideTextColor.Checked = OverrideTextColor;
             cbOverrideTextColor_CheckedChanged(null, null);
 
-            if (TypeString != null && TypeString != "")
+            if (!String.IsNullOrEmpty(TypeString))
             {
                 cmbType.SelectedItem = TypeString;
                 SetupCmbValue();
@@ -86,7 +86,7 @@ namespace LiveSplit.FFX.UI
                     cmbValue.Items.Add(item.Text);
             }
 
-            if (ValueString != null && ValueString != "" && cmbValue.Items.Contains(ValueString))
+            if (!String.IsNullOrEmpty(ValueString) && cmbValue.Items.Contains(ValueString))
                 cmbValue.SelectedItem = ValueString;
             else
                 cmbValue.SelectedIndex = 0;
@@ -122,8 +122,8 @@ namespace LiveSplit.FFX.UI
             {
                 ValueString = cmbValue.SelectedItem.ToString();
 
-                this.CounterIndex = ValueList.IndexOf(ValueString);
-                this.OnSelectionChanged?.Invoke(this, CounterIndex);
+                CounterIndex = ValueList.IndexOf(ValueString);
+                OnSelectionChanged?.Invoke(this, CounterIndex);
             }
         }
 
@@ -133,21 +133,21 @@ namespace LiveSplit.FFX.UI
 
             Version = SettingsHelper.ParseString(element["Version"]);
 
-            if (Version == "")
+            if (String.IsNullOrEmpty(Version))
             {
                 // Version 1.0.0 Upgrade
-                this.ValueString = "Encounter Count";
+                ValueString = "Encounter Count";
             }
             else
             {
-                this.TextColor = SettingsHelper.ParseColor(element["TextColor"]);
-                this.OverrideTextColor = SettingsHelper.ParseBool(element["OverrideTextColor"]);
-                this.BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
-                this.BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
-                this.ValueString = SettingsHelper.ParseString(element["ValueString"]);
+                TextColor = SettingsHelper.ParseColor(element["TextColor"]);
+                OverrideTextColor = SettingsHelper.ParseBool(element["OverrideTextColor"]);
+                BackgroundColor1 = SettingsHelper.ParseColor(element["BackgroundColor1"]);
+                BackgroundColor2 = SettingsHelper.ParseColor(element["BackgroundColor2"]);
+                ValueString = SettingsHelper.ParseString(element["ValueString"]);
                 try
                 {
-                    this.GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
+                    GradientString = SettingsHelper.ParseString(element["BackgroundGradient"]);
                 }
                 catch (ArgumentException)
                 {
@@ -157,34 +157,35 @@ namespace LiveSplit.FFX.UI
 
 
             // Upgrade safety
-            if (!(this.ValueList.Contains(ValueString)))
+            if (!(ValueList.Contains(ValueString)))
             {
-                this.ValueString = "";
+                ValueString = "";
             }
-            else if (this.ValueString != "")
+            else if (!String.IsNullOrEmpty(ValueString))
             {
-                this.CounterIndex = ValueList.IndexOf(ValueString);
-                this.TypeString = CounterData[CounterIndex].Category.ToString("G");
-                this.OnSelectionLoaded?.Invoke(this, new Tuple<int, string>(CounterIndex, ValueString));
+                CounterIndex = ValueList.IndexOf(ValueString);
+                TypeString = CounterData[CounterIndex].Category.ToString("G");
+                OnSelectionLoaded?.Invoke(this, new Tuple<int, string>(CounterIndex, ValueString));
             }
         }
-
 
         public XmlNode GetSettings(XmlDocument document)
         {
             var parent = document.CreateElement("Settings");
-
-            SettingsHelper.CreateSetting(document, parent, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3));
-            SettingsHelper.CreateSetting(document, parent, "TextColor", TextColor);
-            SettingsHelper.CreateSetting(document, parent, "OverrideTextColor", OverrideTextColor);
-            SettingsHelper.CreateSetting(document, parent, "BackgroundColor1", BackgroundColor1);
-            SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2);
-            SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient);
-            SettingsHelper.CreateSetting(document, parent, "ValueString", ValueString);
-
+            CreateSettingsNode(document, parent);
             return parent;
         }
 
+        private int CreateSettingsNode(XmlDocument document, XmlElement parent)
+        {
+            return SettingsHelper.CreateSetting(document, parent, "Version", Assembly.GetExecutingAssembly().GetName().Version.ToString(3)) ^
+            SettingsHelper.CreateSetting(document, parent, "TextColor", TextColor) ^
+            SettingsHelper.CreateSetting(document, parent, "OverrideTextColor", OverrideTextColor) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor1", BackgroundColor1) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundColor2", BackgroundColor2) ^
+            SettingsHelper.CreateSetting(document, parent, "BackgroundGradient", BackgroundGradient) ^
+            SettingsHelper.CreateSetting(document, parent, "ValueString", ValueString);
+        }
 
         private void ColorButtonClick(object sender, EventArgs e)
         {

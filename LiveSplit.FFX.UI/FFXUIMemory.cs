@@ -13,6 +13,16 @@ namespace LiveSplit.FFX.UI
         private static extern bool ReadProcessMemory(int hProcess, IntPtr lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, out int lpNumberOfBytesRead);
         public Counter[] _counterData { get; set; }
 
+
+        /// <summary>
+        /// Tries to find the specified key in the specified memory range.
+        /// </summary>
+        /// <param name="process">Process</param>
+        /// <param name="counterIndex">Index of Counter to modify</param>
+        /// <param name="key">Key</param>
+        /// <param name="offset">Offset to area to search</param>
+        /// <param name="range">Size of area to search</param>
+        /// <returns>True if key could be found</returns>
         public bool SetIndex(Process process, int counterIndex, int key, int offset, int range)
         {
             byte[] buffer = new byte[range];
@@ -30,7 +40,7 @@ namespace LiveSplit.FFX.UI
 
             for (int i = 0; i < range; i += 2)
             {
-                if (buffer[i] == key)
+                if (i < buffer.Length && buffer[i] == key)
                 {
                     i /= 2;
                     _counterData[counterIndex].Index = i;
@@ -57,14 +67,7 @@ namespace LiveSplit.FFX.UI
                     }
                     else
                     {
-                        if (SetIndex(process, i, _counterData[i].IndexKey, _counterData[i].IndexOffset, _counterData[i].IndexBufferSize))
-                        {
-                            _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(baseOffset + _counterData[i].Offset + _counterData[i].Index));
-                        }
-                        else
-                        {
-                            _counterData[i].Watcher = null;
-                        }
+                        SetIndexWatcher(process, i);
                     }
                 }
             }
@@ -75,19 +78,23 @@ namespace LiveSplit.FFX.UI
             for (int i = 0; i < _counterData.Length; i++)
             {
                 if (_counterData[i].IndexOffset != 0)
-                {
-                    if (SetIndex(process, i, _counterData[i].IndexKey, _counterData[i].IndexOffset, _counterData[i].IndexBufferSize))
-                    {
-                        _counterData[i].Watcher = new MemoryWatcher<int>(new IntPtr(process.MainModule.BaseAddress.ToInt32() + _counterData[i].Offset + _counterData[i].Index));
-                    }
-                    else
-                    {
-                        _counterData[i].Watcher = null;
-                    }
-                }
-
-                if (_counterData[i].Watcher != null)
+                    SetIndexWatcher(process, i);
+                else
                     _counterData[i].Watcher.Update(process);
+            }
+        }
+
+
+        public void SetIndexWatcher(Process process, int index)
+        {
+            if (SetIndex(process, index, _counterData[index].IndexKey, _counterData[index].IndexOffset, _counterData[index].IndexBufferSize))
+            {
+                _counterData[index].Watcher = new MemoryWatcher<int>(new IntPtr(process.MainModule.BaseAddress.ToInt32() + _counterData[index].Offset + _counterData[index].Index));
+                _counterData[index].Watcher.Update(process);
+            }
+            else
+            {
+                _counterData[index].Watcher = null;
             }
         }
     }
@@ -114,7 +121,7 @@ namespace LiveSplit.FFX.UI
         public FFXUIMemory(Counter[] counterData)
         {
             _ignorePIDs = new List<int>();
-            this._counterData = counterData;
+            _counterData = counterData;
         }
 
         public void Update(FFXUISettings Settings)
@@ -122,7 +129,7 @@ namespace LiveSplit.FFX.UI
             // Try to rehook process if lost
             if (_process == null || _process.HasExited)
             {
-                if (!this.TryGetGameProcess())
+                if (!TryGetGameProcess())
                     throw new ProcessLostException();
             }
 
@@ -130,22 +137,19 @@ namespace LiveSplit.FFX.UI
 
             for (int i = 0; i < _data._counterData.Length; i++)
             {
-                if (_data._counterData[i].Watcher != null)
+                int counterValue;
+                try
                 {
-                    int counterValue;
-                    try
-                    {
-                        counterValue = (int)_data._counterData[i].Watcher.Current & _data._counterData[i].Size;
-                    }
-                    catch (NullReferenceException)
-                    {
-                        // Watcher.Current == null
-                        counterValue = 0;
-                    }
-
-                    Tuple<int, int> values = new Tuple<int, int>(i, counterValue);
-                    this.OnValueChanged?.Invoke(this, values);
+                    counterValue = (int)_data._counterData[i].Watcher.Current & _data._counterData[i].Size;
                 }
+                catch (NullReferenceException)
+                {
+                    // Watcher or Watcher.Current == null
+                    counterValue = 0;
+                }
+
+                Tuple<int, int> values = new Tuple<int, int>(i, counterValue);
+                OnValueChanged?.Invoke(this, values);
             }
         }
 
