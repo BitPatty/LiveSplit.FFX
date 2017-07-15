@@ -6,8 +6,6 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using System.Windows.Forms;
-using LiveSplit.FFX.UI;
-using System.Linq;
 
 namespace LiveSplit.FFX
 {
@@ -17,13 +15,7 @@ namespace LiveSplit.FFX
 
         public FFXSettings Settings { get; set; }
 
-        private FFXUIComponent UI
-        {
-            get { return _state.Layout.Components.FirstOrDefault(c => c.GetType() == typeof(FFXUIComponent)) as FFXUIComponent; }
-        }
-
         private TimerModel _timer;
-        private LiveSplitState _state;
         private FFXMemory _gameMemory;
         private Timer _updateTimer;
 
@@ -37,7 +29,6 @@ namespace LiveSplit.FFX
 
             this.Settings = new FFX.FFXSettings();
 
-            _state = state;
             _timer = new TimerModel { CurrentState = state };
             _timer.CurrentState.OnStart += timer_OnStart;
             _timer.CurrentState.OnReset += timer_OnReset;
@@ -52,7 +43,6 @@ namespace LiveSplit.FFX
             _gameMemory.OnMusicSelect += gameMemory_OnMusicSelect;
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
-            _gameMemory.OnEncounter += gameMemory_OnEncounter;
         }
 
         public override void Dispose()
@@ -71,7 +61,7 @@ namespace LiveSplit.FFX
             {
                 Trace.WriteLine(ex.ToString());
             }
-}
+        }
 
         /// <summary>
         /// Initializes the timer as in game time.
@@ -88,6 +78,7 @@ namespace LiveSplit.FFX
 
         public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
         {
+
         }
 
         void onTimerReset()
@@ -101,7 +92,6 @@ namespace LiveSplit.FFX
             _gameMemory.OnMusicSelect += gameMemory_OnMusicSelect;
             _gameMemory.OnMusicConfirm += gameMemory_OnMusicConfirm;
             _gameMemory.OnBossDefeated += gameMemory_OnBossDefeated;
-            _gameMemory.OnEncounter += gameMemory_OnEncounter;
         }
 
         void gameMemory_OnMusicSelect(object sender, EventArgs e)
@@ -133,12 +123,6 @@ namespace LiveSplit.FFX
         void gameMemory_OnBossDefeated(object sender, EventArgs e)
         {
             if (this.Settings.Split) _timer.Split();
-        }
-
-        void gameMemory_OnEncounter(object sender, int count)
-        {
-            if (this.UI != null)
-                this.UI.SetEncounters(count);
         }
 
         public override XmlNode GetSettings(XmlDocument document)

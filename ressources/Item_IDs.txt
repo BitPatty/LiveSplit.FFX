@@ -1,0 +1,125 @@
+Item Slots
+-----------
+
+Starting from FFX.exe+0xD3095C, 2 byte each. The first byte contains the item ID for slot n, the second one is a 0x20 seperator. Empty slots have the value 0xFF00.
+
+Item Count
+-----------
+
+Starting from FFX.exe+0xD30B5C, 1 byte each. Contains the item count for slot n.
+
+Item IDs
+-----------
+
+00	Potion
+01	Hi Potion
+02	X-Potion
+03	Mega Potion
+04	Ether
+05	Turbo Ether
+06	Phoenix Down
+07	Mega Phoenix
+08	Elixir
+09	Megalixir
+0A	Antidote
+0B	Soft
+0C	Eye Drops
+0D	Echo Screen
+0E	Holy Water 
+0F	Remedy
+10	Power Distiller
+11	Mana Distiller
+12	Speed Distiller
+13	Ability Distiller
+14	Al Bhed Potion
+15	Healing Water
+16	Tetra Elemental
+17	Antarctic Wind
+18	Arctic Wind
+19	Ice Gem
+1A	Bomb Fragment
+1B	Bomb Core
+1C	Fire Gem
+1D	Electro Marble
+1E	Lightning Marble
+1F	Lightning Gem
+20	Fish Scale
+21	Dragon Scale
+22	Water Gem
+23	Grenade
+24	Frag Grenade
+25	Sleeping Powder
+26	Dream Powder
+27	Silence Grenade
+28	Smoke Bomb
+29	Shadow Gem
+2A	Shining Gem
+2B	Blessed Gem
+2C	Supreme Gem
+2D	Poison Fang
+2E	Silver Hourglass
+2F	Gold Hourglass
+30	Candle of Life
+31	Petrify Grenade
+32	Farplane Shadow
+33	Farplane Wind
+34	Designer Wallet
+35	Dark Matter
+36	Chocobo Feather
+37	Chocobo Wing
+38	Lunar Curtain
+39	Light Curtain
+3A	Star Curtain
+3B	Healing Spring
+3C	Mana Spring
+3D	Stamina Spring
+3E	Soul Spring
+3F	Purifying Salt
+40	Stamina Tablet
+41	Mana Tablet
+42	Twin Stars
+43	Stamina Tonic
+44	Mana Tonic
+45	Three Stars
+46	Power Sphere
+47	Mana Sphere
+48	Speed Sphere
+49	Ability Sphere
+4A	Fortune Sphere
+4B	Attribute Sphere
+4C	Special Sphere
+4D	Skill Sphere
+4E	White Magic Sphere
+4F	Blk Magic Sphere
+50	Master Sphere
+51	Lv. 1 Key Sphere
+52	Lv. 2 Key Sphere
+53	Lv. 3 Key Sphere
+54	Lv. 4 Key Sphere
+55	HP Sphere
+56	MP Sphere
+57	Strength Sphere
+58	Defense Sphere
+59	Magic Sphere
+5A	Magic Def Sphere
+5B	Agility Sphere
+5C	Evasion Sphere
+5D	Accuracy Sphere
+5E	Luck Sphere
+5F	Clear Sphere
+60	Return Sphere
+61	Friend Sphere
+62	Teleport Sphere
+63	Warp Sphere
+64	Map
+65	Rename Card
+66	Musk
+67	Hypello Potion
+68	Shining Thorn
+69	Pendulum
+6A	Amulet
+6B	Door to Tomorrow
+6C	Wings to Discovery
+6D	Gambler's Spirit 
+6E	Underdog's Secret
+6F	Winning Formula

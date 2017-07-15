@@ -1,4 +1,17 @@
 <updates>
+  <update version="1.1.0">
+    <files>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Added more display options (Gil, affection Levels and some items)
+      </change>
+      <change>
+        Added design options to the component, such as text and background color
+      </change>
+    </changelog>
+  </update>
   <update version="1.0.0">
     <files>
       <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
