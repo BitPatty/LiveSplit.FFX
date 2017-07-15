@@ -5,7 +5,7 @@
     </files>
     <changelog>
       <change>
-        Added option to change text and background color for the Encounter Counter
+        Added option to change text color and background color for the Encounter Counter (See FFX Display tab in the layout settings)
       </change>
     </changelog>
   </update>
