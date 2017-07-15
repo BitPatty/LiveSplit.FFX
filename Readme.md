@@ -39,4 +39,4 @@ Automatically resets the timer in the new game menu.
 Removes loading times from the ingame timer comparison.
 
 #### Encounter Count
-Available as a separate LiveSplit component. Automatically tracks your encounter count throughout a run. Includes all bosses and compulsory encounters.
+Available as a separate LiveSplit component. Automatically tracks your encounter count throughout a run. Includes all bosses and compulsory encounters. The text color and background color can be changed via the components layout settings.
