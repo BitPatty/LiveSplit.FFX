@@ -252,11 +252,14 @@ namespace LiveSplit.FFX
                 SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
                 ++_isaaruCounter;
 
-                if (_isaaruCounter == 3 && !splitPair.SplitFlag)
+                if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag)
                 {
-                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
-                    splitPair.SplitFlag = true;
-                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                    if (_isaaruCounter == 3 && !splitPair.SplitFlag)
+                    {
+                        this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
+                        splitPair.SplitFlag = true;
+                        _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                    }
                 }
             }
 
@@ -266,22 +269,25 @@ namespace LiveSplit.FFX
                 SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
                 bool canSplit = false;
 
-                try
+                if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag)
                 {
-                    if(_data.HP_Enemy_A.Current == 0)
-                        canSplit = true;    // Yu Yevon
-                }
-                catch (Exception)
-                {
-                    canSplit = false;
-                }
+                    try
+                    {
+                        if (_data.HP_Enemy_A.Current == 0)
+                            canSplit = true;    // Yu Yevon
+                    }
+                    catch (Exception)
+                    {
+                        canSplit = false;
+                    }
 
-                // Split
-                if (canSplit)
-                {
-                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
-                    splitPair.SplitFlag = true;
-                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                    // Split
+                    if (canSplit)
+                    {
+                        this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
+                        splitPair.SplitFlag = true;
+                        _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                    }
                 }
             }
 
@@ -338,7 +344,7 @@ namespace LiveSplit.FFX
             else
             {
                 _ignorePIDs.Add(game.Id);
-                MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required. Try to restart the game.", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
 

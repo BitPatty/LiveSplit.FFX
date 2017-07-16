@@ -1,21 +1,31 @@
 <updates>
-<update version="1.2.3">
+  <update version="1.2.4">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
     </files>
     <changelog>
       <change>
-        Bug Fix - Yu Yevon not splitting sometimes
+        Bug Fix - Yu Yevon and Isaaru splitting even if disabled.
       </change>
     </changelog>
-  </update>  
-<update version="1.2.2">
+  </update>
+  <update version="1.2.3">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
     </files>
     <changelog>
       <change>
-        Bug Fix - Yu Yevon not splitting sometimes
+	    Bug Fix - Yu Yevon cutscene IDs
+      </change>
+    </changelog>
+  </update>
+  <update version="1.2.2">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Bug Fix - Yu Yevon not splitting
       </change>
     </changelog>
   </update>
