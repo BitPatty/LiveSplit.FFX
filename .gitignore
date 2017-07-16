@@ -1,5 +1,7 @@
 #Visual Studio 
 obj/
 bin/
+.vs/
 *.TMP
 LiveSplit.FFX.UI/LiveSplit.FFX.UI.csproj.user
+ressources/pointers
