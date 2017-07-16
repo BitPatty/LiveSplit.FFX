@@ -1,4 +1,14 @@
-<updates>  
+<updates>
+<update version="1.2.3">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Bug Fix - Yu Yevon not splitting sometimes
+      </change>
+    </changelog>
+  </update>  
 <update version="1.2.2">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>

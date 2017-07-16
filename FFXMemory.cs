@@ -235,10 +235,6 @@ namespace LiveSplit.FFX
                     {
                         canSplit = true;    // Mushroom Rock Road
                     }
-                    else if (_data.HP_Enemy_A.Current == 0 && _data.StoryProgression.Current == 3380 && _data.YuYevon.Changed && _data.YuYevon.Current == 1)
-                    {
-                        canSplit = true;    // Yu Yevon
-                    }
                 }
 
                 // Split
@@ -257,6 +253,31 @@ namespace LiveSplit.FFX
                 ++_isaaruCounter;
 
                 if (_isaaruCounter == 3 && !splitPair.SplitFlag)
+                {
+                    this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
+                    splitPair.SplitFlag = true;
+                    _ProgressionIDs[_data.StoryProgression.Current] = splitPair;
+                }
+            }
+
+            // Special Yu Yevon Split
+            if (_data.StoryProgression.Current == 3380 && _data.YuYevon.Changed && _data.YuYevon.Current == 1)
+            {
+                SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
+                bool canSplit = false;
+
+                try
+                {
+                    if(_data.HP_Enemy_A.Current == 0)
+                        canSplit = true;    // Yu Yevon
+                }
+                catch (Exception)
+                {
+                    canSplit = false;
+                }
+
+                // Split
+                if (canSplit)
                 {
                     this.OnAreaCompleted?.Invoke(this, EventArgs.Empty);
                     splitPair.SplitFlag = true;
