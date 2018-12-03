@@ -102,7 +102,7 @@
             this.cmbGradientType.Name = "cmbGradientType";
             this.cmbGradientType.Size = new System.Drawing.Size(247, 21);
             this.cmbGradientType.TabIndex = 1;
-            this.cmbGradientType.SelectedIndexChanged += new System.EventHandler(this.cmbGradientType_SelectedIndexChanged);
+            this.cmbGradientType.SelectedIndexChanged += new System.EventHandler(this.CmbGradientType_SelectedIndexChanged);
             // 
             // lblBackgroundColor
             // 
@@ -153,7 +153,7 @@
             this.cbOverrideTextColor.TabIndex = 0;
             this.cbOverrideTextColor.Text = "Override Layout Settings";
             this.cbOverrideTextColor.UseVisualStyleBackColor = true;
-            this.cbOverrideTextColor.CheckedChanged += new System.EventHandler(this.cbOverrideTextColor_CheckedChanged);
+            this.cbOverrideTextColor.CheckedChanged += new System.EventHandler(this.CbOverrideTextColor_CheckedChanged);
             // 
             // lblTextColor
             // 
