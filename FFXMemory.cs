@@ -55,7 +55,7 @@ namespace LiveSplit.FFX
     public bool SplitFlag;
   }
 
-  internal class FFXMemory
+  internal class FFXMemory : IDisposable
   {
     private readonly Dictionary<int, Tuple<int, SplitPair>> _LevelIDs = new Dictionary<int, Tuple<int, SplitPair>>
     {
@@ -346,8 +346,14 @@ namespace LiveSplit.FFX
 
       _data = new FFXData(version, game.MainModule.BaseAddress.ToInt32());
       _process = game;
+      game = null;
 
       return true;
+    }
+
+    public void Dispose()
+    {
+      _process?.Dispose();
     }
   }
 

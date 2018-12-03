@@ -59,25 +59,23 @@ namespace LiveSplit.FFX
     /// <summary>
     /// Initializes the timer as in game time.
     /// </summary>
-    private void Timer_OnStart(object sender, EventArgs e)
-    {
-      _timer.InitializeGameTime();
-    }
+    private void Timer_OnStart(object sender, EventArgs e) => _timer.InitializeGameTime();
 
-    private void Timer_OnReset(object sender, TimerPhase t)
-    {
-      OnTimerReset();
-    }
+    private void Timer_OnReset(object sender, TimerPhase t) => ResetAutoSplit();
 
-    public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode)
-    {
-    }
+    public override void Update(IInvalidator invalidator, LiveSplitState state, float width, float height, LayoutMode mode) { }
 
-    private void OnTimerReset()
+    private void ResetAutoSplit()
     {
-      _timer.Reset();
-      _gameMemory = null;             // Not sure about this either, definitely seemed the easiest to do to get all the flags to reset, but might be more elegant to manually make them false
-      _gameMemory = new FFXMemory();  //Generate new FFXMemory so all flags reset back to false
+      _gameMemory.OnAreaCompleted -= GameMemory_OnAreaCompleted;
+      _gameMemory.OnLoadFinished -= GameMemory_OnLoadFinished;
+      _gameMemory.OnLoadStarted -= GameMemory_OnLoadStarted;
+      _gameMemory.OnMusicSelect -= GameMemory_OnMusicSelect;
+      _gameMemory.OnMusicConfirm -= GameMemory_OnMusicConfirm;
+      _gameMemory.OnBossDefeated -= GameMemory_OnBossDefeated;
+      _gameMemory.OnEncounter -= GameMemory_OnEncounter;
+      _gameMemory?.Dispose();
+      _gameMemory = new FFXMemory();
       _gameMemory.OnAreaCompleted += GameMemory_OnAreaCompleted;
       _gameMemory.OnLoadFinished += GameMemory_OnLoadFinished;
       _gameMemory.OnLoadStarted += GameMemory_OnLoadStarted;
@@ -89,13 +87,13 @@ namespace LiveSplit.FFX
 
     private void GameMemory_OnMusicSelect(object sender, EventArgs e)
     {
-      if (Settings.Reset) OnTimerReset();
+      if (Settings.Reset) ResetAutoSplit();
     }
 
     private void GameMemory_OnMusicConfirm(object sender, EventArgs e)
     {
-      if (Settings.Start) _timer.Start();
       Settings.HasChanged = true;
+      if (Settings.Start) _timer.Start();
     }
 
     private void GameMemory_OnLoadStarted(object sender, EventArgs e)
