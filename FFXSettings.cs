@@ -79,13 +79,9 @@ namespace LiveSplit.FFX
     /// </summary>
     public StringList GetSplits()
     {
-      StringList _activatedSplits = new StringList();     // List of selected splits
+      StringList _activatedSplits = new StringList();
+      foreach (ListViewItem listViewItem in listView.Items) if (listViewItem.Checked) _activatedSplits.Add(listViewItem.Text);
 
-      foreach (ListViewItem listViewItem in listView.Items)
-      {
-        if (listViewItem.Checked)
-          _activatedSplits.Add(listViewItem.Text);
-      }
       HasChanged = false;
       return _activatedSplits;
     }
@@ -144,14 +140,12 @@ namespace LiveSplit.FFX
 
     private void BtnCheckAll_Click(object sender, EventArgs e)
     {
-      foreach (ListViewItem listViewItem in listView.Items)
-        listViewItem.Checked = true;
+      foreach (ListViewItem listViewItem in listView.Items) listViewItem.Checked = true;
     }
 
     private void BtnUncheckAll_Click(object sender, EventArgs e)
     {
-      foreach (ListViewItem listViewItem in listView.Items)
-        listViewItem.Checked = false;
+      foreach (ListViewItem listViewItem in listView.Items) listViewItem.Checked = false;
     }
   }
 }

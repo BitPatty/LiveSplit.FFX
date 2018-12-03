@@ -131,12 +131,6 @@ namespace LiveSplit.FFX
     private int _isaaruCounter = 0;     // Boss counter for Isaaru split
     public StringList activatedSplits;
 
-    // DLL Sizes to verify game version
-    private enum ExpectedDllSizes
-    {
-      FFXExe = 37212160   //Steam release executable v1.0.0
-    }
-
     // Add PIDs to ignore if necessary
     public FFXMemory()
     {
@@ -163,6 +157,8 @@ namespace LiveSplit.FFX
 
       // Encounter Count update
       if (_data.EncounterCounter.Changed) OnEncounter?.Invoke(this, _data.EncounterCounter.Current);
+
+      #region SPLITS
 
       // Area splits
       if (_data.CurrentLevel.Changed && _LevelIDs.ContainsKey(_data.CurrentLevel.Current))
@@ -293,6 +289,10 @@ namespace LiveSplit.FFX
         }
       }
 
+      #endregion SPLITS
+
+      #region LOADREMOVER
+
       // Loading screen in/out
       if (_data.IsLoading.Changed)
       {
@@ -312,6 +312,16 @@ namespace LiveSplit.FFX
           }
         }
       }
+    }
+
+    #endregion LOADREMOVER
+
+    #region PROCESS
+
+    // DLL Sizes to verify game version
+    private enum ExpectedDllSizes
+    {
+      FFXExe = 37212160   //Steam release executable v1.0.0
     }
 
     private bool TryGetGameProcess()
@@ -346,4 +356,6 @@ namespace LiveSplit.FFX
   {
     v1
   }
+
+  #endregion PROCESS
 }
