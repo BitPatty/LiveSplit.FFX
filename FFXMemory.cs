@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using StringList = System.Collections.Generic.List<string>;
@@ -130,12 +131,16 @@ namespace LiveSplit.FFX
     private bool _loadingStarted;       // true if loading screen active
     private int _isaaruCounter = 0;     // Boss counter for Isaaru split
     public StringList activatedSplits;
+    public readonly string LogPath = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "FFX.debug.log");
 
     // Add PIDs to ignore if necessary
     public FFXMemory()
     {
       _ignorePIDs = new List<int>();
       activatedSplits = new StringList();
+#if DEBUG
+      File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Initializing Autosplitter: Livesplit {1}, Component {2}", DateTime.Now.ToLongTimeString(), System.Reflection.Assembly.GetEntryAssembly().FullName, System.Reflection.Assembly.GetExecutingAssembly().FullName) });
+#endif
     }
 
     public void Update(FFXSettings Settings)
@@ -296,11 +301,17 @@ namespace LiveSplit.FFX
       // Loading screen in/out
       if (_data.IsLoading.Changed)
       {
+#if DEBUG
+        File.AppendAllLines(LogPath, new string[] { String.Format("{0} | {1:X} | {2:X} | OIL: {3:X} | NIL: {4:X}", DateTime.Now.ToLongTimeString(), _data.StoryProgression.Current, _data.CurrentLevel.Current, _data.IsLoading.Old, _data.IsLoading.Current) });
+#endif
         // Pause Timer if Loading Screen active
-        if (_data.IsLoading.Current == 2)
+        if (_data.IsLoading.Current == 2 && !_loadingStarted)
         {
           _loadingStarted = true;
           OnLoadStarted?.Invoke(this, EventArgs.Empty);
+#if DEBUG
+          File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegated OnLoadStarted", DateTime.Now.ToLongTimeString()) });
+#endif
         }
         else
         {
@@ -309,6 +320,9 @@ namespace LiveSplit.FFX
           {
             _loadingStarted = false;
             OnLoadFinished?.Invoke(this, EventArgs.Empty);
+#if DEBUG
+            File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegated OnLoadFinished", DateTime.Now.ToLongTimeString()) });
+#endif
           }
         }
       }

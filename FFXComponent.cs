@@ -4,6 +4,7 @@ using LiveSplit.UI;
 using LiveSplit.UI.Components;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
@@ -35,6 +36,11 @@ namespace LiveSplit.FFX
       _updateTimer.Tick += UpdateTimer_Tick;
 
       _gameMemory = new FFXMemory();
+
+#if DEBUG
+      if (!File.Exists(_gameMemory.LogPath)) File.Create(_gameMemory.LogPath);
+#endif
+
       _gameMemory.OnAreaCompleted += GameMemory_OnAreaCompleted;
       _gameMemory.OnLoadFinished += GameMemory_OnLoadFinished;
       _gameMemory.OnLoadStarted += GameMemory_OnLoadStarted;
@@ -98,11 +104,17 @@ namespace LiveSplit.FFX
 
     private void GameMemory_OnLoadStarted(object sender, EventArgs e)
     {
+#if DEBUG
+      File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadStarted", DateTime.Now.ToLongTimeString()) });
+#endif
       if (Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = true;
     }
 
     private void GameMemory_OnLoadFinished(object sender, EventArgs e)
     {
+#if DEBUG
+      File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadFinished", DateTime.Now.ToLongTimeString()) });
+#endif
       if (Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = false;
     }
 
