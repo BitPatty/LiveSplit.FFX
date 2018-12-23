@@ -131,7 +131,7 @@ namespace LiveSplit.FFX
     private bool _loadingStarted;       // true if loading screen active
     private int _isaaruCounter = 0;     // Boss counter for Isaaru split
     public StringList activatedSplits;
-    public readonly string LogPath = Path.Combine(System.Reflection.Assembly.GetExecutingAssembly().Location, "FFX.debug.log");
+    public readonly string LogPath = System.Reflection.Assembly.GetExecutingAssembly().Location + ".log";
 
     // Add PIDs to ignore if necessary
     public FFXMemory()
@@ -308,10 +308,10 @@ namespace LiveSplit.FFX
         if (_data.IsLoading.Current == 2 && !_loadingStarted)
         {
           _loadingStarted = true;
-          OnLoadStarted?.Invoke(this, EventArgs.Empty);
 #if DEBUG
-          File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegated OnLoadStarted", DateTime.Now.ToLongTimeString()) });
+          File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegating OnLoadStarted", DateTime.Now.ToLongTimeString()) });
 #endif
+          OnLoadStarted?.Invoke(this, EventArgs.Empty);
         }
         else
         {
@@ -319,10 +319,10 @@ namespace LiveSplit.FFX
           if (_loadingStarted)
           {
             _loadingStarted = false;
-            OnLoadFinished?.Invoke(this, EventArgs.Empty);
 #if DEBUG
-            File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegated OnLoadFinished", DateTime.Now.ToLongTimeString()) });
+            File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegating OnLoadFinished", DateTime.Now.ToLongTimeString()) });
 #endif
+            OnLoadFinished?.Invoke(this, EventArgs.Empty);
           }
         }
       }
