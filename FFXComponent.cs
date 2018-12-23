@@ -32,7 +32,7 @@ namespace LiveSplit.FFX
       _timer.CurrentState.OnStart += Timer_OnStart;
       _timer.CurrentState.OnReset += Timer_OnReset;
 
-      _updateTimer = new Timer() { Interval = 15, Enabled = true };
+      _updateTimer = new Timer() { Interval = 20, Enabled = true };
       _updateTimer.Tick += UpdateTimer_Tick;
 
       _gameMemory = new FFXMemory();
@@ -104,18 +104,37 @@ namespace LiveSplit.FFX
 
     private void GameMemory_OnLoadStarted(object sender, EventArgs e)
     {
+
+      if (Settings.RemoveLoads)
+      {
 #if DEBUG
-      File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadStarted", DateTime.Now.ToLongTimeString()) });
+        File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadStarted", DateTime.Now.ToLongTimeString()) });
 #endif
-      if (Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = true;
+        _state.IsGameTimePaused = true;
+      }
+      else
+      {
+#if DEBUG
+        File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | RemoveLoads Disabled", DateTime.Now.ToLongTimeString()) });
+#endif
+      }
     }
 
     private void GameMemory_OnLoadFinished(object sender, EventArgs e)
     {
+      if (Settings.RemoveLoads)
+      {
 #if DEBUG
-      File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadFinished", DateTime.Now.ToLongTimeString()) });
+        File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | Fired OnLoadFinished", DateTime.Now.ToLongTimeString()) });
 #endif
-      if (Settings.RemoveLoads) _timer.CurrentState.IsGameTimePaused = false;
+        _state.IsGameTimePaused = false;
+      }
+      else
+      {
+#if DEBUG
+        File.AppendAllLines(_gameMemory.LogPath, new string[] { String.Format("{0} | RemoveLoads Disabled", DateTime.Now.ToLongTimeString()) });
+#endif
+      }
     }
 
     private void GameMemory_OnAreaCompleted(object sender, EventArgs e)
