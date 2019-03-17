@@ -131,7 +131,10 @@ namespace LiveSplit.FFX
     private bool _loadingStarted;       // true if loading screen active
     private int _isaaruCounter = 0;     // Boss counter for Isaaru split
     public StringList activatedSplits;
+
+#if DEBUG
     public readonly string LogPath = System.Reflection.Assembly.GetExecutingAssembly().Location + ".log";
+#endif
 
     // Add PIDs to ignore if necessary
     public FFXMemory()
