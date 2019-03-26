@@ -1,61 +1,13 @@
 ﻿using LiveSplit.ComponentUtil;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX
 {
-  internal class FFXData : MemoryWatcherList
-  {
-    public MemoryWatcher<int> CurrentLevel { get; }
-    public MemoryWatcher<int> LastLevel { get; }
-    public MemoryWatcher<int> IsLoading { get; }
-    public MemoryWatcher<int> CursorPosition { get; }
-    public MemoryWatcher<int> Input { get; }
-    public MemoryWatcher<int> StoryProgression { get; }
-    public MemoryWatcher<int> SelectScreen { get; }
-    public MemoryWatcher<int> BattleState { get; }
-    public MemoryWatcher<int> HPEnemyA { get; }
-    public MemoryWatcher<int> CutsceneType { get; }
-    public MemoryWatcher<int> YuYevon { get; }
-    public MemoryWatcher<int> EncounterCounter { get; }
-
-    public FFXData(GameVersion version, int baseOffset)
-    {
-      if (version == GameVersion.v1)
-      {
-        CurrentLevel = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB990));              // Current area ID, == 23 if main menu, 4B
-        IsLoading = new MemoryWatcher<int>(new DeepPointer(0x8CC898, 0x123A4));                // == 2 if loading screen, 4B
-        CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x1467808));           // == 0 if cursor on yes, == 1 if cursor on no, 1B, 0x00FF0000
-        Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                     // Button Input, == 32 if A pressed, 4B
-        StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x84949C));          // Storyline progress
-        SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25B30));              // == 7 || == 8 on confirm sound screen; == 6 on sound selection screen, 4B
-        BattleState = new MemoryWatcher<int>(new DeepPointer(0x390D90, 0x4));                  // 10 = In Battle, 522 = Boss Defeated, 778 = Flee/Escape, 66058 = Victory Fanfare, 4B
-        CutsceneType = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD27C88));              // Cutscene type
-        YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   // Yu Yevon screen transition = 1, back up - 0xD381AC = 3
-        HPEnemyA = new MemoryWatcher<int>(new DeepPointer(0xD34460, 0x5D0));                   // Current HP of Enemy A
-        EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
-      }
-
-      CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
-
-      AddRange(GetType().GetProperties()
-          .Where(p => p.GetIndexParameters().Length == 0)
-          .Select(p => p.GetValue(this, null) as MemoryWatcher)
-          .Where(p => p != null));
-    }
-  }
-
-  internal struct SplitPair
-  {
-    public string SplitName;
-    public bool SplitFlag;
-  }
-
   internal class FFXMemory : IDisposable
   {
     private readonly Dictionary<int, Tuple<int, SplitPair>> _LevelIDs = new Dictionary<int, Tuple<int, SplitPair>>
@@ -125,29 +77,22 @@ namespace LiveSplit.FFX
     public event EventHandler<int> OnEncounter;
 
     // Vars
-    private readonly List<int> _ignorePIDs;      // PIDs to ignore if necessary
     private FFXData _data;              // Memory Information
     private Process _process;           // Process Information
     private bool _loadingStarted;       // true if loading screen active
     private int _isaaruCounter = 0;     // Boss counter for Isaaru split
     public StringList activatedSplits;
 
-#if DEBUG
-    public readonly string LogPath = System.Reflection.Assembly.GetExecutingAssembly().Location + ".log";
-#endif
-
     // Add PIDs to ignore if necessary
     public FFXMemory()
     {
-      _ignorePIDs = new List<int>();
       activatedSplits = new StringList();
-#if DEBUG
-      File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Initializing Autosplitter: Livesplit {1}, Component {2}", DateTime.Now.ToLongTimeString(), System.Reflection.Assembly.GetEntryAssembly().FullName, System.Reflection.Assembly.GetExecutingAssembly().FullName) });
-#endif
     }
 
     public void Update(FFXSettings Settings)
     {
+      _process?.Refresh();
+
       // Try to rehook process if lost
       if (_process?.HasExited != false)
       {
@@ -161,7 +106,14 @@ namespace LiveSplit.FFX
         activatedSplits.AddRange(Settings.GetSplits());
       }
 
-      _data.UpdateAll(_process);
+      try
+      {
+        _data.UpdateAll(_process);
+      }
+      catch (Win32Exception)
+      {
+        return;
+      }
 
       // Encounter Count update
       if (_data.EncounterCounter.Changed) OnEncounter?.Invoke(this, _data.EncounterCounter.Current);
@@ -177,7 +129,7 @@ namespace LiveSplit.FFX
 
         if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag && previousLevelID == _data.CurrentLevel.Old)
         {
-          OnAreaCompleted?.Invoke(this, EventArgs.Empty); //Split
+          OnAreaCompleted?.Invoke(this, EventArgs.Empty);
           splitPair.SplitFlag = true;
           _LevelIDs[_data.CurrentLevel.Current] = new Tuple<int, SplitPair>(previousLevelID, splitPair);
         }
@@ -193,11 +145,11 @@ namespace LiveSplit.FFX
         string splitName = splitPair.SplitName;
 
         //Normal Split
-        if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == 522)
+        if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == (int)BattleState.Over)
         {
           canSplit = true;
         }
-        else if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == 66058)
+        else if (activatedSplits.Contains(splitName) && !splitPair.SplitFlag && battleState == (int)BattleState.Fanfare)
         {
           //Special case for 'Klikk' and 'BiranYenke' splits; these battles end with the 'victory fanfare' which sets the battleState to 66058
           if (_data.StoryProgression.Current == 55 || _data.StoryProgression.Current == 2510)
@@ -237,7 +189,7 @@ namespace LiveSplit.FFX
       }
 
       // Special Isaaru split
-      if (_data.StoryProgression.Current == 2220 && _data.BattleState.Changed && _data.BattleState.Current == 522)
+      if (_data.StoryProgression.Current == 2220 && _data.BattleState.Changed && _data.BattleState.Current == (int)BattleState.Over)
       {
         SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
         ++_isaaruCounter;
@@ -304,16 +256,10 @@ namespace LiveSplit.FFX
       // Loading screen in/out
       if (_data.IsLoading.Changed)
       {
-#if DEBUG
-        File.AppendAllLines(LogPath, new string[] { String.Format("{0} | {1:X} | {2:X} | OIL: {3:X} | NIL: {4:X}", DateTime.Now.ToLongTimeString(), _data.StoryProgression.Current, _data.CurrentLevel.Current, _data.IsLoading.Old, _data.IsLoading.Current) });
-#endif
         // Pause Timer if Loading Screen active
         if (_data.IsLoading.Current == 2 && !_loadingStarted)
         {
           _loadingStarted = true;
-#if DEBUG
-          File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegating OnLoadStarted", DateTime.Now.ToLongTimeString()) });
-#endif
           OnLoadStarted?.Invoke(this, EventArgs.Empty);
         }
         else
@@ -322,9 +268,6 @@ namespace LiveSplit.FFX
           if (_loadingStarted)
           {
             _loadingStarted = false;
-#if DEBUG
-            File.AppendAllLines(LogPath, new string[] { String.Format("{0} | Delegating OnLoadFinished", DateTime.Now.ToLongTimeString()) });
-#endif
             OnLoadFinished?.Invoke(this, EventArgs.Empty);
           }
         }
@@ -335,49 +278,51 @@ namespace LiveSplit.FFX
 
     #region PROCESS
 
-    // DLL Sizes to verify game version
-    private enum ExpectedDllSizes
-    {
-      FFXExe = 37212160   //Steam release executable v1.0.0
-    }
-
+    /// <summary>
+    /// Tries to hook the games process
+    /// </summary>
+    /// <returns>Returns true if the hooking succeeds</returns>
     private bool TryGetGameProcess()
     {
-      // Find process
-      Process game = Array.Find(Process.GetProcesses(), p => string.Equals(p.ProcessName, "ffx", StringComparison.OrdinalIgnoreCase) && !p.HasExited && !_ignorePIDs.Contains(p.Id));
-      if (game == null) return false;
+      // Dispose previous process if necessary
+      _process?.Dispose();
+      _process = null;
 
-      GameVersion version;
-
-      // Verify .exe size
-      if (game.MainModuleWow64Safe().ModuleMemorySize == (int)ExpectedDllSizes.FFXExe)
+      try
       {
-        version = GameVersion.v1;
+        Process game = GetProcess("ffx");
+        GameVersion version;
+
+        if (game != null) Debug.WriteLine(String.Format("{0:X}",(long)game.MainModuleWow64Safe().EntryPointAddress));
+        if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v1)
+          version = GameVersion.v1;
+        else if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v2)
+          version = GameVersion.v2;
+        else return false;
+
+        _data = new FFXData(version, game.MainModuleWow64Safe().BaseAddress.ToInt32());
+        _process = game;
+        game = null;
+
+        return true;
       }
-      else
+      catch (Win32Exception)
       {
-        _ignorePIDs.Add(game.Id);
-        MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required. Try to restart the game.", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        _process?.Dispose();
+        _process = null;
         return false;
       }
-
-      _data = new FFXData(version, game.MainModule.BaseAddress.ToInt32());
-      _process = game;
-      game = null;
-
-      return true;
     }
 
-    public void Dispose()
-    {
-      _process?.Dispose();
-    }
-  }
+    /// <summary>
+    /// Finds the specified process by name (case-insensitive)
+    /// </summary>
+    /// <param name="processName">The process name</param>
+    /// <returns>Returns the process or null</returns>
+    private Process GetProcess(string processName)
+      => Process.GetProcesses().FirstOrDefault(p => p.ProcessName.Equals(processName, StringComparison.OrdinalIgnoreCase) && !p.HasExited);
 
-  // Game versioning for possible updates, currently there's only the 1.0.0 .exe available on steam
-  internal enum GameVersion
-  {
-    v1
+    public void Dispose() => _process?.Dispose();
   }
 
   #endregion PROCESS

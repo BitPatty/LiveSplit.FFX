@@ -1,6 +1,6 @@
 ﻿namespace LiveSplit.FFX.UI
 {
-    partial class FFXUISettings
+  partial class FFXUISettings
     {
         /// <summary> 
         /// Required designer variable.

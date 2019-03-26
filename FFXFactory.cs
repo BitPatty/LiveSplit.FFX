@@ -1,6 +1,6 @@
 ﻿using LiveSplit.FFX;
-using LiveSplit.UI.Components;
 using LiveSplit.Model;
+using LiveSplit.UI.Components;
 using System;
 using System.Reflection;
 
@@ -8,7 +8,7 @@ using System.Reflection;
 
 namespace LiveSplit.FFX
 {
-    internal class FFXFactory : IComponentFactory
+  internal class FFXFactory : IComponentFactory
     {
         public string ComponentName => "Final Fantasy X Autosplitter";
         public string Description => "Automates splitting and load removal for FFX HD Remaster (PC)";

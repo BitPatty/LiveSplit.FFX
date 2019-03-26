@@ -1,9 +1,9 @@
-﻿using System;
+﻿using LiveSplit.UI;
+using System;
 using System.Drawing;
-using System.Windows.Forms;
-using LiveSplit.UI;
-using System.Xml;
 using System.Reflection;
+using System.Windows.Forms;
+using System.Xml;
 
 namespace LiveSplit.FFX.UI
 {

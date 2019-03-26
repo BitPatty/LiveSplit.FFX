@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace LiveSplit.FFX
+﻿namespace LiveSplit.FFX
 {
-    partial class FFXSettings
+  partial class FFXSettings
     {
         /// <summary> 
         /// Required designer variable.

@@ -1,6 +1,6 @@
 ﻿using LiveSplit.FFX.UI;
-using LiveSplit.UI.Components;
 using LiveSplit.Model;
+using LiveSplit.UI.Components;
 using System;
 using System.Reflection;
 
