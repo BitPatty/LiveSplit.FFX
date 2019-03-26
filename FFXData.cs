@@ -41,7 +41,7 @@ namespace LiveSplit.FFX
         IsLoading = null;
         CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x146780A));
         Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                      // Backup 0x8CB174, 0xF27080, 0xF27084, 0xF3024C
-        StoryProgression = null;
+        StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x849550));           // Backup 0x849554, 0xD2D67C, 0xEFB784
         SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25A80));               // Backup 0xF25B30
         BattleState = null;
         CutsceneType = null;
