@@ -6,8 +6,7 @@
   internal enum GameVersion
   {
     Unknown,
-    v1,
-    v2
+    v1
   }
 
   /// <summary>
@@ -17,7 +16,6 @@
   {
     Unknown = 0,
     v1 = 0x5B93C7,   //Steam Initial Release (2016)
-    v2 = 0x10D9571   //Steam Update (March 2019)
   }
 
   /// <summary>

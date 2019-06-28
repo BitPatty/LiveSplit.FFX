@@ -8,4 +8,7 @@
     <StartAction>Program</StartAction>
     <StartProgram>C:\Users\Matteias\Documents\LiveSplit\LiveSplit.exe</StartProgram>
   </PropertyGroup>
+  <PropertyGroup>
+    <ProjectView>ShowAllFiles</ProjectView>
+  </PropertyGroup>
 </Project>

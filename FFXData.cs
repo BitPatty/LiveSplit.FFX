@@ -35,20 +35,6 @@ namespace LiveSplit.FFX
         HPEnemyA = new MemoryWatcher<int>(new DeepPointer(0xD34460, 0x5D0));                   // Current HP of Enemy A
         EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
       }
-      else if (version == GameVersion.v2)
-      {
-        CurrentLevel = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB964));              // Backup 0xEFBBF8 and 0xF30804
-        IsLoading = null;
-        CursorPosition = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x146780A));
-        Input = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x8CB170));                      // Backup 0x8CB174, 0xF27080, 0xF27084, 0xF3024C
-        StoryProgression = new MemoryWatcher<int>(new IntPtr(baseOffset + 0x849550));           // Backup 0x849554, 0xD2D67C, 0xEFB784
-        SelectScreen = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xF25A80));               // Backup 0xF25B30
-        BattleState = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2C9F0));
-        CutsceneType = null;
-        YuYevon = null;
-        HPEnemyA = null;
-        EncounterCounter = null;
-      }
 
       CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 

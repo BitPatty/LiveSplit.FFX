@@ -293,11 +293,8 @@ namespace LiveSplit.FFX
         Process game = GetProcess("ffx");
         GameVersion version;
 
-        if (game != null) Debug.WriteLine(String.Format("{0:X}",(long)game.MainModuleWow64Safe().EntryPointAddress));
-        if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v1)
-          version = GameVersion.v1;
-        else if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v2)
-          version = GameVersion.v2;
+        if (game != null) Debug.WriteLine(String.Format("{0:X}", (long)game.MainModuleWow64Safe().EntryPointAddress));
+        if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v1) version = GameVersion.v1;
         else return false;
 
         _data = new FFXData(version, game.MainModuleWow64Safe().BaseAddress.ToInt32());

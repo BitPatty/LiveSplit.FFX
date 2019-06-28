@@ -32,8 +32,9 @@
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LiveSplit.Core">
-      <HintPath>..\..\LiveSplit\LiveSplit.Core.dll</HintPath>
+    <Reference Include="LiveSplit.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\LiveSplit.Core.dll</HintPath>
     </Reference>
     <Reference Include="LiveSplit.FFX.UI">
       <HintPath>LiveSplit.FFX.UI\Components\LiveSplit.FFX.UI.dll</HintPath>
@@ -48,8 +49,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UpdateManager">
-      <HintPath>..\..\LiveSplit\UpdateManager.dll</HintPath>
+    <Reference Include="UpdateManager, Version=0.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\UpdateManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +73,10 @@
     <EmbeddedResource Include="FFXSettings.resx">
       <DependentUpon>FFXSettings.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Lib\LiveSplit.Core.dll" />
+    <Content Include="Lib\UpdateManager.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
