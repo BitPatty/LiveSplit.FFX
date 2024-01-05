@@ -57,6 +57,7 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.SEYMOUR_OMNIS);
       listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
       listView.Items.Add(FFXComponent.YU_YEVON);
+      listView.Items.Add("TestNewOption");
 
       foreach (ListViewItem listViewItem in listView.Items)
         listViewItem.Checked = true;

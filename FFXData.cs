@@ -18,6 +18,9 @@ namespace LiveSplit.FFX
     public MemoryWatcher<int> CutsceneType { get; }
     public MemoryWatcher<int> YuYevon { get; }
     public MemoryWatcher<int> EncounterCounter { get; }
+    public MemoryWatcher<short> EncounterMapID { get; }
+    public MemoryWatcher<byte> EncounterFormationID1 { get; }
+    public MemoryWatcher<byte> EncounterFormationID2 { get; }
 
     public FFXData(GameVersion version, int baseOffset)
     {
@@ -34,7 +37,10 @@ namespace LiveSplit.FFX
         YuYevon = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD2A8E8));                   // Yu Yevon screen transition = 1, back up - 0xD381AC = 3
         HPEnemyA = new MemoryWatcher<int>(new DeepPointer(0xD34460, 0x5D0));                   // Current HP of Enemy A
         EncounterCounter = new MemoryWatcher<int>(new IntPtr(baseOffset + 0xD307A4));          // Encounter counter
-      }
+        EncounterMapID = new MemoryWatcher<short>(new IntPtr(baseOffset + 0xD2C256));            // Encounter Map ID
+        EncounterFormationID1 = new MemoryWatcher<byte>(new IntPtr(baseOffset + 0xD2C258));     // Encounter Formation ID 1
+        EncounterFormationID2 = new MemoryWatcher<byte>(new IntPtr(baseOffset + 0xD2C259));     // Encounter Formation ID 2
+        }
 
       CurrentLevel.FailAction = MemoryWatcher.ReadFailAction.SetZeroOrNull;
 

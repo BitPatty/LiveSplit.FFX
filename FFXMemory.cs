@@ -29,7 +29,7 @@ namespace LiveSplit.FFX
         {0xF,   new SplitPair {SplitName = FFXComponent.SINSPAWN_AMMES,       SplitFlag = false}},     // 15 - Start Sinspawn Ammes battle
         {0x37,  new SplitPair {SplitName = FFXComponent.KLIKK,                SplitFlag = false}},     // 55 - Enter Klikk cutscene
         {0x4C,  new SplitPair {SplitName = FFXComponent.TROS,                 SplitFlag = false}},     // 76 - Enter Tros area after opening the door
-        {0x77,  new SplitPair {SplitName = FFXComponent.PIRANHAS,             SplitFlag = false}},     // 119 - Enter Besaid Crossroads cutscene
+        {0x77,  new SplitPair {SplitName = FFXComponent.PIRANHAS,             SplitFlag = false}},     // 119 - Wakka pushes Tidus into Lagoon
         {0xD6,  new SplitPair {SplitName = FFXComponent.KIMAHRI,              SplitFlag = false}},     // 214 - Gain control on Besaid Promontory before Kimahri
         {0x118, new SplitPair {SplitName = FFXComponent.SINSPAWN_ECHUILLES,   SplitFlag = false}},     // 280 - Enter underwater cutscene before Sinspawn Echuilles
         {0x142, new SplitPair {SplitName = FFXComponent.SINSPAWN_GENEAUX,     SplitFlag = false}},     // 322 - Gain control on Pilgrimage Road before Sinspawn Geneaux
@@ -43,7 +43,7 @@ namespace LiveSplit.FFX
         {0x604, new SplitPair {SplitName = FFXComponent.SEYMOUR,              SplitFlag = false}},     // 1540 - Start Seymour battle
         {0x622, new SplitPair {SplitName = FFXComponent.WENDIGO,              SplitFlag = false}},     // 1570 - Gain control on Crevasse before Wendigo
         {0x7F8, new SplitPair {SplitName = FFXComponent.EVRAE,                SplitFlag = false}},     // 2040 - Gain control after Evrae/Auron cutscene before Evrae
-        {0x825, new SplitPair {SplitName = FFXComponent.BEVELLE_GUARDS,       SplitFlag = false}},     // 2085 - Enter Guardian cutscene after defeating all Bevelle Guards
+        {0x820, new SplitPair {SplitName = FFXComponent.BEVELLE_GUARDS,       SplitFlag = false}},     // 2080 - Enter Guardian cutscene after defeating all Bevelle Guards
         {0x8AC, new SplitPair {SplitName = FFXComponent.ISAARU,               SplitFlag = false}},     // 2220 - Gain control in Via Purifico before Isaaru
         {0x8E8, new SplitPair {SplitName = FFXComponent.SEYMOUR_NATUS,        SplitFlag = false}},     // 2280 - Enter Seymour Natus Battle cutscene
         {0x9CE, new SplitPair {SplitName = FFXComponent.BIRAN_YENKE,          SplitFlag = false}},     // 2510 - Gain control after Kelk cutscene before Biran and Yenke
@@ -62,6 +62,7 @@ namespace LiveSplit.FFX
         {0x49,  FFXComponent.PIRANHAS},                // 73 - Post Piranha Cutscene
         {0x16,  FFXComponent.GARUDA},                  // 22 - Garuda battle
         {0x3AC, FFXComponent.MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
+        {0xFFFF, FFXComponent.BEVELLE_GUARDS},         // Bogus Value (Not Required)
         {0x50,  FFXComponent.ISAARU},                  // 80 - Shiva summon
         {0x7,   FFXComponent.YU_YEVON},                // 7 - Yu Yevon battle
         {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle
@@ -136,7 +137,7 @@ namespace LiveSplit.FFX
       }
 
       // Boss / Enemy splits
-      if ((_data.BattleState.Changed || (_data.StoryProgression.Changed && _data.StoryProgression.Current == 2085)) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
+      if (_data.BattleState.Changed && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
       {
         // When battle state changes or for special case Bevelle Guards, when story progression changes as that is after the battle state has changed
         bool canSplit = false;
@@ -168,15 +169,56 @@ namespace LiveSplit.FFX
       }
 
       // Misc splits
-      if (_MiscellaneousIDs.ContainsKey(_data.CutsceneType.Current) && _ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
+      if (_ProgressionIDs.ContainsKey(_data.StoryProgression.Current))
       {
         bool canSplit = false;
         SplitPair splitPair = _ProgressionIDs[_data.StoryProgression.Current];
         if (activatedSplits.Contains(splitPair.SplitName) && !splitPair.SplitFlag)
         {
-          if (_data.CutsceneType.Current == 73 && _data.StoryProgression.Current == 119) canSplit = true;                                                                            // Piranhas
-          else if (_data.CutsceneType.Current == 22 && _data.StoryProgression.Current == 600 && _data.BattleState.Current == 522 && _data.BattleState.Old == 10) canSplit = true;    // Garuda
-          else if (_data.CutsceneType.Current == 940 && _data.StoryProgression.Current == 835) canSplit = true;                                                                      // Mushroom Rock Road
+          // Piranhas
+          if
+          (
+            (_data.StoryProgression.Current == 119)
+            && (_data.CutsceneType.Current == 73)
+          )
+          {
+            canSplit = true;
+          }
+          // Garuda
+          else if
+          (
+            (_data.StoryProgression.Current == 600)
+            && (_data.EncounterMapID.Current == 17)
+            && (_data.EncounterFormationID1.Current == 0)
+            && (_data.EncounterFormationID2.Current == 1)
+            && (_data.BattleState.Current == 522)
+            && (_data.BattleState.Old == 10)
+          )
+          {
+            canSplit = true;
+          }
+          // Mushroom Rock Road
+          else if
+          (
+            (_data.StoryProgression.Current == 835)
+            && (_data.CutsceneType.Current == 940)
+          )
+          {
+            canSplit = true;
+          }
+          // Bevelle Guards
+          else if
+          (
+            (_data.StoryProgression.Current == 2080)
+            && (_data.EncounterMapID.Current == 53)
+            && (_data.EncounterFormationID1.Current == 0)
+            && (_data.EncounterFormationID2.Current == 2)
+            && (_data.BattleState.Current == 522)
+            && (_data.BattleState.Old == 10)
+          )
+          {
+            canSplit = true;
+          }
         }
 
         // Split
