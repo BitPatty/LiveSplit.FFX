@@ -41,7 +41,7 @@ namespace LiveSplit.FFX
       _gameMemory.OnBossDefeated += GameMemory_OnBossDefeated;
       _gameMemory.OnEncounter += GameMemory_OnEncounter;
 
-      _updateTimer = new Timer() { Interval = 20, Enabled = true };
+      _updateTimer = new Timer() { Interval = 15, Enabled = true };
       _updateTimer.Tick += UpdateTimer_Tick;
     }
 
