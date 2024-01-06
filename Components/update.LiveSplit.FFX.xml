@@ -1,4 +1,23 @@
 <updates>
+  <update version="1.3.0">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+    </files>
+    <changelog>
+      <change>
+        Bug Fix - Garuda not splitting if weapon changed in battle
+	  </change>
+	  <change>
+		Bug Fix - Wendigo splitting when defeated enemies in Crevasse
+	  </change>
+	  <change>
+		Bug Fix - Bevelle Guards not splitting consistently in CSR
+      </change>
+	  <change>
+		Functionality - Updated version checking to be based on relative address of entry point function
+      </change>
+    </changelog>
+  </update>
   <update version="1.2.4">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed"/>
