@@ -10,12 +10,12 @@
   }
 
   /// <summary>
-  /// Entry points for the different game versions
+  /// Entry points (relative to the base address) for the different game versions
   /// </summary>
   internal enum ExpectedEntryPoints : long
   {
     Unknown = 0,
-    v1 = 0x5B93C7,   //Steam Initial Release (2016)
+    v1 = 0x5493C7,   //Steam Initial Release (2016)
   }
 
   /// <summary>

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows.Forms;
 using StringList = System.Collections.Generic.List<string>;
 
 namespace LiveSplit.FFX
@@ -57,15 +58,16 @@ namespace LiveSplit.FFX
         {0xD34, new SplitPair {SplitName = FFXComponent.YU_YEVON,             SplitFlag = false}}      // 3380 - Start Yu Yevon fight
     };
 
-    private readonly Dictionary<int, string> _MiscellaneousIDs = new Dictionary<int, string>
+    private readonly List<string> _MiscellaneousIDs = new List<string>
     {
-        {0x49,  FFXComponent.PIRANHAS},                // 73 - Post Piranha Cutscene
-        {0x16,  FFXComponent.GARUDA},                  // 22 - Garuda battle
-        {0x3AC, FFXComponent.MUSHROOM_ROCK_ROAD},      // 940 - Kinoc Introduction
-        {0xFFFF, FFXComponent.BEVELLE_GUARDS},         // Bogus Value (Not Required)
-        {0x50,  FFXComponent.ISAARU},                  // 80 - Shiva summon
-        {0x7,   FFXComponent.YU_YEVON},                // 7 - Yu Yevon battle
-        {0x1C,  FFXComponent.YU_YEVON}                 // 28 - Yu Yevon battle
+        FFXComponent.PIRANHAS,                // 73 - Post Piranha Cutscene
+        FFXComponent.GARUDA,                  // 22 - Garuda battle
+        FFXComponent.MUSHROOM_ROCK_ROAD,      // 940 - Kinoc Introduction
+        FFXComponent.WENDIGO,                // Bogus Value (Not Required)
+        FFXComponent.BEVELLE_GUARDS,         // Bogus Value (Not Required)
+        FFXComponent.ISAARU,                  // 80 - Shiva summon
+        FFXComponent.YU_YEVON,                // 7 - Yu Yevon battle
+        FFXComponent.YU_YEVON                 // 28 - Yu Yevon battle
     };
 
     // Eventhandlers
@@ -78,10 +80,11 @@ namespace LiveSplit.FFX
     public event EventHandler<int> OnEncounter;
 
     // Vars
-    private FFXData _data;              // Memory Information
-    private Process _process;           // Process Information
-    private bool _loadingStarted;       // true if loading screen active
-    private int _isaaruCounter = 0;     // Boss counter for Isaaru split
+    private List<int> _ignorePIDs = new List<int> { } ;     // PIDs to ignore if necessary
+    private FFXData _data;                                  // Memory Information
+    private Process _process;                               // Process Information
+    private bool _loadingStarted;                           // true if loading screen active
+    private int _isaaruCounter = 0;                         // Boss counter for Isaaru split
     public StringList activatedSplits;
 
     // Add PIDs to ignore if necessary
@@ -158,7 +161,7 @@ namespace LiveSplit.FFX
         }
 
         // These splits are checked in _MiscellaneousIds;
-        if (_MiscellaneousIDs.ContainsValue(splitName)) canSplit = false;
+        if (_MiscellaneousIDs.Contains(splitName)) canSplit = false;
 
         if (canSplit)
         {
@@ -202,6 +205,19 @@ namespace LiveSplit.FFX
           (
             (_data.StoryProgression.Current == 835)
             && (_data.CutsceneType.Current == 940)
+          )
+          {
+            canSplit = true;
+          }
+          // Wendigo
+          else if
+          (
+            (_data.StoryProgression.Current == 1570)
+            && (_data.EncounterMapID.Current == 44)
+            && (_data.EncounterFormationID1.Current == 0)
+            && (_data.EncounterFormationID2.Current == 1)
+            && (_data.BattleState.Current == 522)
+            && (_data.BattleState.Old == 10)
           )
           {
             canSplit = true;
@@ -335,9 +351,32 @@ namespace LiveSplit.FFX
         Process game = GetProcess("ffx");
         GameVersion version;
 
-        if (game != null) Debug.WriteLine(String.Format("{0:X}", (long)game.MainModuleWow64Safe().EntryPointAddress));
-        if (game?.MainModuleWow64Safe().EntryPointAddress.ToInt64() == (long)ExpectedEntryPoints.v1) version = GameVersion.v1;
-        else return false;
+        if (game == null)
+        {
+          return false;
+        }
+
+        if (_ignorePIDs.Contains(game.Id))
+        {
+          return false;
+        }  
+
+        long baseAddress = game.MainModuleWow64Safe().BaseAddress.ToInt64();
+        long entryPointAddress = game.MainModuleWow64Safe().EntryPointAddress.ToInt64();
+        long relativeEntryPointAddress = entryPointAddress - baseAddress;
+
+        if (relativeEntryPointAddress == (long)ExpectedEntryPoints.v1)
+        {
+          version = GameVersion.v1;
+        }
+        else
+        {
+          _ignorePIDs.Add(game.Id);
+          MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required. Try to restart the game.", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
+          return false;
+        }
+
+        version = GameVersion.v1;
 
         _data = new FFXData(version, game.MainModuleWow64Safe().BaseAddress.ToInt32());
         _process = game;
@@ -346,6 +385,12 @@ namespace LiveSplit.FFX
         return true;
       }
       catch (Win32Exception)
+      {
+        _process?.Dispose();
+        _process = null;
+        return false;
+      }
+      catch (NullReferenceException)
       {
         _process?.Dispose();
         _process = null;

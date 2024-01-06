@@ -31,9 +31,6 @@ namespace LiveSplit.FFX
       _timer.CurrentState.OnStart += Timer_OnStart;
       _timer.CurrentState.OnReset += Timer_OnReset;
 
-      _updateTimer = new Timer() { Interval = 20, Enabled = true };
-      _updateTimer.Tick += UpdateTimer_Tick;
-
       _gameMemory = new FFXMemory();
 
       _gameMemory.OnAreaCompleted += GameMemory_OnAreaCompleted;
@@ -43,6 +40,9 @@ namespace LiveSplit.FFX
       _gameMemory.OnMusicConfirm += GameMemory_OnMusicConfirm;
       _gameMemory.OnBossDefeated += GameMemory_OnBossDefeated;
       _gameMemory.OnEncounter += GameMemory_OnEncounter;
+
+      _updateTimer = new Timer() { Interval = 20, Enabled = true };
+      _updateTimer.Tick += UpdateTimer_Tick;
     }
 
     private void UpdateTimer_Tick(object sender, EventArgs eventArgs)
