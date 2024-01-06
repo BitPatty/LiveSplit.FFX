@@ -1,6 +1,6 @@
 ﻿using LiveSplit.FFX;
-using LiveSplit.UI.Components;
 using LiveSplit.Model;
+using LiveSplit.UI.Components;
 using System;
 using System.Reflection;
 
@@ -8,19 +8,20 @@ using System.Reflection;
 
 namespace LiveSplit.FFX
 {
-    class FFXFactory : IComponentFactory
+  internal class FFXFactory : IComponentFactory
     {
         public string ComponentName => "Final Fantasy X Autosplitter";
         public string Description => "Automates splitting and load removal for FFX HD Remaster (PC)";
         public ComponentCategory Category => ComponentCategory.Control;
+
         public IComponent Create(LiveSplitState state)
         {
             return new FFXComponent(state);
         }
 
-        public string UpdateName => this.ComponentName;
+        public string UpdateName => ComponentName;
         public string UpdateURL => "https://raw.githubusercontent.com/BitPatty/LiveSplit.FFX/master/";
         public Version Version => Assembly.GetExecutingAssembly().GetName().Version;
-        public string XMLURL => this.UpdateURL + "Components/update.LiveSplit.FFX.xml";
+        public string XMLURL => UpdateURL + "Components/update.LiveSplit.FFX.xml";
     }
 }

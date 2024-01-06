@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace LiveSplit.FFX
+﻿namespace LiveSplit.FFX
 {
-    partial class FFXSettings
+  partial class FFXSettings
     {
         /// <summary> 
         /// Required designer variable.
@@ -125,7 +123,7 @@ namespace LiveSplit.FFX
             this.btnCheckAll.TabIndex = 5;
             this.btnCheckAll.Text = "Check All";
             this.btnCheckAll.UseVisualStyleBackColor = true;
-            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
+            this.btnCheckAll.Click += new System.EventHandler(this.BtnCheckAll_Click);
             // 
             // btnUncheckAll
             // 
@@ -137,7 +135,7 @@ namespace LiveSplit.FFX
             this.btnUncheckAll.TabIndex = 6;
             this.btnUncheckAll.Text = "Uncheck All";
             this.btnUncheckAll.UseVisualStyleBackColor = true;
-            this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
+            this.btnUncheckAll.Click += new System.EventHandler(this.BtnUncheckAll_Click);
             // 
             // flowLayoutPanel2
             // 
