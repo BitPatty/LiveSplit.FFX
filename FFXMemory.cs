@@ -196,7 +196,7 @@ namespace LiveSplit.FFX
             && (_data.EncounterFormationID1.Current == 0)
             && (_data.EncounterFormationID2.Current == 1)
             && (_data.BattleState.Current == 522)
-            && (_data.BattleState.Old == 10)
+            && (_data.BattleState.Old == 10 || _data.BattleState.Old == 512)
           )
           {
             canSplit = true;
@@ -218,7 +218,7 @@ namespace LiveSplit.FFX
             && (_data.EncounterFormationID1.Current == 0)
             && (_data.EncounterFormationID2.Current == 1)
             && (_data.BattleState.Current == 522)
-            && (_data.BattleState.Old == 10)
+            && (_data.BattleState.Old == 10 || _data.BattleState.Old == 512)
           )
           {
             canSplit = true;
@@ -231,7 +231,7 @@ namespace LiveSplit.FFX
             && (_data.EncounterFormationID1.Current == 0)
             && (_data.EncounterFormationID2.Current == 2)
             && (_data.BattleState.Current == 522)
-            && (_data.BattleState.Old == 10)
+            && (_data.BattleState.Old == 10 || _data.BattleState.Old == 512)
           )
           {
             canSplit = true;
