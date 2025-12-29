@@ -134,6 +134,7 @@ namespace LiveSplit.FFX
     public static string OLD_ROAD = "OldRoad";
     public static string MUSHROOM_ROCK_ROAD = "MushroomRockRoad";
     public static string SINSPAWN_GUI = "SinspawnGui";
+    public static string MRR_SKIP = "MrrSkip";
     public static string DJOSE_HIGHROAD = "DjoseHighroad";
     public static string MOONFLOW = "Moonflow";
     public static string EXTRACTOR = "Extractor";

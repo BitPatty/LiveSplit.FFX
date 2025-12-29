@@ -32,6 +32,7 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.MIIHEN_HIGHROAD);
       listView.Items.Add(FFXComponent.OLD_ROAD);
       listView.Items.Add(FFXComponent.MUSHROOM_ROCK_ROAD);
+      listView.Items.Add(FFXComponent.MRR_SKIP);
       listView.Items.Add(FFXComponent.SINSPAWN_GUI);
       listView.Items.Add(FFXComponent.DJOSE_HIGHROAD);
       listView.Items.Add(FFXComponent.MOONFLOW);
@@ -59,7 +60,7 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.YU_YEVON);
 
       foreach (ListViewItem listViewItem in listView.Items)
-        listViewItem.Checked = true;
+        listViewItem.Checked = listViewItem.Text != FFXComponent.MRR_SKIP;
 
       HasChanged = true;
 
