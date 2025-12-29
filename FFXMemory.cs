@@ -19,6 +19,7 @@ namespace LiveSplit.FFX
         {0x4F, new Tuple<int, SplitPair>(0x3B,  new SplitPair {SplitName = FFXComponent.OLD_ROAD,             SplitFlag = false})},     // FROM 59 - Highroad - North End                   TO  79 - Mushroom Rock
         {0x4C, new Tuple<int, SplitPair>(0x5D,  new SplitPair {SplitName = FFXComponent.DJOSE_HIGHROAD,       SplitFlag = false})},     // FROM 93 - Djose Highroad                         TO  76 - Djose - Pilgrimage Road
         {0x69, new Tuple<int, SplitPair>(0x4B,  new SplitPair {SplitName = FFXComponent.MOONFLOW,             SplitFlag = false})},     // FROM 75 - Moonflow - South Bank Road             TO  105 - Moonflow - South Bank
+        {0x83, new Tuple<int, SplitPair>(0x4F,  new SplitPair {SplitName = FFXComponent.MRR_SKIP,             SplitFlag = false})},     // FROM 79 - Mushroom Rock                          TO  131 - Mushroom Rock - Aftermath
         {0x8C, new Tuple<int, SplitPair>(0x87,  new SplitPair {SplitName = FFXComponent.GUADOSALAM,           SplitFlag = false})},     // FROM 135 - Guadosalam                            TO  140 - Thunder Plains - South
         {0x6E, new Tuple<int, SplitPair>(0xA2,  new SplitPair {SplitName = FFXComponent.THUNDER_PLAINS,       SplitFlag = false})},     // FROM 162 - Thunder Plains - North                TO  110 - Macalania Woods - South
         {0xDB, new Tuple<int, SplitPair>(0x118, new SplitPair {SplitName = FFXComponent.HOME,                 SplitFlag = false})},     // FROM 280 - Home - Main Corridor                  TO  219 - Home - Environment Controls
