@@ -1,9 +1,3 @@
-Note: Update components against the *devel* branch.
-
-
-
-
-
 LiveSplit.FFX 
 ==============
 
