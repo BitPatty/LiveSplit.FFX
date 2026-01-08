@@ -1,42 +1,42 @@
 <updates>
-    <update version="1.1.0">
+  <update version="1.2.0">
     <files>
-      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Added option to change text color and background color for the Encounter Counter (See FFX Display tab in the layout settings)
-      </change>
+      <change>Misc - Updated .NET Framework to 4.8</change>
+    </changelog>
+  </update>
+  <update version="1.1.0">
+    <files>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Added option to change text color and background color for the Encounter Counter (See FFX Display tab in the layout settings)</change>
     </changelog>
   </update>
   <update version="1.0.0">
     <files>
-      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Release Version
-      </change>
+      <change>Release Version</change>
     </changelog>
   </update>
   <update version="0.1.1">
     <files>
-      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Updated Assembly information
-      </change>
+      <change>Updated Assembly information</change>
     </changelog>
   </update>
   <update version="0.1">
     <files>
-      <file path="Components/LiveSplit.FFX.UI.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.UI.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Added experimental encounter counter
-      </change>
+      <change>Added experimental encounter counter</change>
     </changelog>
   </update>
 </updates>

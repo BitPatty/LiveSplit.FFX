@@ -1,172 +1,144 @@
 <updates>
-  <update version="1.3.0">
+  <update version="1.4.0">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Garuda not splitting if weapon changed in battle
-	  </change>
-	  <change>
-		Bug Fix - Wendigo splitting when defeated enemies in Crevasse
-	  </change>
-	  <change>
-		Bug Fix - Bevelle Guards not splitting consistently in CSR
-      </change>
-	  <change>
-		Functionality - Updated version checking to be based on relative address of entry point function
-      </change>
+      <change>Functionality - Added MRR Skip (thanks to knutwalker)</change>
+      <change>Bug Fix - Fixed an issue where some splits would not split when resetting a battle (thanks to knutwalker)</change>
+      <change>Misc - Updated .NET Framework to 4.8</change>
+    </changelog>
+  </update>
+  <update version="1.3.0">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Bug Fix - Garuda not splitting if weapon changed in battle</change>
+      <change>Bug Fix - Wendigo splitting when defeated enemies in Crevasse</change>
+      <change>Bug Fix - Bevelle Guards not splitting consistently in CSR</change>
+      <change>Functionality - Updated version checking to be based on relative address of entrypoint function</change>
     </changelog>
   </update>
   <update version="1.2.4">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Yu Yevon and Isaaru splitting even if disabled.
-      </change>
+      <change>Bug Fix - Yu Yevon and Isaaru splitting even if disabled.</change>
     </changelog>
   </update>
   <update version="1.2.3">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-	    Bug Fix - Yu Yevon cutscene IDs
-      </change>
+      <change>Bug Fix - Yu Yevon cutscene IDs</change>
     </changelog>
   </update>
   <update version="1.2.2">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Yu Yevon not splitting
-      </change>
+      <change>Bug Fix - Yu Yevon not splitting</change>
     </changelog>
   </update>
   <update version="1.2.1">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Isaaru Split
-      </change>
+      <change>Bug Fix - Isaaru Split</change>
     </changelog>
   </update>
   <update version="1.2">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Parsing empty split lists
-      </change>
+      <change>Bug Fix - Parsing empty split lists</change>
     </changelog>
   </update>
   <update version="1.1.3">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Encounter Counter not updating on new game
-      </change>
+      <change>Bug Fix - Encounter Counter not updating on new game</change>
     </changelog>
   </update>
   <update version="1.1.2">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
-      <file path="Components/LiveSplit.FFX.UI.dll" status="added"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
+      <file path="Components/LiveSplit.FFX.UI.dll" status="added" />
     </files>
     <changelog>
-      <change>
-        Updated Assembly information
-      </change>
+      <change>Updated Assembly information</change>
     </changelog>
   </update>
   <update version="1.1.1">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Updated Assembly information
-      </change>
+      <change>Updated Assembly information</change>
     </changelog>
   </update>
   <update version="1.1">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Added experimental encounter counter
-      </change>
+      <change>Added experimental encounter counter</change>
     </changelog>
   </update>
   <update version="1.0">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Initial Release
-      </change>
+      <change>Initial Release</change>
     </changelog>
   </update>
   <update version="0.4.5">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Splits not enabled on startup
-      </change>
+      <change>Bug Fix - Splits not enabled on startup</change>
     </changelog>
   </update>
   <update version="0.4.4">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Isaaru split
-      </change>
+      <change>Bug Fix - Isaaru split</change>
     </changelog>
   </update>
   <update version="0.4.3">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        More Settings related fixes
-      </change>
+      <change>More Settings related fixes</change>
     </changelog>
   </update>
   <update version="0.4.2">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Bug Fix - Store/Load splitter options
-      </change>
+      <change>Bug Fix - Store/Load splitter options</change>
     </changelog>
   </update>
   <update version="0.4.1">
     <files>
-      <file path="Components/LiveSplit.FFX.dll" status="changed"/>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
     </files>
     <changelog>
-      <change>
-        Initial upload
-      </change>
+      <change>Initial upload</change>
     </changelog>
   </update>
 </updates>
