@@ -370,14 +370,16 @@ namespace LiveSplit.FFX
         {
           version = GameVersion.v1;
         }
+        else if (relativeEntryPointAddress == (long)ExpectedEntryPoints.v2)
+        {
+          version = GameVersion.v2;
+        }
         else
         {
           _ignorePIDs.Add(game.Id);
           MessageBox.Show("Unexpected game version. Final Fantasy X 1.0.0 is required. Try to restart the game.", "LiveSplit.FFX", MessageBoxButtons.OK, MessageBoxIcon.Error);
           return false;
         }
-
-        version = GameVersion.v1;
 
         _data = new FFXData(version, game.MainModuleWow64Safe().BaseAddress.ToInt32());
         _process = game;
