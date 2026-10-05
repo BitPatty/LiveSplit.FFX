@@ -1,4 +1,12 @@
 <updates>
+  <update version="1.5.0">
+	<files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
+	</files>
+	<changelog>
+	  <change>Functionality - Added support for the October 2026 Steam update - works with both game versions (thanks to knutwalker)</change>
+	</changelog>
+  </update>
   <update version="1.4.0">
     <files>
       <file path="Components/LiveSplit.FFX.dll" status="changed" />
