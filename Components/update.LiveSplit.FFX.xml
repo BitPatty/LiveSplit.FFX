@@ -1,6 +1,14 @@
 <updates>
   <update version="1.5.0">
 	<files>
+	  <file path="Components/LiveSplit.FFX.dll" status="changed" />
+	</files>
+	<changelog>
+	  <change>Functionality - Added splits for Djose Skip and The Nucleus, both disabled by default</change>
+	</changelog>
+  </update>
+  <update version="1.5.0">
+	<files>
       <file path="Components/LiveSplit.FFX.dll" status="changed" />
 	</files>
 	<changelog>

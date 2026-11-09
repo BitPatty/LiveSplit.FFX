@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Xml;
 using StringList = System.Collections.Generic.List<string>;
+using StringSet = System.Collections.Generic.HashSet<string>;
 
 namespace LiveSplit.FFX
 {
@@ -35,6 +36,7 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.MRR_SKIP);
       listView.Items.Add(FFXComponent.SINSPAWN_GUI);
       listView.Items.Add(FFXComponent.DJOSE_HIGHROAD);
+      listView.Items.Add(FFXComponent.DJOSE_SKIP);
       listView.Items.Add(FFXComponent.MOONFLOW);
       listView.Items.Add(FFXComponent.EXTRACTOR);
       listView.Items.Add(FFXComponent.GUADOSALAM);
@@ -57,10 +59,11 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.OVERDRIVE_SIN);
       listView.Items.Add(FFXComponent.SEYMOUR_OMNIS);
       listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
+      listView.Items.Add(FFXComponent.NUCLEUS);
       listView.Items.Add(FFXComponent.YU_YEVON);
 
       foreach (ListViewItem listViewItem in listView.Items)
-        listViewItem.Checked = listViewItem.Text != FFXComponent.MRR_SKIP;
+        listViewItem.Checked = DISABLED_BY_DEFAULT.Contains(listViewItem.Text) == false;
 
       HasChanged = true;
 
@@ -69,6 +72,9 @@ namespace LiveSplit.FFX
       checkboxSplit.DataBindings.Add("Checked", this, "Split", false, DataSourceUpdateMode.OnPropertyChanged);
       checkboxRemoveLoads.DataBindings.Add("Checked", this, "RemoveLoads", false, DataSourceUpdateMode.OnPropertyChanged);
     }
+
+    private static readonly StringSet DISABLED_BY_DEFAULT =
+        new StringSet(new[] { FFXComponent.MRR_SKIP, FFXComponent.DJOSE_SKIP, FFXComponent.NUCLEUS });
 
     /// <summary>
     /// Updates the list with the activated splits everytime the settings window is closed.
