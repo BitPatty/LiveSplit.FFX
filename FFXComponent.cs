@@ -136,6 +136,7 @@ namespace LiveSplit.FFX
     public static string SINSPAWN_GUI = "SinspawnGui";
     public static string MRR_SKIP = "MrrSkip";
     public static string DJOSE_HIGHROAD = "DjoseHighroad";
+    public static string DJOSE_SKIP = "DjoseSkip";
     public static string MOONFLOW = "Moonflow";
     public static string EXTRACTOR = "Extractor";
     public static string GUADOSALAM = "Guadosalam";
@@ -157,6 +158,7 @@ namespace LiveSplit.FFX
     public static string SIN_CORE = "SinCore";
     public static string OVERDRIVE_SIN = "OverdriveSin";
     public static string SEYMOUR_OMNIS = "SeymourOmnis";
+    public static string NUCLEUS = "Nucleus";
     public static string BRASKAS_FINAL_AEON = "BraskasFinalAeon";
     public static string YU_YEVON = "YuYevon";
 
