@@ -1,4 +1,12 @@
 <updates>
+  <update version="1.7.0">
+    <files>
+      <file path="Components/LiveSplit.FFX.dll" status="changed" />
+    </files>
+    <changelog>
+      <change>Bug Fix - Fixed the Nucleus split order in setting to be before the BFA split</change>
+    </changelog>
+  </update>
   <update version="1.6.0">
 	<files>
 	  <file path="Components/LiveSplit.FFX.dll" status="changed" />
