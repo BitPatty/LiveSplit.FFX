@@ -1,0 +1,50 @@
+name: Build LiveSplit.FFX
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build UI project
+        run: |
+          msbuild LiveSplit.FFX.UI/LiveSplit.FFX.UI.csproj `
+            /p:Configuration=Release `
+            /p:OutputPath=Components\ `
+            /p:Platform="AnyCPU"
+
+      - name: Build main project
+        run: |
+          msbuild LiveSplit.FFX.csproj `
+            /p:Configuration=Release `
+            /p:OutputPath="${{ github.workspace }}\artifacts\" `
+            /p:Platform="AnyCPU"
+
+      - name: Collect DLLs
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force -Path artifacts | Out-Null
+          Copy-Item "LiveSplit.FFX.UI/Components/LiveSplit.FFX.UI.dll" artifacts/
+          Get-ChildItem artifacts -Filter "*.dll" -Recurse
+
+      - name: Upload DLL artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: LiveSplit.FFX-${{ github.sha }}
+          path: artifacts/*.dll
+          if-no-files-found: error
+          retention-days: 30
