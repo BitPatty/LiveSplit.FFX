@@ -58,8 +58,8 @@ namespace LiveSplit.FFX
       listView.Items.Add(FFXComponent.SIN_CORE);
       listView.Items.Add(FFXComponent.OVERDRIVE_SIN);
       listView.Items.Add(FFXComponent.SEYMOUR_OMNIS);
-      listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
       listView.Items.Add(FFXComponent.NUCLEUS);
+      listView.Items.Add(FFXComponent.BRASKAS_FINAL_AEON);
       listView.Items.Add(FFXComponent.YU_YEVON);
 
       foreach (ListViewItem listViewItem in listView.Items)
